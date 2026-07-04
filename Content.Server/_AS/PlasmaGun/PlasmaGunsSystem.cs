@@ -1,18 +1,8 @@
-﻿using Content.Server.Atmos.Components;
-using Content.Server.Atmos.EntitySystems;
-using Content.Server.Storage.EntitySystems;
-using Content.Server.Stunnable;
-using Content.Server.Weapons.Ranged.Systems;
-using Content.Shared.Atmos;
+﻿using Content.Server.Atmos.EntitySystems;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Containers.ItemSlots;
-using Content.Shared.Interaction;
 using Content.Shared._AS.PlasmaGun;
-using Content.Shared.PneumaticCannon;
 using Content.Shared.Popups;
-using Content.Shared.StatusEffect;
-using Content.Shared.Tools.Systems;
-using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Containers;
@@ -53,7 +43,7 @@ public sealed class PlasmaGunsSystem : SharedPlasmaGunsSystem
         {
             foreach (var gas in tank.Air) //Iterate over each gas present in the tank's mixture
             {
-                if (!component.AllowedGases.Contains(gas.gas) && gas.moles > 0f) // If the current gas is not in the allowed hashset, eject
+                if (!component.AllowedGases.Contains(gas.gas) && gas.moles > 0f) // If the current gas is not in the allowed hashset(and has more than 0 mols), eject
                 {
                     _popups.PopupEntity(Loc.GetString(component.MessageGasImpure), uid, Transform(args.EntityUid).ParentUid);
                     args.Cancel();
