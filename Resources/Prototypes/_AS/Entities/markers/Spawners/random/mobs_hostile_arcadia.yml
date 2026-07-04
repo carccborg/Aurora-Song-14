@@ -13,7 +13,6 @@
     - sprite: _NF/Clothing/Mask/arcadia.rsi
       state: equipped-MASK
     - sprite: _NF/Clothing/Uniforms/Jumpsuit/military.rsi
-      state: equipped-INNERCLOTHING
       layers:
       - state: icon-base-bottom
         color: "#ffffff"
