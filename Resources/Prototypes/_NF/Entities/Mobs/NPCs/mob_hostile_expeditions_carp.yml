@@ -8,7 +8,7 @@
   - NFMobSimpleHostileBase
   - NFMobRoadkillable
 
-#region Carps
+#region Carps!
 - type: entity
   id: NFMobCarp
   parent:
@@ -362,8 +362,10 @@
   # half damage, spread evenly
   - type: MeleeWeapon
     damage:
-      groups:
-        Brute: 15
+      types: # Aurora's Song - Convert from groups to types
+        Blunt: 5
+        Slash: 5
+        Piercing: 5
   - type: ActionGun
     action: ActionDragonsBreath
     gunProto: DragonsBreathGun

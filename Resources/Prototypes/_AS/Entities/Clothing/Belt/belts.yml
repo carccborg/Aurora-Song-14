@@ -1,0 +1,87 @@
+#region SLE
+
+- type: entity
+  parent: [ ASClothingBeltStorageHolsterBase, ContentsExplosionResistanceBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingBeltSLE
+  name: SLE belt
+  description: A tactical assault belt for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Belt/sle_belt.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Belt/sle_belt.rsi
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+- type: entity
+  parent: [ ASClothingRigStorageHolsterBase, ContentsExplosionResistanceBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingBeltSLEWebbing
+  name: SLE webbing
+  description: A tactical assault webbing for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Belt/sle_webbing.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Belt/sle_webbing.rsi
+  - type: CatWearable
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+- type: entity
+  parent: [ ASClothingSRigStorageHolsterMedkitBase, ContentsExplosionResistanceBase, BaseC2ContrabandUnredeemable, ASClothingBeltSLEWebbing ]
+  id: ASClothingBeltSLEWebbingCorpsman
+  name: SLE webbing
+  description: A tactical assault webbing for Sector Law Enforcement personnel. Corpsman variant.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Belt/sle_corps_webbing.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Belt/sle_corps_webbing.rsi
+  - type: CatWearable
+  - type: ExplosionResistance
+    damageCoefficient: 0.1
+
+# Filled variants
+- type: entity
+  id: ASClothingBeltSLEFilled
+  parent: ASClothingBeltSLE
+  suffix: Filled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:NestedSelector
+        tableId: BeltSecurityEntityTable
+
+- type: entity
+  id: ASClothingBeltSLEWebbingFilled
+  parent: ASClothingBeltSLEWebbing
+  suffix: Filled
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: GrenadeFlashBang
+        - id: TearGasGrenade
+        - id: Stunbaton
+        - id: Handcuffs
+        - id: Handcuffs
+
+- type: entity
+  id: ASClothingBeltSLEWebbingCorpsmanFilled
+  parent: ASClothingBeltSLEWebbingCorpsman
+  suffix: Filled, Corpsman
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: Brutepack
+          amount: 2
+        - id: Ointment
+          amount: 1
+        - id: Bloodpack
+          amount: 1
+        - id: Gauze
+        - id: EmergencyMedipen
+

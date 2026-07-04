@@ -56,7 +56,6 @@ A change to a value (note: `OLD>NEW`)
 A cyborg module with an added moduleId field (inline blank comment), a commented out bucket (inline blank comment), and a DroppableBorgModule that we've added (begin/end block comment).
 ```yml
   - type: ItemBorgModule
-    moduleId: Gardening # Aurora Song
     items:
     - HydroponicsToolMiniHoe
     - HydroponicsToolSpade
@@ -64,7 +63,6 @@ A cyborg module with an added moduleId field (inline blank comment), a commented
     # - Bucket # Aurora Song
   # Aurora Song: droppable borg items
   - type: DroppableBorgModule
-    moduleId: Gardening
     items:
     - id: Bucket
       whitelist:
@@ -115,6 +113,8 @@ Conflicts with maps make PRs mutually exclusive so either your work on the maint
 Double-check your diff on GitHub before submitting: look for unintended commits or changes and remove accidental whitespace or line-ending changes.
 
 Additionally, for PRs that've been open for a long time, if you see `RobustToolbox` in the changed files, you have to revert it. Use `git checkout upstream/master RobustToolbox` (replacing `upstream` with the name of your AuroraSong14/Aurora-Song-14 remote)
+
+Make sure to come up with a good title for your PR. We like our contributions to be organized so we use the [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) schema here for naming our PRs.
 
 # Changelogs
 

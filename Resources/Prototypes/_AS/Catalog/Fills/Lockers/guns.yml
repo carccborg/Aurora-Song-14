@@ -1,3 +1,4 @@
+#region Medical
 #medical gun safe Fill
 - type: entity
   parent: GunSafe
@@ -6,11 +7,18 @@
   components:
   - type: AccessReader
     access: [["Medical"]]
-  - type: StorageFill
-    contents:
-        - id: NFWeaponShotgunKammerer
-        - id: NFAmmunitionBoxShellShotgunBuckshot
-        - id: NFAmmunitionBoxShellShotgunBeanbag
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillGunSafeMedical
+
+- type: entityTable
+  id: FillGunSafeMedical
+  table: !type:AllSelector
+    children:
+    - id: NFWeaponShotgunKammerer
+    - id: NFAmmunitionBoxShellShotgunBuckshot
+    - id: NFAmmunitionBoxShellShotgunBeanbag
 #medical gun safe Fill x2
 - type: entity
   parent: GunSafe
@@ -19,11 +27,45 @@
   components:
   - type: AccessReader
     access: [["Medical"]]
-  - type: StorageFill
-    contents:
-        - id: NFWeaponShotgunKammerer
-          amount: 2
-        - id: NFAmmunitionBoxShellShotgunBuckshot
-          amount: 2
-        - id: NFAmmunitionBoxShellShotgunBeanbag
-          amount: 2
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillGunSafeMedical2
+
+- type: entityTable
+  id: FillGunSafeMedical2
+  table: !type:AllSelector
+    children:
+    - id: NFWeaponShotgunKammerer
+    - id: NFWeaponShotgunKammerer
+    - id: NFAmmunitionBoxShellShotgunBuckshot
+    - id: NFAmmunitionBoxShellShotgunBuckshot
+    - id: NFAmmunitionBoxShellShotgunBeanbag
+    - id: NFAmmunitionBoxShellShotgunBeanbag
+
+#region SLE
+
+#SLE mk58-S gun safe Fill
+- type: entity
+  parent: [GunSafeBaseSecure, BaseC2ContrabandUnredeemable ]
+  id: ASGunSafePistolMk58S
+  name: mk58-S safe
+  suffix: Filled, mk58-S
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: ASFillGunSafePistolMk58S
+
+- type: entityTable
+  id: ASFillGunSafePistolMk58S
+  table: !type:AllSelector
+    children:
+    - id: ASWeaponPistolMk58S
+      amount: 4
+    - id: ASWeaponPistolMk58SLessLethal
+      amount: 4
+    - id: NFMagazinePistol35
+      amount: 8
+    - id: NFMagazinePistol35Rubber
+      amount: 8

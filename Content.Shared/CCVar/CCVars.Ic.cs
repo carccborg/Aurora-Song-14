@@ -32,7 +32,7 @@ public sealed partial class CCVars
     ///     Sets the maximum length for flavor text (character descriptions).
     /// </summary>
     public static readonly CVarDef<int> MaxFlavorTextLength =
-        CVarDef.Create("ic.flavor_text_length", 512, CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("ic.flavor_text_length", 2048, CVar.SERVER | CVar.REPLICATED);
 
     /// <summary>
     ///     Sets the maximum character length of a job on an ID.
@@ -64,6 +64,13 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<string> ICRandomSpeciesWeights =
         CVarDef.Create("ic.random_species_weights", "SpeciesWeights", CVar.SERVER);
+
+    /// <summary>
+    ///     The list of species that will NOT be given to new account joins when they are assigned a random character.
+    ///     This only affects the first time a character is made for an account, nothing else.
+    /// </summary>
+    public static readonly CVarDef<string> ICNewAccountSpeciesBlacklist =
+        CVarDef.Create("ic.blacklist_species_new_account", "Diona,Vulpkanin,Vox,SlimePerson", CVar.SERVER);
 
     /// <summary>
     ///     Control displaying SSD indicators near players

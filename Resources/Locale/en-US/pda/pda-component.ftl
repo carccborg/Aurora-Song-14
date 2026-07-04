@@ -2,11 +2,15 @@
 ### UI
 
 # For the PDA screen
-comp-pda-ui = ID: [color=white]{$owner}[/color], [color=yellow]{$jobTitle}[/color]
+# Aurora's Song - replace job with canon id number
+comp-pda-ui = ID: [color=white]{$owner}[/color] [color=yellow]{$canonIdNumber}[/color]
 
 comp-pda-ui-blank = ID:
 
 comp-pda-ui-owner = Owner: [color=white]{$actualOwnerName}[/color]
+
+# Aurora's Song - separated job into a new line
+comp-pda-ui-job = Job: {$jobTitle}
 
 comp-pda-io-program-list-button = Programs
 
@@ -34,6 +38,9 @@ comp-pda-ui-station-alert-level = Sector Alert Level: [color={ $color }]{ $level
 comp-pda-ui-station-alert-level-instructions = Instructions: [color=white]{ $instructions }[/color]
 
 comp-pda-ui-station-time = Shift duration: [color=white]{ $time }[/color]
+
+# Frontier
+comp-pda-ui-remaining-time = Time until shift end: [color=white]{ $time }[/color]
 
 comp-pda-ui-eject-id-button = Eject ID
 

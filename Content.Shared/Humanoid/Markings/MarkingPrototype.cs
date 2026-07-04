@@ -1,3 +1,4 @@
+using Content.Shared.Humanoid.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array; // AuroraSong
 using Robust.Shared.Utility;
@@ -13,42 +14,37 @@ namespace Content.Shared.Humanoid.Markings
 
         // AuroraSong: Make markings inheriting
         [ParentDataField(typeof(AbstractPrototypeIdArraySerializer<MarkingPrototype>))]
-        public string[]? Parents { get; }
+        public string[]? Parents { get; private set; }
 
         [NeverPushInheritance]
         [AbstractDataField]
-        public bool Abstract { get; }
+        public bool Abstract { get; private set; }
         // End AuroraSong
 
         public string Name { get; private set; } = default!;
 
         [DataField("bodyPart", required: true)]
-        public HumanoidVisualLayers BodyPart { get; private set; }
+        public HumanoidVisualLayers BodyPart { get; private set; } = default!;
 
-        [DataField("markingCategory", required: true)]
-        public MarkingCategories MarkingCategory { get; private set; }
-
-        [DataField("speciesRestriction")]
-        public List<string>? SpeciesRestrictions { get; private set; }
+        [DataField]
+        public List<ProtoId<MarkingsGroupPrototype>>? GroupWhitelist;
 
         // DEN - Invert marking restrictions
+        // Aurora's Song - Convert to invert group whitelist for consistency
         [DataField]
-        public bool InvertSpeciesRestriction { get; private set; }
+        public bool InvertGroupWhitelist { get; private set; }
 
-        [DataField]
+        [DataField("sexRestriction")]
         public Sex? SexRestriction { get; private set; }
 
         // DEN - Invert marking restrictions
         [DataField]
         public bool InvertSexRestriction { get; private set; }
 
-        [DataField]
-        public bool FollowSkinColor { get; private set; }
+        [DataField("forcedColoring")]
+        public bool ForcedColoring { get; private set; } = false;
 
-        [DataField]
-        public bool ForcedColoring { get; private set; }
-
-        [DataField]
+        [DataField("coloring")]
         public MarkingColors Coloring { get; private set; } = new();
 
         /// <summary>
@@ -65,6 +61,26 @@ namespace Content.Shared.Humanoid.Markings
         [DataField("shader")]
         public string? Shader { get; private set; } = null;
         // end impstation edit
+
+        // Aurora Song: Sort markings to the top for preferred species.
+
+        /// <summary>
+        /// A list of species IDs that will prefer to use this marking above others.
+        /// Species in this list will have this marking sorted to the top, making them more accessible.
+        /// In the future, if marking randomization is added, those will probably use this list too for cohesion.
+        /// </summary>
+        /// <remarks>
+        /// For example: Imagine humans have various ear markings, ranging from regular humanoid ears, to
+        /// pointy elf/imp-like ears, to kemonomimi traits that may overlap with other species such as
+        /// vulpkanin or tajaran. The humanoid and elf ears may be preferred by humans, but their kemonomimi
+        /// ears will be preferred by vulpkanin or tajaran respectively. This floats the elf/humanoid ears to the
+        /// top of humans' ear marking lists.
+        /// </remarks>
+        [DataField]
+        public HashSet<ProtoId<MarkingsGroupPrototype>>? PreferredGroup = null;
+
+        // End Aurora Song
+
         public Marking AsMarking()
         {
             return new Marking(ID, Sprites.Count);

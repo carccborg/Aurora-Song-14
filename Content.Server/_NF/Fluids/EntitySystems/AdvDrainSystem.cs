@@ -1,5 +1,5 @@
 using Content.Server.Popups;
-using Content.Server.PowerCell;
+using Content.Shared.PowerCell;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Audio;
 using Content.Shared.Chemistry.Components.SolutionManager;
@@ -9,6 +9,7 @@ using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
 using Content.Shared.Fluids.Components;
 using Content.Shared._NF.Fluids.Components;
+using Content.Shared.Fluids.EntitySystems;
 using Content.Shared.Verbs;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
@@ -18,7 +19,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Server._NF.Fluids.EntitySystems;
 
-public sealed class AdvDrainSystem : SharedDrainSystem
+public sealed class AdvDrainSystem : DrainSystem
 {
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
@@ -32,9 +33,13 @@ public sealed class AdvDrainSystem : SharedDrainSystem
 
     private readonly HashSet<Entity<PuddleComponent>> _puddles = new();
 
+// Aurora's Song - We cannot duplicate the systems if possible
+#pragma warning disable RA0028
     public override void Initialize()
+#pragma warning restore RA0028
     {
-        base.Initialize();
+        // base.Initialize(); # This should be running as an independent system
+
         SubscribeLocalEvent<AdvDrainComponent, MapInitEvent>(OnDrainMapInit);
         SubscribeLocalEvent<AdvDrainComponent, GetVerbsEvent<Verb>>(AddEmptyVerb);
         SubscribeLocalEvent<AdvDrainComponent, ExaminedEvent>(OnExamined);

@@ -1,9 +1,9 @@
 using Content.Shared.Access.Systems;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Roles;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
-using Content.Shared.Roles; // Frontier
 
 namespace Content.Shared.Access.Components;
 
@@ -26,9 +26,9 @@ public sealed partial class IdCardConsoleComponent : Component
         public readonly string FullName;
         public readonly string JobTitle;
         public readonly List<ProtoId<AccessLevelPrototype>> AccessList;
-        public readonly ProtoId<JobPrototype> JobPrototype; // Frontier: AccessPrototype<JobPrototype
+        public readonly ProtoId<JobPrototype> JobPrototype;
 
-        public WriteToTargetIdMessage(string fullName, string jobTitle, List<ProtoId<AccessLevelPrototype>> accessList, ProtoId<JobPrototype> jobPrototype) // Frontier: jobProtoype - AccessPrototype<JobPrototype
+        public WriteToTargetIdMessage(string fullName, string jobTitle, List<ProtoId<AccessLevelPrototype>> accessList, ProtoId<JobPrototype> jobPrototype)
         {
             FullName = fullName;
             JobTitle = jobTitle;
@@ -43,40 +43,43 @@ public sealed partial class IdCardConsoleComponent : Component
     public List<ProtoId<AccessLevelPrototype>> AccessLevels = new()
     {
         "Armory",
-        //"Atmospherics",
-        "Bailiff", // Frontier
+        "Aurora", // Aurora's Song - Changed from Frontier to Aurora and moved up
+        "Atmospherics",
         //"Bar",
         "Brig",
-        "Brigmedic", // Frontier
         "Captain",
-        //"Cargo",
+        "HeadOfPersonnel", // Aurora's Song - moved up, alphabetic w.r.t. "Colonial Representative"
+        "Cargo",
         //"Chapel",
         //"Chemistry",
-        //"ChiefMedicalOfficer",
         "Command",
+        "Corpsman", // Frontier and Aurora's Song, changed to Corpsman and moved down
         //"Cryogenics",
         "Detective", // Frontier: moved into alphabetical order
+        "ChiefMedicalOfficer", // Aurora's Song - moved down, alphabetic w.r.t. "Director of Care"
         "Engineering",
         "External",
-        "Frontier", // Frontier
-        //"Hydroponics",
+        //"GenpopEnter", // Aurora's Song - Disable genpop
+        //"GenpopLeave", // Aurora's Song - Disable genpop
+        //"Hydroponics", // Frontier
         "Janitor",
         //"Kitchen",
         //"Lawyer",
+        "Lieutenant", // Aurora's Song - Changed from Bailiff to Lieutenant and moved down
         "Mail", // Frontier
         "Maintenance",
         "Medical",
         "Mercenary", // Frontier
         "ChiefEngineer", // Frontier: moved down, alphabetic w.r.t. "Plant Manager"
+        "Prisoner", // Aurora's Song
         //"Quartermaster",
-        //"Research",
-        //"ResearchDirector",
+        "Research",
+        "ResearchDirector",
         //"Salvage",
         "Security",
         "Sergeant", // Frontier
         "Service",
         "HeadOfSecurity", // Frontier: moved down, alphabetic w.r.t. "Sheriff"
-        "HeadOfPersonnel", // Frontier: moved down, alphabetic w.r.t. "Station Representative"
         "StationTrafficController", // Frontier
         //"Theatre",
     };
@@ -95,7 +98,7 @@ public sealed partial class IdCardConsoleComponent : Component
         public readonly string?[]? TargetShuttleNameParts; // Frontier
         public readonly List<ProtoId<AccessLevelPrototype>>? TargetIdAccessList;
         public readonly List<ProtoId<AccessLevelPrototype>>? AllowedModifyAccessList;
-        public readonly ProtoId<JobPrototype> TargetIdJobPrototype; // Frontier: AccessLevelPrototype<JobPrototype
+        public readonly ProtoId<JobPrototype> TargetIdJobPrototype;
 
         public IdCardConsoleBoundUserInterfaceState(bool isPrivilegedIdPresent,
             bool isPrivilegedIdAuthorized,
@@ -106,7 +109,7 @@ public sealed partial class IdCardConsoleComponent : Component
             string?[]? targetShuttleNameParts,
             List<ProtoId<AccessLevelPrototype>>? targetIdAccessList,
             List<ProtoId<AccessLevelPrototype>>? allowedModifyAccessList,
-            ProtoId<JobPrototype> targetIdJobPrototype, // Frontier: AccessLevelPrototype<JobPrototype
+            ProtoId<JobPrototype> targetIdJobPrototype,
             string privilegedIdName,
             string targetIdName)
         {

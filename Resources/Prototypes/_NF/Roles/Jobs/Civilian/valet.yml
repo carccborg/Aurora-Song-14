@@ -14,10 +14,11 @@
   displayWeight: 10
   canBeAntag: false
   access:
+  - Cargo # Aurora's Song - Cargo access is being undeprecated
   - Maintenance
   - External
   - Service
-  - Frontier
+  - Aurora # Aurora Song - Changed from Frontier to Aurora
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -32,11 +33,13 @@
     gloves: ClothingHandsGlovesColorWhite
     id: ValetPDA
   storage:
-    back:
-    - EncryptionKeyService
+    back: # Aurora's Song - moved service encryption key to the appropriate section
     - ShipVoucherFrontierValet
-  encryptionKeys:
+  encryptionKeys: # Aurora's Song - Added traffic, shipboard, and service encryption keys
   - EncryptionKeyGreeting
+  - EncryptionKeyTraffic
+  - EncryptionKeyShipboard
+  - EncryptionKeyService
 
 - type: chameleonOutfit
   id: ValetChameleonOutfit

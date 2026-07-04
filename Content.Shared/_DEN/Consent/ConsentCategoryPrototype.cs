@@ -8,12 +8,12 @@ namespace Content.Shared._DEN.Consent;
 /// <summary>
 /// This is a prototype for tracking consent categories
 /// </summary>
-[Prototype("consentCategory")]
+[Prototype]
 public sealed partial class ConsentCategoryPrototype : IPrototype
 {
     /// <inheritdoc/>
     [IdDataField]
-    public string ID { get; } = default!;
+    public string ID { get; private set; } = default!;
 
     [DataField]
     public int Priority { get; set; } = 100;

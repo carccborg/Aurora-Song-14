@@ -1,9 +1,10 @@
+#region SLE Softsuits
 
 - type: entity
   parent: ASClothingOuterEVASuitBase
   id: ClothingOuterSoftsuitSlePatrol
   name: SLE patrol suit
-  description: The standard-issue SLE space proof suit for patrol duty. This bronze variant has cadet rank markings.
+  description: The standard-issue SLE space proof suit for patrol duty.
   components:
   - type: Sprite
     sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
@@ -25,3 +26,153 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.95
     sprintModifier: 0.9
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolRookie
+  name: SLE patrol suit
+  suffix: Rookie
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-rke
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-rke
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-rke-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-rke
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolOfficer
+  name: SLE patrol suit
+  suffix: Officer
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-off
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-off
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-off-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-off
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolSergeant
+  name: SLE patrol suit
+  suffix: Sergeant
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-sgt
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-sgt
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-sgt-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-sgt
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolLieutenant
+  name: SLE patrol suit
+  suffix: Lieutenant
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-lt
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-lt
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-lt-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-lt
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolCorpsman
+  name: SLE patrol suit
+  suffix: Corpsman
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-crp
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-crp
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-crp-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-crp
+
+- type: entity
+  parent: ClothingOuterSoftsuitSlePatrol
+  id: ClothingOuterSoftsuitSlePatrolCommissioner
+  name: SLE patrol suit
+  suffix: Commissioner
+  description: The standard-issue SLE space proof suit for patrol duty.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    layers:
+    - state: icon
+    - state: icon-com
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Softsuits/sle_patrol.rsi
+    clothingVisuals:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING
+      - state: equipped-OUTERCLOTHING-com
+      outerClothing-harpy:
+      - state: equipped-OUTERCLOTHING-harpy
+      - state: equipped-OUTERCLOTHING-com-harpy
+      outerClothing-vox:
+      - state: equipped-OUTERCLOTHING-vox
+      - state: equipped-OUTERCLOTHING-com

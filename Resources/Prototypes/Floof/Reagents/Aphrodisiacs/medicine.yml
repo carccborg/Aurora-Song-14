@@ -1,13 +1,13 @@
 - type: reagent
   id: Pomelustine
   name: reagent-name-pomelustine
-  group: Medicine
+  group: Aphrodisiacs # DEN
   desc: reagent-desc-pomelustine
-  physicalDesc: reagent-physical-desc-sticky
+  physicalDesc: reagent-physical-desc-gold-flecked # Aurora's Song | Refactor pomelustine to avoid unexpecting exposure
   flavor: fruity
   color: "#45072f"
   metabolisms:
-    Medicine:
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
       metabolismRate : 0.03
       effects:
       - !type:PopupMessage
@@ -21,8 +21,12 @@
           - "reagent-effect-aphrodisiac-mild5"
         probability: 0.035
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+            reagent: Pomelustine
             max: 50
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
       - !type:PopupMessage # Overdose causes nausea and vomiting
         type: Local
         visualType: Medium
@@ -30,16 +34,28 @@
           - "reagent-effect-aphrodisiac-mildoverdose"
         probability: 0.06
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+            reagent: Pomelustine
             min: 50
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
       - !type:Drunk
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Pomelustine
           min: 50
-      - !type:ChemVomit
+        - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Pomelustine
           min: 60
+        - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
         probability: 0.05
       - !type:PopupMessage
         type: Local
@@ -48,19 +64,23 @@
           - "reagent-effect-aphrodisiac-fade" # A decent chance to notify the player when their meds run out, but could happen silently.
         probability: 0.35
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+            reagent: Pomelustine
             max: 0.1
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
 
 - type: reagent
   id: Philterex
   name: reagent-name-philterex
-  group: Medicine
+  group: Aphrodisiacs # DEN
   desc: reagent-desc-philterex
   physicalDesc: reagent-physical-desc-syrupy
   flavor: sweet
   color: "#ae0072"
   metabolisms:
-    Medicine:
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
       metabolismRate : 0.02
       effects:
       - !type:PopupMessage
@@ -74,8 +94,12 @@
           - "reagent-effect-aphrodisiac-normal5"
         probability: 0.04
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           max: 16.5
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
       - !type:PopupMessage
         type: Local
         visualType: MediumCaution
@@ -88,34 +112,53 @@
           - "reagent-effect-aphrodisiac-normaloverdose6"
         probability: 0.06
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           min: 16.5
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
       - !type:Emote
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           min: 16.5
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
         emote: Yawn
         showInChat: true
         probability: 0.02
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier # Aurora's Song - MovespeedModifier>MovementSpeedModifier
         walkSpeedModifier: 0.8
         sprintSpeedModifier: 0.8
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           min: 16.5
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
       - !type:GenericStatusEffect
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           min: 30.0
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
         key: ForcedSleep
         component: ForcedSleeping
-        refresh: false
         type: Add
         probability: 0.1
       - !type:HealthChange # poisons you if you take way too much
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Philterex
           min: 30
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
         damage:
           types:
             Poison: 1
@@ -126,5 +169,9 @@
           - "reagent-effect-aphrodisiac-fade" # A decent chance to notify the player when their meds run out, but could happen silently.
         probability: 0.32
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+            reagent: Philterex
             max: 0.1
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs

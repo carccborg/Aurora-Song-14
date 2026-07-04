@@ -1,0 +1,179 @@
+
+# Mapping Prototypes
+
+#region Damascus Engineering
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusEngineeringReception
+  suffix: Damascus Engineering Reception, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-engineering-reception
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusEngineeringPower
+  suffix: Damascus Engineering Power, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-engineering-power
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusEngineeringPa
+  suffix: Damascus Engineering PA, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-engineering-pa
+
+#region Damascus General
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusBreakRoom
+  suffix: Damascus Break Room, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-break-room
+
+#region Damascus Science
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusScienceReception
+  suffix: Damascus Science Reception, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-science-reception
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusScienceMain
+  suffix: Damascus Science Main , POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-science-main
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadDamascusScienceArtifact
+  suffix: Damascus Science Artifacts, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-damascus-science-artifact
+
+#region Port Boreal
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealCR
+  suffix: Port Boreal CR, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-cr
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealSTC
+  suffix: Port Boreal STC, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-stc
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealCafe
+  suffix: Port Boreal Cafe, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-cafe
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealHydro
+  suffix: Port Boreal Hydro, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-hydro
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealDoC
+  suffix: Port Boreal DoC, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-doc
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealMedbay
+  suffix: Port Boreal Medbay, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-medbay
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealMedStaff
+  suffix: Port Boreal Med Staff, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-med-staff
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealCargo
+  suffix: Port Boreal Cargo, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-cargo
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadPortBorealPlaza
+  suffix: Port Boreal Plaza, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-port-boreal-plaza
+
+#region SLEO
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadSLEOutpostCommissioner
+  suffix: SLE Outpost Commissioner, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-sle-outpost-commissioner
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadSLEOutpostBullpen
+  suffix: SLE Outpost Bullpen, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-sle-outpost-bullpen
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadSLEOutpostReception
+  suffix: SLE Outpost Reception, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-sle-outpost-reception
+
+#region The alley
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadAlleyShipyards
+  suffix: Alley Shipyards, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-alley-shipyards
+
+- type: entity
+  parent: NFHolopadPoiBase
+  id: ASHolopadAlleyBar
+  suffix: Alley Bar, POI
+  components:
+  - type: Label
+    currentLabel: as-holopad-general-alley-bar

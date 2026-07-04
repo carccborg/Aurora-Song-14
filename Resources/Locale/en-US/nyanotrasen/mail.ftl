@@ -9,12 +9,15 @@ mail-desc-priority = The anti-tamper lock's [color=yellow]yellow priority tape[/
 mail-desc-priority-inactive = The anti-tamper lock's [color=#886600]yellow priority tape[/color] is inactive.
 mail-unlocked = Anti-tamper system unlocked.
 mail-unlocked-by-emag = Anti-tamper system *BZZT*.
-mail-unlocked-reward = Anti-tamper system unlocked. {$bounty} spesos have been added to Frontier account.
+# Aurora's Song - changed account name
+mail-unlocked-reward = Anti-tamper system unlocked. {$bounty} spesos have been added to the Aurora account.
 mail-penalty-lock = ANTI-TAMPER LOCK BROKEN. STATION BANK ACCOUNT PENALIZED BY {$credits} SPESOS.
 mail-penalty-fragile = INTEGRITY COMPROMISED. STATION BANK ACCOUNT PENALIZED BY {$credits} SPESOS.
 mail-penalty-expired = DELIVERY PAST DUE. STATION BANK ACCOUNT PENALIZED BY {$credits} SPESOS.
 mail-item-name-unaddressed = mail
 mail-item-name-addressed = mail ({$recipient})
+# Frontier: Wizden#38234 compliance
+ent-BaseMail = mail
 
 # Frontier: reworded description, does not need to be a container.
 command-mailto-description = Queue an item to be delivered to a recipient. Example usage: `mailto 1234 5678 false false`. If the target entity is a container, its contents will be transferred to an actual mail parcel.

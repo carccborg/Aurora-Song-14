@@ -5,7 +5,7 @@
   suffix: Frontier, Locked
   components:
   - type: AccessReader
-    access: [["Frontier"]]
+    access: [["Aurora"]] # Aurora Song - Changed from Frontier to Aurora
 
 - type: entity
   parent: DoorElectronics
@@ -18,10 +18,10 @@
 - type: entity
   parent: DoorElectronics
   id: DoorElectronicsFrontierCommand
-  suffix: Chapel, Locked
+  suffix: Chapel, Locked # Huh
   components:
   - type: AccessReader
-    access: [["HeadOfSecurity"], ["HeadOfPersonnel"]]
+    access: [["HeadOfSecurity"], ["HeadOfPersonnel"], ["StationTrafficController"]] # Aurora's Song - Gave STC command accesses
 
 - type: entity
   parent: DoorElectronics
@@ -50,7 +50,7 @@
 - type: entity
   parent: DoorElectronics
   id: DoorElectronicsBrigmedic
-  suffix: Brigmedic, Locked
+  suffix: Corpsman, Locked # Aurora's Song - Changed from Brigmedic to Corpsman
   components:
   - type: AccessReader
-    access: [["Brigmedic"]]
+    access: [["Corpsman"]] # Aurora's Song - Changed from Brigmedic to Corpsman

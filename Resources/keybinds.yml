@@ -167,6 +167,26 @@ binds:
   type: State
   key: X
   mod1: Shift
+  # DeltaV - Begin custom keybinds
+- function: NanoChatNavigateUp
+  type: State
+  key: Up
+  mod1: Alt
+- function: NanoChatNavigateDown
+  type: State
+  key: Down
+  mod1: Alt
+- function: NanoChatNavigateUpUnread
+  type: State
+  key: Up
+  mod1: Alt
+  mod2: Shift
+- function: NanoChatNavigateDownUnread
+  type: State
+  key: Down
+  mod1: Alt
+  mod2: Shift
+  # DeltaV - End custom keybinds
 - function: MoveStoredItem
   type: State
   key: MouseLeft
@@ -190,7 +210,7 @@ binds:
   mod1: Alt
 - function: OpenCharacterMenu
   type: State
-  key: C
+  key: U
 - function: OpenEmotesMenu
   type: State
   key: Y
@@ -255,6 +275,18 @@ binds:
   type: State
   key: E
   mod1: Shift
+- function: SmartEquipPocket1
+  type: State
+  key: F
+  mod1: Shift
+- function: SmartEquipPocket2
+  type: State
+  key: G
+  mod1: Shift
+- function: SmartEquipSuitStorage
+  type: State
+  key: H
+  mod1: Shift
 - function: OpenBackpack
   type: State
   key: V
@@ -268,6 +300,14 @@ binds:
 - function: InspectEntity
   type: State
   key: v
+  mod1: Alt
+- function: InspectServerComponent
+  type: State
+  key: b
+  mod1: Alt
+- function: InspectClientComponent
+  type: State
+  key: c
   mod1: Alt
 - function: MouseMiddle
   type: State
@@ -525,6 +565,9 @@ binds:
 - function: Arcade3
   type: State
   key: Z
+- function: ToggleKnockdown
+  type: State
+  key: C
 - function: OpenAbilitiesMenu
   type: State
   key: K

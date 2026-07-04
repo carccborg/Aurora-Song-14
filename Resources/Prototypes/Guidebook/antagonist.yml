@@ -11,6 +11,7 @@
 #   - SpaceNinja
 #   - Wizard
 #   - Zombies
+#   - Xenoborgs
 #   - MinorAntagonists
 
 # - type: guideEntry
@@ -52,3 +53,9 @@
 #   id: Wizard
 #   name: guide-entry-wizard
 #   text: "/ServerInfo/Guidebook/Antagonist/Wizard.xml"
+
+# Aurora's Song - Comment out Xenoborgs, too.
+# - type: guideEntry
+#  id: Xenoborgs
+#  name: guide-entry-xenoborgs
+#  text: "/ServerInfo/Guidebook/Antagonist/Xenoborgs.xml"

@@ -91,6 +91,7 @@
     # ClothingHeadHatCorpsoft: 2
     # ClothingHeadFishCap: 2
     # ClothingHeadRastaHat: 2
+    # ClothingHeadPropellerHat: 2
     # ClothingBeltStorageWaistbag: 3
     # ClothingEyesGlasses: 6
     # ClothingHandsGlovesColorBlack: 4
@@ -108,6 +109,16 @@
     ClothingNeckCollarBlue: 2 # Floofstation - Collar addition
     ClothingNeckCollarBlack: 2 # Floofstation - Collar addition
     ClothingNeckCollarPink: 2 # Floofstation - Collar addition
+    ClothingShoesHeelsStockingsBlackBlack: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsBlackWhite: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsBlackBPlain: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsBlackWPlain: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsBlackLatex: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsWhiteBPlain: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsWhiteWhite: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsWhiteWPlain: 4 # Aurora's Song - heelstockings port
+    ClothingShoesHeelsStockingsWhiteLatex: 4 # Aurora's Song - heelstockings port
+    ASClothingMaskVeil: 8 #Aurora's Song - Silken Veil implementation
   contrabandInventory:
     ClothingMaskNeckGaiter: 2
     ClothingUniformJumpsuitTacticool: 1
@@ -116,4 +127,5 @@
     ToyFigurineGreytider: 1
     # ClothingBackpackSatchelSmugglerUnanchored: 1 # Frontier
     ClothingHeadHatSolidHeadband: 2
+    ClothingHeadPropellerHat: 2 # Frontier
   # DO NOT ADD MORE, USE UNIFORM DYING

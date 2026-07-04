@@ -1,0 +1,83 @@
+#region SLE
+
+- type: entity
+  parent: [ ClothingOuterStorageBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingOuterCoatSLEBomber
+  name: SLE bomber
+  description: A stylish bomber jacket worn by Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_bomber.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_bomber.rsi
+
+- type: entity
+  parent: [ ClothingOuterStorageBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingOuterCoatSLEBomberCorpsman
+  name: SLE corpsman bomber
+  description: A corpsman bomber jacket with medical insignia. Blood may stain.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_corpsman_bomber.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_corpsman_bomber.rsi
+
+- type: entity
+  parent: [ ClothingOuterStorageBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingOuterCoatSLEFormal
+  name: SLE formal coat
+  description: A formal dress coat for Sector Law Enforcement officers. Snazzy.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_formal.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_formal.rsi
+
+- type: entity
+  parent: [ ClothingOuterStorageBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingOuterCoatSLEFormalCommissioner
+  name: SLE commissioner's formal coat
+  description: The Commissioner's formal dress coat. Very snazzy.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_commissioner_formal.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_commissioner_formal.rsi
+
+- type: entity
+  parent: [ ClothingOuterStorageBase, BaseC2ContrabandUnredeemable ]
+  id: ASClothingOuterCoatSLELongCoat
+  name: SLE long coat
+  description: A long duster coat favored by SLE personnel. Big iron on his hip...
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_long.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/sle_long.rsi
+  - type: Armor # Equivalent to the standard vest officers get
+    modifiers:
+      coefficients:
+        Blunt: 0.7
+        Slash: 0.7
+        Piercing: 0.65
+        Heat: 0.7
+        Caustic: 0.65
+  - type: ExplosionResistance
+    damageCoefficient: 0.60
+  - type: ClothingSpeedModifier
+    walkModifier: 1.0
+    sprintModifier: 1.0
+  - type: GroupExamine
+
+#region Command
+
+- type: entity
+  parent: ClothingOuterBase
+  id: ASClothingOuterJacketColonialRepresentative
+  name: colonial representative's jacket
+  description: An expensive jacket tailored for the frontier's colonial representative.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/OuterClothing/Misc/cr_jacket.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/OuterClothing/Misc/cr_jacket.rsi

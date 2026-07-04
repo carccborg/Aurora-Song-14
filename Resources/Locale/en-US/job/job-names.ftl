@@ -1,3 +1,5 @@
+# Aurora's Song - TODO: Look into #42200
+
 job-name-warden = Warden
 job-name-security = Security Officer
 job-name-cadet = Security Cadet
@@ -48,6 +50,7 @@ job-name-ertjanitor = ERT Janitor
 job-name-boxer = Boxer
 job-name-zookeeper = Zookeeper
 job-name-visitor = Visitor
+job-name-cluwne = Cluwne
 
 # unused jobs
 # these are required for the agent ID job icon tooltips

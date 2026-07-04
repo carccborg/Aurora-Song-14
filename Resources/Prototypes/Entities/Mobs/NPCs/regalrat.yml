@@ -1,7 +1,7 @@
 - type: entity
   name: rat king
   id: MobRatKing
-  parent: [ SimpleMobBase, MobCombat ]
+  parent: [ BaseMobRat, SimpleMobBase, MobCombat ]
   description: He's da rat. He make da roolz.
   components:
   - type: CombatMode
@@ -59,9 +59,6 @@
       types:
         Slash: 12
         Piercing: 8
-  - type: Body
-    prototype: Rat
-    requiredLegs: 1 # TODO: More than 1 leg
   - type: Hunger # probably should be prototyped
     thresholds:
       Overfed: 200
@@ -91,9 +88,9 @@
     makeSentient: true
     name: ghost-role-information-rat-king-name
     description: ghost-role-information-rat-king-description
-    rules: ghost-role-information-freeagent-rules
+    rules: ghost-role-information-antagonist-rules
     mindRoles:
-    - MindRoleGhostRoleFreeAgent
+    - MindRoleGhostRoleSoloAntagonist
     raffle:
       settings: default
   - type: GhostTakeoverAvailable
@@ -102,10 +99,12 @@
       - CannotSuicide
       - FootstepSound
   - type: NoSlip
+  - type: Insulated
+    coefficient: 0.5 # rat king touches more wires, see?
+  - type: Rummager
   - type: RatKing
     hungerPerArmyUse: 25
     hungerPerDomainUse: 50
-  - type: Rummager # DeltaV: Make rummaging a generic component
   - type: MobsterAccent
   - type: Speech
     speechVerb: SmallMob
@@ -170,7 +169,7 @@
 - type: entity
   name: rat servant
   id: MobRatServant
-  parent: [ SimpleMobBase, MobCombat ]
+  parent: [ BaseMobRat, SimpleMobBase, MobCombat ]
   description: He's da mini rat. He don't make da roolz.
   categories: [ HideSpawnMenu ] #Must be configured to a King or the AI breaks.
   components:
@@ -245,7 +244,7 @@
       - !type:GibBehavior
         recursive: false
   - type: Stamina
-    critThreshold: 60
+    baseCritThreshold: 60
   - type: MeleeWeapon
     soundHit:
         path: /Audio/Weapons/bladeslice.ogg
@@ -255,9 +254,6 @@
       types:
         Slash: 5
         Piercing: 3
-  - type: Body
-    prototype: Rat
-    requiredLegs: 1 # TODO: More than 1 leg
   - type: Hunger # probably should be prototyped
     thresholds:
       Overfed: 200
@@ -298,6 +294,8 @@
       - CannotSuicide
       - FootstepSound
   - type: NoSlip
+  - type: Insulated
+    coefficient: 0.2 # they don't make da roolz, but they sneaky
   - type: MobPrice
     price: 500 # rat wealth
   - type: MobsterAccent
@@ -308,21 +306,24 @@
   #   guides: # Frontier: guidebook removed
   #   - MinorAntagonists # Frontier: guidebook removed
   - type: FelinidFood # Nyanotrasen - Felinid, ability to eat rat, see Content.Server/Nyanotrasen/Abilities/Felinid/FelinidSystem.cs
-  - type: Food # Delta V - Make them edible and pickable.
+  - type: Edible # Delta V - Make them edible and pickable. # Aurora's Song - Food>Edible
   - type: Item # Delta V - Make them edible and pickable.
     size: Tiny # Delta V - Make them edible and pickable.
   - type: FireVisuals
     sprite: Mobs/Effects/onfire.rsi
     normalState: Mouse_burning
 
-
-- type: weightedRandomEntity
+- type: entityTable
   id: RatKingLoot
-  weights: # DeltaV: Rebalanced for Rodentia rummaging because we don't have Rat King
-    RandomSpawner100: 100 #garbage
-#    FoodCheeseSlice: 15 #food
-#    RandomSnacks: 10
-#    RandomFoodSingle: 5
+  table: !type:GroupSelector
+    children:
+    - id: RandomSpawner100
+      weight: 100 # DeltaV: 66>100
+    # DeltaV: Rebalanced for Rodentia rummaging because we don't have Rat King
+#    - id: FoodCheese
+#      weight: 28
+#    - id: IngotGold1
+#      weight: 5
 
 - type: entity
   parent: BaseAction

@@ -1,0 +1,25 @@
+- type: entity
+  parent: ClothingBackpackSatchelSmugglerUnanchored
+  id: ASClothingBackpackSatchelSmugglerUnanchoredGraveFill
+  name: grave bag
+  description: "Smells of calcium."
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OrganSkeletonPersonHandRight # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonHandLeft # Aurora's Song - Migrate to nubody
+        - id: FoodPoppy
+        - id: ClothingHeadHatStrawHat
+        - id: MaterialBones1
+        - id: OrganSkeletonPersonArmLeft # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonHandLeft # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonFootLeft # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonLegLeft # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonTorso # Aurora's Song - Migrate to nubody
+        - id: GoldRingGem
+        - id: MaterialBones1
+        - id: OrganSkeletonPersonLegRight # Aurora's Song - Migrate to nubody
+        - id: OrganSkeletonPersonFootRight # Aurora's Song - Migrate to nubody
+        - id: GoldRingDiamond

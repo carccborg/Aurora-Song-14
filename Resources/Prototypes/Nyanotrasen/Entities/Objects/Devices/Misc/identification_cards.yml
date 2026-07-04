@@ -32,6 +32,7 @@
   name: valet ID card
   components:
   - type: Sprite
+    sprite: _AS/Objects/Misc/id_cards.rsi # Aurora's Song - Use old textures here
     layers:
     - state: default
     - state: idintern-service
@@ -50,3 +51,17 @@
       state: nyanoprisonguard
   - type: PresetIdCard
     job: PrisonGuard
+
+- type: entity
+  parent: IDCardStandard
+  id: ForensicMantisIDCard
+  name: mantis ID card
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - sprite: _DV/Objects/Misc/id_cards.rsi
+      state: nyanomantis
+  - type: PresetIdCard
+    job: Mercenary
+

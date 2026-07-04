@@ -21,7 +21,7 @@
   - External
   - Mercenary
   - Captain
-  - Frontier
+  - Aurora # Aurora Song - Changed from Frontier to Aurora
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant, TrackingImplant ]
@@ -32,17 +32,22 @@
 - type: startingGear
   id: SecurityGuardGear
   equipment:
-    eyes: ClothingEyesGlassesSunglasses #ClothingEyesGlassesSecurity
-    pocket1: ASWeaponPistol58SLELessLethal
+    eyes: ClothingEyesGlassesSecurity # Aurora's Song - give them full security glasses, as they have no locker or vendor to get them
+    pocket1: ASWeaponPistolMk58SLessLethal
     pocket2: NFMagazineHighCapacityPistol35
   storage:
-    back:
-    - EncryptionKeyService
-    - EncryptionKeySecurity
+    back: # Aurora's Song - moved encryption keys to the appropriate section
     - Flash
     - NFMagazineHighCapacityPistol35
     - NFMagazineHighCapacityPistol35Rubber
     - ShipVoucherFrontierGuard
+  licenses:
+  - LicenseContrabandHandling # Aurora's Song - they should have this
+  encryptionKeys: # Aurora's Song - Added traffic, shipboard, service, and security encryption keys
+  - EncryptionKeyTraffic
+  - EncryptionKeyShipboard
+  - EncryptionKeyService
+  - EncryptionKeySecurity
 
 - type: chameleonOutfit
   id: SecurityGuardChameleonOutfit

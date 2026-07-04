@@ -4,6 +4,7 @@
   keycode: ";"
   frequency: 1459
   color: "#2cdb2c"
+  # maxRange: 10000 # CS - increase range 3000 => 10000
 
 - type: radioChannel
   id: CentCom
@@ -11,7 +12,7 @@
   keycode: 'y'
   frequency: 1337
   color: "#2681a5"
-  longRange: true
+  # longRange: true # Aurora's Song - needs a telecom server just like Arcadia and the Syndicate; CentComm reflavored to be generally NT
 
 - type: radioChannel
   id: Command

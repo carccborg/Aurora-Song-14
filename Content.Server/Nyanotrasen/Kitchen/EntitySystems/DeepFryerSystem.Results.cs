@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Content.Server.Atmos.Components;
 using Content.Server.Body.Components;
 using Content.Server.Ghost.Roles.Components;
@@ -21,6 +22,8 @@ namespace Content.Server.Nyanotrasen.Kitchen.EntitySystems;
 
 public sealed partial class DeepFryerSystem
 {
+    private static readonly string Protein = "Protein"; // Aurora's Song
+
     /// <summary>
     ///     Make an item look deep-fried.
     /// </summary>
@@ -65,7 +68,7 @@ public sealed partial class DeepFryerSystem
             RemComp<RottingComponent>(mob);
 
             // Ensure it's Food here, so it passes the whitelist.
-            var mobFoodComponent = EnsureComp<FoodComponent>(mob);
+            var mobFoodComponent = EnsureComp<EdibleComponent>(mob); // Aurora's Song
             if (!_solutionContainerSystem.EnsureSolutionEntity(mob, mobFoodComponent.Solution, out var alreadyHadFood, out var mobFood))
                 return false;
 
@@ -77,7 +80,7 @@ public sealed partial class DeepFryerSystem
             if (alreadyHadFood)
                 mobFoodSolution.RemoveAllSolution();
 
-            if (TryComp<BloodstreamComponent>(mob, out var bloodstreamComponent) && bloodstreamComponent.ChemicalSolution != null)
+            if (TryComp<BloodstreamComponent>(mob, out var bloodstreamComponent)) // Aurora's Song
             {
                 // Fry off any blood into protein.
                 var bloodSolution = bloodstreamComponent.BloodSolution;
@@ -87,16 +90,30 @@ public sealed partial class DeepFryerSystem
 
                 var proteinQuantity = bloodRemoved * BloodToProteinRatio;
                 mobFoodSolution.MaxVolume += proteinQuantity;
-                mobFoodSolution.AddReagent("Protein", proteinQuantity);
+                mobFoodSolution.AddReagent(Protein, proteinQuantity); // Aurora's Song
 
                 // This is a heuristic. If you had blood, you might just taste meaty.
                 if (bloodRemoved > FixedPoint2.Zero)
                     EnsureComp<FlavorProfileComponent>(mob).Flavors.Add(MobFlavorMeat);
 
                 // Bring in whatever chemicals they had in them too.
-                mobFoodSolution.MaxVolume +=
-                    bloodstreamComponent.ChemicalSolution.Value.Comp.Solution.Volume;
-                mobFoodSolution.AddSolution(bloodstreamComponent.ChemicalSolution.Value.Comp.Solution, _prototypeManager);
+                // Start Aurora's Song - Convert to newer bloodstream system, we have to sort out the reagents ourselves
+                if (bloodstreamComponent.BloodSolution != null)
+                {
+                    var referenceSolution = bloodstreamComponent.BloodReferenceSolution;
+                    var referencePrototypes = referenceSolution.GetReagentPrototypes(_prototypeManager);
+
+                    mobFoodSolution.MaxVolume +=
+                        bloodstreamComponent.BloodSolution.Value.Comp.Solution.Volume -
+                        referenceSolution.MaxVolume;
+
+                    foreach (var reagent in bloodSolution.Value.Comp.Solution.Contents.Where(reagent =>
+                                 referencePrototypes.All(x => x.Key.ID != reagent.Reagent.Prototype)))
+                    {
+                        mobFoodSolution.AddReagent(reagent.Reagent, reagent.Quantity);
+                    }
+                }
+                // End Aurora's Song
             }
             _solutionContainerSystem.UpdateChemicals(mobFood.Value);
 
@@ -137,7 +154,7 @@ public sealed partial class DeepFryerSystem
             paperComponent.Content = stringBuilder.ToString();
         }
 
-        var foodComponent = EnsureComp<FoodComponent>(item);
+        var foodComponent = EnsureComp<EdibleComponent>(item); // Aurora's Song
         var extraSolution = new Solution();
         if (TryComp(item, out FlavorProfileComponent? flavorProfileComponent))
         {

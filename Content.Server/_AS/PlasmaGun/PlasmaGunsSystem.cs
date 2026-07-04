@@ -26,9 +26,7 @@ namespace Content.Server._AS.PlasmaGun;
 
 public sealed class PlasmaGunsSystem : SharedPlasmaGunsSystem
 {
-    [Dependency] private readonly AtmosphereSystem _atmos = default!;
     [Dependency] private readonly GasTankSystem _gasTank = default!;
-    [Dependency] private readonly GunSystem _gun = default!;
     [Dependency] private readonly ItemSlotsSystem _slots = default!;
     [Dependency] private readonly SharedPopupSystem _popups = default!;
 

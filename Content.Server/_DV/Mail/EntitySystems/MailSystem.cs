@@ -4,7 +4,7 @@ using Content.Server._DV.Cargo.Components;
 using Content.Server._DV.Cargo.Systems;
 using Content.Server._DV.Mail.Components;
 using Content.Server.Destructible.Thresholds.Behaviors;
-using Content.Server.Destructible.Thresholds.Triggers;
+using Content.Shared.Destructible.Thresholds.Triggers;
 using Content.Server.Destructible.Thresholds;
 using Content.Server.Destructible;
 using Content.Server.Mind;
@@ -41,14 +41,16 @@ using System.Linq;
 using System.Threading;
 using Timer = Robust.Shared.Timing.Timer;
 using Content.Server._NF.Bank; // Frontier
-using Content.Server._NF.SectorServices; // Frontier
-using Content.Server.Station.Components; // Frontier
+using Content.Shared._NF.SectorServices; // Frontier
+using Content.Shared.Station.Components; // Frontier
 using Robust.Shared.Enums; // Frontier
 using Content.Shared._NF.Bank.Components; // Frontier
 using Content.Shared._NF.Bank.BUI; // Frontier
 using Content.Shared.SSDIndicator; // Frontier
 using Content.Server.Power.EntitySystems; // Frontier
-using Content.Server._NF.Mail.Components; // Frontier
+using Content.Server._NF.Mail.Components;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems; // Frontier
 using Robust.Server.Player; // Frontier
 
 namespace Content.Server._DV.Mail.EntitySystems
@@ -239,7 +241,7 @@ namespace Content.Server._DV.Mail.EntitySystems
             _popupSystem.PopupEntity(Loc.GetString("mail-unlocked-reward", ("bounty", component.Bounty)), uid, args.User); // Frontier - Remove the mention of station income
             component.IsProfitable = false;
 
-            _bank.TrySectorDeposit(SectorBankAccount.Frontier, component.Bounty, LedgerEntryType.MailDelivered);
+            _bank.TrySectorDeposit(SectorBankAccount.Aurora, component.Bounty, LedgerEntryType.MailDelivered); // Aurora Song - Changed from Frontier to Aurora
         }
 
         private void OnExamined(EntityUid uid, MailComponent component, ExaminedEvent args)
@@ -291,7 +293,7 @@ namespace Content.Server._DV.Mail.EntitySystems
                 _appearanceSystem.SetData(uid, MailVisuals.IsPriorityInactive, true);
 
             // Frontier: no need for this, but this uses our sector bank accounts
-            //_bank.TrySectorWithdraw(SectorBankAccount.Frontier, component.Penalty, LedgerEntryType.MailPenalty); // Frontier - Dont remove money.
+            //_bank.TrySectorWithdraw(SectorBankAccount.Aurora, component.Penalty, LedgerEntryType.MailPenalty); // Frontier - Dont remove money. Aurora Song - Changed from Frontier to Aurora
         }
 
         private void OnDestruction(EntityUid uid, MailComponent component, DestructionEventArgs args)
@@ -543,12 +545,13 @@ namespace Content.Server._DV.Mail.EntitySystems
                 Loc.GetString(mailEntityStrings.NameAddressed, // Frontier: move constant to MailEntityString
                 ("recipient", recipient.Name)));
 
-            var accessReader = EnsureComp<AccessReaderComponent>(uid);
-            // Frontier: TODO - should this be removed for Frontier?
-            foreach (var access in recipient.AccessTags)
-            {
-                accessReader.AccessLists.Add([access]);
-            }
+            // Frontier: - remove access reader checks
+            // var accessReader = EnsureComp<AccessReaderComponent>(uid);
+            // foreach (var access in recipient.AccessTags)
+            // {
+            //     accessReader.AccessLists.Add([access]);
+            // }
+            // End Frontier
         }
 
         /// <summary>
@@ -618,7 +621,7 @@ namespace Content.Server._DV.Mail.EntitySystems
                 string stationName;
                 if (_stationSystem.GetOwningStation(receiverUid) is { Valid: true } station
                     && TryComp<StationDataComponent>(station, out var stationData)
-                    && _stationSystem.GetLargestGrid(stationData) is { Valid: true } stationGrid
+                    && _stationSystem.GetLargestGrid((station, stationData)) is { Valid: true } stationGrid
                     && TryName(stationGrid, out var gridName)
                     && gridName != null)
                 {

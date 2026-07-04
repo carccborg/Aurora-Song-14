@@ -118,7 +118,7 @@
       maxItemSize: Huge
       blacklist:
         components:
-        - HumanoidAppearance
+        - HumanoidProfile # Aurora's Song HumanoidAppearance>HumanoidProfile
     - type: ContainerContainer
       containers:
         storagebase: !type:Container
@@ -391,8 +391,10 @@
     tags:
       - Wringer
       - DoorBumpOpener
-  - type: Drink
+  - type: Edible  # Aurora's Song - Convert to edible from Drink
+    edible: Drink
     solution: bucket
+    destroyOnEmpty: false # Aurora's Song: DO NOT EAT IT
   - type: ContainerContainer
     containers:
       storagebase: !type:Container
@@ -555,8 +557,8 @@
   - VehicleHoverbikeMailcarrier
   - BaseC2ContrabandUnredeemable
   id: NFVehicleHoverbikeNfsd
-  name: SLE hoverbike
-  description: An SLE issued turbine with bike handles. Very safe.
+  name: NFSD hoverbike
+  description: An NFSD issued turbine with bike handles. Very safe.
   components:
   - type: Vehicle
     sirenSound:

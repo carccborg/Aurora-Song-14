@@ -27,6 +27,7 @@
       - MailMetricsCartridge
       - AppraisalCartridge
       - NetProbeCartridge
+      - NanoChatCartridge # Auroras Song
 
 - type: entity
   parent: BasePDA
@@ -158,6 +159,7 @@
     - AstroNavCartridge
     - WantedListCartridge
     - LedgerCartridge
+    - NanoChatCartridge # Auroras Song
 
 - type: entity
   parent: BaseSecurityPDA
@@ -380,6 +382,7 @@
     - AstroNavCartridge
     - LedgerCartridge
     - MailMetricsCartridge
+    - NanoChatCartridge # Auroras Song
 
 - type: entity
   parent: PiratePDA
@@ -469,7 +472,7 @@
   - type: Pda
     id: DocIDCard
     penSlot:
-      startingItem: PenCentcom
+      startingItem: PenColcom # Aurora's Song - pen changed from PenCentcom to PenColcom
       priority: -1
       whitelist:
         tags:
@@ -495,49 +498,50 @@
     - AstroNavCartridge
     - LedgerCartridge
     - MedTekCartridge
+    - NanoChatCartridge # Auroras Song
 
-- type: entity
-  parent: BasePDA
-  id: PlantTechnicianPDA
-  name: plant technician PDA
-  description: Last shift must've bent the antenna somehow.
-  components:
-  - type: Pda
-    id: PlantTechnicianIDCard
-  - type: Appearance
-    appearanceDataInit:
-      enum.PdaVisuals.PdaType:
-        !type:String
-        pda-planttechnician
-  - type: PdaBorderColor
-    borderColor: "#949137"
-    accentVColor: "#A32D26"
-  - type: Icon
-    state: pda-planttechnician
+#- type: entity # Autora's Song - disabled
+#  parent: BasePDA
+#  id: PlantTechnicianPDA
+#  name: plant technician PDA
+#  description: Last shift must've bent the antenna somehow.
+#  components:
+#  - type: Pda
+#    id: PlantTechnicianIDCard
+#  - type: Appearance
+#    appearanceDataInit:
+#      enum.PdaVisuals.PdaType:
+#        !type:String
+#        pda-planttechnician
+#  - type: PdaBorderColor
+#    borderColor: "#949137"
+#    accentVColor: "#A32D26"
+#  - type: Icon
+#    state: pda-planttechnician
 
-- type: entity
-  parent: BasePDA
-  id: PlantManagerPDA
-  name: plant manager PDA
-  description: Pristine, but smells strongly of ozone.
-  components:
-  - type: Pda
-    id: PlantManagerIDCard
-  - type: Appearance
-    appearanceDataInit:
-      enum.PdaVisuals.PdaType:
-        !type:String
-        pda-plantmanager
-  - type: PdaBorderColor
-    borderColor: "#949137"
-    accentVColor: "#A32D26"
-    accentHColor: "#447987"
-  - type: CartridgeLoader
-    preinstalled:
-    - CrewManifestCartridge
-    - NotekeeperCartridge
-    - NanoTaskCartridge
-    - NewsReaderCartridge
-    - BountyContractsCartridge
-    - AstroNavCartridge
-    - LedgerCartridge
+#- type: entity # Aurora's Song - disabled
+#  parent: BasePDA
+#  id: PlantManagerPDA
+#  name: plant manager PDA
+#  description: Pristine, but smells strongly of ozone.
+#  components:
+#  - type: Pda
+#    id: PlantManagerIDCard
+#  - type: Appearance
+#    appearanceDataInit:
+#      enum.PdaVisuals.PdaType:
+#        !type:String
+#        pda-plantmanager
+#  - type: PdaBorderColor
+#    borderColor: "#949137"
+#    accentVColor: "#A32D26"
+#    accentHColor: "#447987"
+#  - type: CartridgeLoader
+#    preinstalled:
+#    - CrewManifestCartridge
+#    - NotekeeperCartridge
+#    - NanoTaskCartridge
+#    - NewsReaderCartridge
+#    - BountyContractsCartridge
+#    - AstroNavCartridge
+#    - LedgerCartridge

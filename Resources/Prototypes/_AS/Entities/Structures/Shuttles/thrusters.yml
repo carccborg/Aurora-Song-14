@@ -1,4 +1,5 @@
-﻿- type: entity
+﻿#region Medic
+- type: entity
   id: ThrusterMedic
   parent: ThrusterSecurity
   suffix: MEDIC
@@ -19,3 +20,76 @@
       offset: 0, 1
   - type: Machine
     board: ThrusterMedicMachineCircuitboard
+
+#region SLE
+
+- type: entity
+  id: ASThrusterSLE
+  parent: ThrusterSecurity
+  suffix: SLE
+  components:
+  - type: Sprite
+    sprite: _NF/Structures/Shuttles/thruster.rsi
+    layers:
+    - state: base_sle
+      map: ["enum.ThrusterVisualLayers.Base"]
+    - state: thrust
+      map: ["enum.ThrusterVisualLayers.ThrustOn"]
+      shader: unshaded
+      visible: false
+    - state: thrust_burn_unshaded
+      map: ["enum.ThrusterVisualLayers.ThrustingUnshaded"]
+      shader: unshaded
+      visible: false
+      offset: 0, 1
+  - type: Machine
+    board: ThrusterSLEMachineCircuitboard
+
+- type: entity
+  id: ASGyroscopeSLE
+  parent: GyroscopeSecurity
+  suffix: SLE
+  components:
+  - type: Sprite
+    sprite: _NF/Structures/Shuttles/gyroscope.rsi
+    layers: &slegyrolayers
+    - state: base_sle
+      map: ["enum.ThrusterVisualLayers.Base"]
+    - state: thrust
+      map: ["enum.ThrusterVisualLayers.ThrustOn"]
+      shader: unshaded
+      visible: false
+    - state: thrust_burn_sle
+      map: [ "enum.ThrusterVisualLayers.Thrusting" ]
+      visible: false
+    - state: thrust_burn_unshaded
+      map: ["enum.ThrusterVisualLayers.ThrustingUnshaded"]
+      shader: unshaded
+      visible: false
+  - type: Machine
+    board: GyroscopeSLEMachineCircuitboard
+
+- type: entity
+  id: ASSmallGyroscopeSLE
+  parent: SmallGyroscopeSecurity
+  name: small gyroscope
+  suffix: SLE
+  components:
+  - type: Sprite
+    sprite: _NF/Structures/Shuttles/gyroscope.rsi
+    layers:
+    - state: base_small_sle
+      map: ["enum.ThrusterVisualLayers.Base"]
+    - state: thrust
+      map: ["enum.ThrusterVisualLayers.ThrustOn"]
+      shader: unshaded
+      visible: false
+    - state: thrust_burn_small_sle
+      map: [ "enum.ThrusterVisualLayers.Thrusting" ]
+      visible: false
+    - state: thrust_burn_unshaded
+      map: ["enum.ThrusterVisualLayers.ThrustingUnshaded"]
+      shader: unshaded
+      visible: false
+  - type: Machine
+    board: SmallGyroscopeSLEMachineCircuitboard

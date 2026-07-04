@@ -1,14 +1,13 @@
 - type: department
-  id: Frontier
+  id: Aurora # Aurora Song - Changed from Frontier to Aurora
   name: department-Frontier
   description: department-NF-description
   color: "#334E6D"
   weight: 50 # accounted for in jobs
   roles:
-  - StationRepresentative
-  - DirectorOfCare
+  - ColonialRepresentative # Aurora's Song - changed from Station Representative to Colonial Representative
+#  - DirectorOfCare # Aurora's Song - moved DoC to Aurora Clinic
   - StationTrafficController
-  - Medic # Aurora
   - Service # Aurora
   - Valet # nyano
   - NFJanitor

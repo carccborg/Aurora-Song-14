@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 using Content.Server._NF.GameTicking.Events;
-using Content.Server._NF.SectorServices;
+using Content.Shared._NF.SectorServices;
 using Content.Server._NF.Smuggling.Components;
 using Content.Server.Administration.Logs;
 using Content.Server.Radio.EntitySystems;
@@ -11,6 +11,7 @@ using Content.Server.Shuttles.Systems;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
 using Content.Server.StationEvents.Events;
+using Content.Shared._AS.Utils; // Aurora's Song: Time Consistency
 using Content.Shared._NF.CCVar;
 using Content.Shared._NF.Smuggling.Prototypes;
 using Content.Shared.Database;
@@ -28,6 +29,7 @@ using Robust.Shared.Timing;
 using Content.Server._NF.Station.Systems;
 using Robust.Shared.EntitySerialization.Systems;
 using Content.Server._NF.GC.Components;
+using Content.Shared.Station.Components;
 
 namespace Content.Server._NF.Smuggling;
 
@@ -527,7 +529,7 @@ public sealed class DeadDropSystem : EntitySystem
         dropHint.AppendLine();
         dropHint.AppendLine(Loc.GetString("deaddrop-hint-posttext-arcadia"));  // AS: Arcadia version
         dropHint.AppendLine();
-        dropHint.AppendLine(Loc.GetString("deaddrop-hint-next-drop", ("time", hintNextDrop.ToString("hh\\:mm") + ":00")));
+        dropHint.AppendLine(Loc.GetString("deaddrop-hint-next-drop", ("time", RoundTimerUtils.ToString(hintNextDrop)))); // Aurora's Song: Time Consistency
 
         var paper = EntityManager.SpawnEntity(component.HintPaper, Transform(uid).Coordinates);
 
@@ -548,7 +550,7 @@ public sealed class DeadDropSystem : EntitySystem
             if (!TryComp<StationDataComponent>(reportStation, out var stationData))
                 continue; // Not a station?
 
-            var stationGrid = _station.GetLargestGrid(stationData);
+            var stationGrid = _station.GetLargestGrid((reportStation, stationData));
             if (stationGrid == null)
                 continue; // Nobody to send our message.
 
@@ -679,7 +681,7 @@ public sealed class DeadDropSystem : EntitySystem
             if (EntityManager.TryGetComponent<DeadDropComponent>(hintTuple.Item2, out var deadDrop) && deadDrop.NextDrop != null)
             {
                 var dropTimeWithError = deadDrop.NextDrop.Value - _ticker.RoundStartTimeSpan + TimeSpan.FromSeconds(_random.Next(-MaxHintTimeErrorSeconds, MaxHintTimeErrorSeconds));
-                timeString = Loc.GetString("dead-drop-time-known", ("time", dropTimeWithError.ToString("hh\\:mm") + ":00"));
+                timeString = Loc.GetString("dead-drop-time-known", ("time", RoundTimerUtils.ToString(dropTimeWithError))); // Aurora's Song: Time Consistency
             }
             else
             {

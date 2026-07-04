@@ -17,6 +17,7 @@ using Content.Shared.Light;
 using Content.Shared.Light.EntitySystems;
 using Content.Shared.PDA;
 using Content.Shared.PDA.Ringer;
+using Content.Shared.VoiceMask;
 using Robust.Server.Containers;
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
@@ -25,7 +26,9 @@ using Robust.Shared.Utility;
 using Content.Shared._NF.Bank.Components; // Frontier
 using Content.Shared._NF.Shipyard.Components; // Frontier
 using Content.Server._NF.Shipyard.Systems; // Frontier
-using Content.Server._NF.SectorServices; // Frontier
+using Content.Shared._NF.SectorServices; // Frontier
+using Content.Server.RoundEnd; // Frontier
+using Content.Shared._AS.PersistentSystems; // Aurora's Song
 
 namespace Content.Server.PDA
 {
@@ -42,6 +45,7 @@ namespace Content.Server.PDA
         [Dependency] private readonly ContainerSystem _containerSystem = default!;
         [Dependency] private readonly IdCardSystem _idCard = default!;
         [Dependency] private readonly SectorServiceSystem _sectorService = default!;
+        [Dependency] private readonly RoundEndSystem _roundEndSystem = default!; // Frontier
 
         public override void Initialize()
         {
@@ -63,10 +67,11 @@ namespace Content.Server.PDA
             SubscribeLocalEvent<StationRenamedEvent>(OnStationRenamed);
             SubscribeLocalEvent<EntityRenamedEvent>(OnEntityRenamed, after: new[] { typeof(IdCardSystem) });
             SubscribeLocalEvent<AlertLevelChangedEvent>(OnAlertLevelChanged);
-            SubscribeLocalEvent<PdaComponent, InventoryRelayedEvent<ChameleonControllerOutfitSelectedEvent>>(ChameleonControllerOutfitItemSelected);
+            SubscribeLocalEvent<PdaComponent, InventoryRelayedEvent<ChameleonControllerOutfitSelectedEvent>>(OnRelayedEventToIdCard);
+            SubscribeLocalEvent<PdaComponent, InventoryRelayedEvent<VoiceMaskNameUpdatedEvent>>(OnRelayedEventToIdCard);
         }
 
-        private void ChameleonControllerOutfitItemSelected(Entity<PdaComponent> ent, ref InventoryRelayedEvent<ChameleonControllerOutfitSelectedEvent> args)
+        private void OnRelayedEventToIdCard<T>(Entity<PdaComponent> ent, ref InventoryRelayedEvent<T> args)
         {
             // Relay it to your ID so it can update as well.
             if (ent.Comp.ContainedId != null)
@@ -226,12 +231,14 @@ namespace Content.Server.PDA
                 {
                     ActualOwnerName = pda.OwnerName,
                     IdOwner = id?.FullName,
+                    IdNumber = CanonicalFormat.CanonId(id?.ProfileId).ToString(), // Aurora's Song
                     JobTitle = id?.LocalizedJobTitle,
                     StationAlertLevel = pda.StationAlertLevel,
                     StationAlertColor = pda.StationAlertColor
                 },
                 balance, // Frontier
                 ownedShipName, // Frontier
+                _roundEndSystem.GetAutoCallTime(), // Frontier
                 pda.StationName,
                 showUplink,
                 hasInstrument,

@@ -2,15 +2,49 @@
 - type: loadout
   id: ContractorClothingMaskBreath
   storage:
-    back: 
+    back:
     - ClothingMaskBreath
 
 - type: loadout
   id: ContractorClothingMaskBreathMedical
   price: 200
   storage:
-    back: 
+    back:
     - ClothingMaskBreathMedical
+
+#Aurora Song- Mantis drip merge start
+- type: loadout
+  id: ContractorClothingMaskMantisVeil
+  price: 200
+  equipment:
+    mask: ClothingMaskMantisVeil
+
+- type: loadout
+  id: ContractorClothingMaskMantisRitual
+  price: 200
+  equipment:
+    mask: ClothingMaskMantisRitual
+#Aurora Song- Mantis drip merge end
+
+# Aurora Song - Chaplain drip start
+- type: loadout
+  id: ContractorClothingMaskClayshaper
+  price: 200
+  equipment:
+    mask: ClothingMaskClayshaper
+
+- type: loadout
+  id: ContractorClothingMaskFire
+  price: 200
+  equipment:
+    mask: ClothingMaskFire
+
+- type: loadout
+  id: ContractorClothingMaskSilent
+  price: 200
+  equipment:
+    mask: ClothingMaskSilent
+# Aurora Song - Chaplain drip end
 
 #T1
 - type: loadout
@@ -20,7 +54,7 @@
     proto: ContractorT1
   price: 200
   storage:
-    back: 
+    back:
     - ClothingMaskSterile
 
 - type: loadout
@@ -92,7 +126,7 @@
     proto: ContractorT2
   price: 1500
   storage:
-    back: 
+    back:
     - ClothingMaskMime
 
 - type: loadout

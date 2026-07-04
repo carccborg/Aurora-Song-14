@@ -11,7 +11,7 @@
     bodyType: Static
   - type: Transform
     anchored: true
-  - type: Rotatable
+#  - type: Rotatable # Aurora's Song
   - type: Sprite
     state: middle
   - type: StaticPrice # Frontier
@@ -200,7 +200,7 @@
   parent: BenchBaseMiddle
   components:
   - type: Sprite
-    sprite: _EE/Structures/Furniture/Benches/sofa.rsi
+    sprite: _AS/Structures/Furniture/Benches/sofa.rsi # AS Edit
   - type: Construction # Frontier
     graph: SofasGraph # Frontier
     node: BenchSofaMiddleNode # Frontier
@@ -228,7 +228,7 @@
   - type: Construction # Frontier
     graph: SofasGraph # Frontier
     node: BenchSofaRightNode # Frontier
-    
+
 - type: entity
   name: sofa
   id: BenchSofaCorner
@@ -239,9 +239,9 @@
   components:
   - type: Transform
     anchored: true
-  - type: Rotatable
+#  - type: Rotatable # Aurora's Song
   - type: Sprite
-    sprite: _EE/Structures/Furniture/Benches/sofa.rsi
+    sprite: _AS/Structures/Furniture/Benches/sofa.rsi # AS Edit
     state: corner
   - type: Clickable
   - type: InteractionOutline
@@ -310,7 +310,7 @@
   components:
   - type: Transform
     anchored: true
-  - type: Rotatable
+#  - type: Rotatable # Aurora's Song
   - type: Sprite
     sprite: _EE/Structures/Furniture/Benches/sofa_corp.rsi
     state: corner

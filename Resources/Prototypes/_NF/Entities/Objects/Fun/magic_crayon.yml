@@ -15,7 +15,9 @@
     - Write
     - Crayon
   - type: Crayon
-    capacity: 2147483647 # int.MaxValue, infinite charges
+    deleteEmpty: false # Aurora's Song - Makes sure it won't delete itself
+  - type: AutoRecharge # Aurora's Song - Make auto recharge quite short
+    rechargeDuration: 0.25
   - type: FlavorProfile
     flavors:
     - chewy

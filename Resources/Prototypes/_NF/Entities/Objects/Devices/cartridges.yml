@@ -6,6 +6,8 @@
   - type: Cartridge
     disposable: true
     autoInstall: true
+  - type: Sprite # Aurora's Song - unbreak's upstream carts
+    sprite: Objects/Devices/cartridge.rsi
 
 - type: entity
   parent: NFBasePDACartridge
@@ -42,7 +44,7 @@
       ui: !type:AppraisalUi
     - type: Cartridge
       programName: appraisal-program-name
-      icon: Objects/Tools/appraisal-tool.rsi/icon.png
+      icon: { sprite: Objects/Tools/appraisal-tool.rsi, state: icon }
     - type: AppraisalCartridge
 
 - type: entity
@@ -61,7 +63,7 @@
       ui: !type:LedgerUi
     - type: Cartridge
       programName: ledger-program-name
-      icon: _NF/Interface/icons.rsi/ledger.png
+      icon: { sprite: _NF/Interface/icons.rsi, state: ledger }
       readonly: true
     - type: NFLedgerCartridge
 

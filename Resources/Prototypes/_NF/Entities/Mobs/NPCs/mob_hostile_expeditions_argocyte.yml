@@ -28,8 +28,10 @@
   - type: Sprite
     sprite: Mobs/Aliens/Argocyte/argocyte_common.rsi
   - type: Bloodstream
-    bloodReagent: FluorosulfuricAcid
-    bloodMaxVolume: 75
+    bloodReferenceSolution: # Aurora's Song - Update bloodstream yml
+      reagents:
+      - ReagentId: FluorosulfuricAcid
+        Quantity: 75
   - type: Fixtures
     fixtures:
       fix1:
@@ -56,8 +58,6 @@
       types:
         Blunt: 5
         Structural: 20
-  - type: Body
-    prototype: Animal
   - type: TypingIndicator
     proto: alien
   - type: ReplacementAccent
@@ -596,8 +596,8 @@
     rootTask:
        task: KillerTomatoCompound
     blackboard:
-      NavClimb: !type:Bool
-        false
+      NavClimb: !type:Bool # Aurora's Song - Enable climbing
+        true
       NavInteract: !type:Bool
         true
       NavPry: !type:Bool

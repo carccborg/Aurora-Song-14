@@ -1,0 +1,107 @@
+﻿
+
+# T3
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseKasyreExpedition
+  suffix: Dungeon, Kasyre
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponKasyreLasRifleExpedition
+          amount: 1
+        - id: PowerCellHigh
+          amount: 2
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseShortBasinExpedition
+  suffix: Dungeon, Basin
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponBasinLasPistolExpedition
+          amount: 2
+        - id: PowerCellHigh
+          amount: 2
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongFalchionExpedition
+  suffix: Dungeon, Kammerer
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponShotgunFalchionExpedition
+          amount: 1
+        - id: NFAmmunitionBoxShellShotgunBuckshot
+          amount: 2
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongEstocExpeditionT5
+  suffix: Dungeon, Estoc
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponRifleAssaultEstocExpedition
+          amount: 1
+        - id: NFMagazineDrumRifle20
+          amount: 3
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongEstocExpeditionT4
+  suffix: Dungeon, Estoc
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponRifleAssaultEstocExpedition
+          amount: 1
+        - id: NFMagazineRifle20
+          amount: 4
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseAP4CExpeditionT4
+  suffix: Dungeon, AP4C
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponSubMachineGunAP4CExpedition
+          amount: 1
+        - id: ASMagazineSubMachineGun40
+          amount: 4
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongHushpupExpeditionT4
+  suffix: Dungeon, Hushpup
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASWeaponShotgunHushpupExpedition
+          amount: 1
+        - id: NFAmmunitionBoxShellShotgunBuckshot
+          amount: 2

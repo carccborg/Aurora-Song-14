@@ -1,5 +1,5 @@
-
-- type: entity
+# Limited
+- type: entity # AKMS - Restored by Aurora's Song, intended for memes and reference
   id: ASWeaponRifleAK
   parent: [ NFBaseWeaponRifleAssaultChamber30, NFBaseWeaponFrameRifleAssaultCybersun ]
   name: AKMS
@@ -24,32 +24,48 @@
   - type: Appearance
 
 # Surplus
-- type: entity
+- type: entity # Aurora's Song - Copy of Lecter from NF but legalized with sprite changes
   name: Lecter
   description: |-
     A reliable military-grade assault rifle. On the receiver is a label that says 'Certified Surplus.'
-  parent: [BaseC2Contraband, NFWeaponRifleAssaultLecter]
-  id: ASWeaponRifleSurpLecter
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponRifleAssaultLecter ]
+  id: ASWeaponRifleAssaultSurpLecter
   suffix: Surplus
   components:
   - type: Sprite
-    sprite: _NF/Objects/Weapons/Guns/Rifles/surplecter.rsi
+    sprite: _AS/Objects/Weapons/Guns/Rifles/surplecter.rsi
     layers:
     - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-0
       map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
-    sprite: _NF/Objects/Weapons/Guns/Rifles/surplecter.rsi
+    sprite: _AS/Objects/Weapons/Guns/Rifles/surplecter.rsi
+
+- type: entity # Aurora's Song - Copy of Soland-Moss from NF but legalized with sprite changes
+  id: ASWeaponRifleAssaultSurpSm
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponRifleAssaultSm ]
+  name: Soland-Moss # Renamed: real brand name
+  suffix: Surplus
+  description: |-
+    An iconic weapon of war. Previously a firearm often used by Syndicate agents. On the receiver is a label that says 'Certified Surplus.'
+  components:
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/Rifles/surpsolandmoss.rsi
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/Rifles/surpsolandmoss.rsi
+  - type: MagazineVisuals
+    magState: mag
+    steps: 4
+    zeroVisible: true
 
 # Admin
-
 - type: entity
-  name: Lecter #This is a admeme for the server owner, don't modify this one
+  name: Lecter # Aurora's Song - This is a admeme for the server owner, don't modify this one
   description: |-
     A reliable military-grade assault rifle. Blacked-out finish. On the receiver is a blue spray-paint marking.
   categories: [ HideSpawnMenu ] # Admin-only
-  parent: [BaseC1Contraband, NFWeaponRifleAssaultLecter]
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponRifleAssaultLecter ]
   id: ASWeaponRifleTFLecter
   suffix: TF
   components:
@@ -62,3 +78,49 @@
       map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: _AS/Objects/Weapons/Guns/Rifles/tflecter.rsi
+
+- type: entity
+  name: Estoc DMR
+  parent: [NFBaseWeaponRifleAssaultChamber20, NFBaseWeaponFrameRifleAssaultCybersun] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband
+  id: ASWeaponRifleAssaultEstoc
+  description: A designated marksman rifle, favored for medium-to-long range engagements. Uses .20 rifle ammo.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Rifles/estoc.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Rifles/estoc.rsi
+  - type: Gun
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/estocshot.ogg
+    minAngle: 30
+    maxAngle: 38
+    shotsPerBurst: 3
+    selectedMode: Burst
+    availableModes:
+    - Burst
+    - SemiAuto
+    burstFireRate: 10
+  - type: GunWieldBonus
+    minAngle: -28
+    maxAngle: -25
+  - type: SpeedModifiedOnWield
+    walkModifier: 0.75
+    sprintModifier: 0.75
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 2
+    pvsIncrease: 0.2
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance

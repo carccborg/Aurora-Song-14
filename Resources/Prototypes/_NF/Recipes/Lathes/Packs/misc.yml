@@ -1,8 +1,131 @@
 - type: latheRecipePack
-  id: NFLights
+  id: NFEvaSuitCommon
   recipes:
-  - SodiumLightBulb # Frontier
-  - ExteriorLightBulb #Frontier
+  - ClothingOuterEVASuitContractor
+  - ClothingOuterEVASuitPilot
+  - ClothingOuterEVASuitCaptain
+
+- type: latheRecipePack
+  id: NFLightsStatic
+  recipes:
+  - LightTube
+  - LightBulb
+  - SodiumLightBulb
+  - SodiumLightTube
+  - ExteriorLightBulb
+  - ExteriorLightTube
+  - LedLightBulb
+  - LedLightTube
+  - DimLightBulb    # Aurora's Song
+  - WarmLightBulb   # Aurora's Song
+
+- type: latheRecipePack
+  id: NFBasicToolsStatic
+  recipes:
+  - Wirecutter
+  - Screwdriver
+  - Welder
+  - Wrench
+  - CrowbarGreen
+  - Multitool
+  - AppraisalTool
+  - HandLabeler
+  - Signaller
+  - ClothingMaskWeldingGas
+  - SprayPainter
+  - SprayPainterAmmo
+  - FlashlightLantern
+  - Floodlight
+  - LanternNF
+  - RadioHandheldNF
+  - SurvivalKnife
+  - GasAnalyzer
+  - Igniter
+  - TRayScanner
+  - LightReplacer
+
+- type: latheRecipePack
+  id: NFBasicEVAToolsStatic
+  recipes:
+  - Pickaxe
+  - FlareLathe
+  - BoxDispenserFlare
+  - OreBag
+  - ConstructionBag
+
+- type: latheRecipePack
+  id: NFBasicStorageStatic
+  recipes:
+  - ToolboxArtisticNF
+  - ToolboxElectricalNF
+  - ToolboxMechanicalNF
+  - ToolboxEmergencyNF
+  - UtilityBelt
+  - ClothingOuterVestTank
+
+- type: latheRecipePack
+  id: NFServiceToolsStatic
+  recipes:
+  - ClothingHeadHatCone
+  - SprayBottle
+  - LightReplacer
+  - FireExtinguisher
+  - TrashBag
+  - MopItem
+  - Bucket
+
+- type: latheRecipePack
+  id: NFBasicPartsStatic
+  recipes:
+  - CableStack
+  - CableMVStack
+  - CableHVStack
+  - PowerCellSmall
+  - PowerCellMedium
+  - Beaker
+  - MicroManipulatorStockPart
+  - MatterBinStockPart
+  - CapacitorStockPart
+  - ConveyorBeltAssembly
+  - SheetRGlass
+  - Durathread
+  - MetalRod # Aurora's Song
+
+- type: latheRecipePack
+  id: NFBasicElectronicsStatic
+  recipes:
+  - SignalTimerElectronics
+  - BorgChargerCircuitboard
+  - WeaponCapacitorRechargerCircuitboard
+  - MaterialReclaimerMachineCircuitboard
+
+- type: latheRecipePack
+  id: NFMaterialElectronicsStatic
+  recipes:
+  - NFScrapProcessorCircuitboard
+  - MaterialSiloMachineCircuitboard
+
+- type: latheRecipePack
+  id: NFBasicEvaStatic
+  recipes:
+  - AirTank
+  - DoubleEmergencyAirTank
+  - JetpackMini
+
+- type: latheRecipePack
+  id: NFBasicEvaLightsStatic
+  recipes:
+  - ClothingNeckIFFNeutral
+  - ClothingNeckIFFGreen
+  - ClothingNeckIFFRed
+  - ClothingNeckIFFBlue
+  - ClothingNeckIFFOrange
+  - ClothingNeckIFFPurple
+  - GlowstickBlue
+  - GlowstickGreen # Aurora's Song - GlowstickBase>GlowstickGreen
+  - GlowstickPurple
+  - GlowstickRedLathe
+  - GlowstickYellow
 
 - type: latheRecipePack
   id: NFHardsuits
@@ -23,6 +146,9 @@
   - ClothingOuterHardsuitScaf
   - ClothingOuterHardsuitPilot
   - ClothingOuterHardsuitMaximPrototype
+  - ClothingOuterHardsuitNoble
+  - ClothingOuterHardsuitSurplus
+  - ClothingOuterHardsuitHostileEnvironment
 
 - type: latheRecipePack
   id: NFPouches

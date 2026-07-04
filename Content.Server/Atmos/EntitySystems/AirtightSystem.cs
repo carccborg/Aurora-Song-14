@@ -1,6 +1,7 @@
 using Content.Server.Atmos.Components;
 using Content.Server.Explosion.EntitySystems;
 using Content.Shared.Atmos;
+using Content.Shared.Power;
 using JetBrains.Annotations;
 using Robust.Shared.Map.Components;
 
@@ -21,17 +22,22 @@ namespace Content.Server.Atmos.EntitySystems
             SubscribeLocalEvent<AirtightComponent, AnchorStateChangedEvent>(OnAirtightPositionChanged);
             SubscribeLocalEvent<AirtightComponent, ReAnchorEvent>(OnAirtightReAnchor);
             SubscribeLocalEvent<AirtightComponent, MoveEvent>(OnAirtightMoved);
+            SubscribeLocalEvent<AirtightComponent, PowerChangedEvent>(OnPowerChanged);
         }
 
         private void OnAirtightInit(Entity<AirtightComponent> airtight, ref ComponentInit args)
         {
-            // TODO AIRTIGHT what FixAirBlockedDirectionInitialize even for?
-            if (!airtight.Comp.FixAirBlockedDirectionInitialize)
+            // If this entity blocks air in all directions (e.g. full tile walls, doors, and windows)
+            // we can skip some expensive logic.
+            if (airtight.Comp.InitialAirBlockedDirection == (int)AtmosDirection.All)
             {
+                airtight.Comp.CurrentAirBlockedDirection = airtight.Comp.InitialAirBlockedDirection;
                 UpdatePosition(airtight);
                 return;
             }
 
+            // Otherwise we need to determine its current blocked air directions based on rotation
+            // and check if it's still airtight.
             var xform = Transform(airtight);
             airtight.Comp.CurrentAirBlockedDirection =
                 (int) Rotate((AtmosDirection) airtight.Comp.InitialAirBlockedDirection, xform.LocalRotation);
@@ -122,8 +128,8 @@ namespace Content.Server.Atmos.EntitySystems
 
         public void InvalidatePosition(Entity<MapGridComponent?> grid, Vector2i pos)
         {
-            var query = EntityManager.GetEntityQuery<AirtightComponent>();
-            _explosionSystem.UpdateAirtightMap(grid, pos, grid, query);
+            var query = GetEntityQuery<AirtightComponent>();
+            _explosionSystem.UpdateAirtightMap(grid, pos, grid);
             _atmosphereSystem.InvalidateTile(grid.Owner, pos);
         }
 
@@ -146,6 +152,17 @@ namespace Content.Server.Atmos.EntitySystems
             }
 
             return newAirBlockedDirs;
+        }
+
+        /// <summary>
+        /// Aurora's Song - Sets airtight state based on power state
+        /// </summary>
+        private void OnPowerChanged(EntityUid uid, AirtightComponent component, ref PowerChangedEvent args)
+        {
+            if (component.RequiresPower)
+            {
+                SetAirblocked((uid, component), args.Powered);
+            }
         }
     }
 

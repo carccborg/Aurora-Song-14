@@ -90,8 +90,10 @@
     solution: tank
   - type: InjectableSolution
     solution: tank
-  - type: Drink
+  - type: Edible # Aurora's Song - Convert to edible from Drink
+    edible: Drink
     solution: tank
+    destroyOnEmpty: false # Aurora's Song: DO NOT EAT IT
   - type: Spillable
     solution: tank
   - type: DumpableSolution

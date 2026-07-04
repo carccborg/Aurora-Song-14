@@ -1,13 +1,24 @@
 - type: entity
-  id: ClothingBeltArcadia
+  id: ClothingWebbingArcadia
   name: arcadia webbing
-  parent: [ NFClothingBeltStorageHolsterBase, BaseC3ContrabandNoValue, ContrabandClothing ]
-  description: A webbing created by Arcadia Industries. Seems very capable of fitting many items.
+  parent: [ NFClothingBeltStorageBase, BaseC3ContrabandNoValue, ContrabandClothing ]
+  description: Webbing created by Arcadia Industries. Seems very capable of fitting many items.
   components:
   - type: Sprite
-    sprite: _NF/Clothing/Belt/arcadia.rsi
+    sprite: _NF/Clothing/Belt/arcadia_webbing.rsi
   - type: Clothing
-    sprite: _NF/Clothing/Belt/arcadia.rsi
+    sprite: _NF/Clothing/Belt/arcadia_webbing.rsi
+
+- type: entity
+  id: ClothingBeltArcadia
+  name: arcadia belt
+  parent: [ NFClothingBeltStorageBase, BaseC3ContrabandNoValue, ContrabandClothing ]
+  description: A belt created by Arcadia Industries. Seems very capable of fitting many items.
+  components:
+  - type: Sprite
+    sprite: _NF/Clothing/Belt/arcadia_belt.rsi
+  - type: Clothing
+    sprite: _NF/Clothing/Belt/arcadia_belt.rsi
 
 - type: entity
   parent: NFClothingBeltStorageBase
@@ -34,8 +45,8 @@
           - Bottle
           - DrinkBottle
           components:
-          - Drink
-          - Hypospray
+          - Edible # Aurora's Song - Drink>Edible
+          - Injector # Aurora's Song - Hypospray>Injector
       censer:
         whitelist:
           tags:
@@ -63,9 +74,9 @@
     sprite: _NF/Clothing/Belt/pilot.rsi
 
 - type: entity
-  parent: [ BaseC2ContrabandUnredeemable, ClothingBeltAssault ]
+  parent: [ BaseC2ContrabandUnredeemable, NFClothingBeltStorageBase ] # Aurora's Song - ClothingBeltAssasult>NFClothingBeltStorageBase
   id: ClothingBeltNfsd
-  name: SLE belt
+  name: NFSD belt
   description: A tactical assault belt.
   components:
   - type: Sprite
@@ -76,7 +87,7 @@
 - type: entity
   parent: [ BaseC2ContrabandUnredeemable, ClothingBeltSecurityWebbing ]
   id: ClothingBeltNfsdWebbing
-  name: SLE webbing
+  name: NFSD webbing
   description: A tactical assault webbing.
   components:
   - type: Sprite

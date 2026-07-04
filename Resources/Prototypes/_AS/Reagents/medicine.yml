@@ -1,106 +1,96 @@
-﻿- type: reagent #Aurora Polymorph Chem
-  id: Mothrazine
-  name: reagent-name-mothrazine
-  group: Toxins
-  desc: reagent-desc-mothrazine
-  flavor: fluffy
-  physicalDesc: reagent-physical-desc-fluffy
-  color: "#ffc1c1"
+- type: reagent
+  id: Purge
+  name: reagent-name-purge
+  group: Elements
+  desc: reagent-desc-purge
+  physicalDesc: reagent-physical-desc-metallic
+  flavor: metallic
+  color: "#EDFAFF"
   metabolisms:
-    Drink:
-      metabolismRate: 0.15
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
+      metabolismRate: 0.5
       effects:
-        - !type:Emote
-          emote: Chitter
-          showInChat: true
-          force: true
-          probability: 0.18
-        - !type:Polymorph
-          prototype: ChemicalMothroach
-          conditions:
-            - !type:NFIsHumanoid
-            - !type:ReagentThreshold
-              min: 10
-        - !type:AdjustReagent
-          reagent: Mothrazine
-          amount: -3
-          conditions:
-            - !type:ReagentThreshold
-              min: 10
+      - !type:AdjustReagent
+        reagent: ScaryDrugs
+        amount: -7
+      - !type:AdjustReagent
+        reagent: Serenity
+        amount: -7
+      - !type:AdjustReagent
+        reagent: Agony
+        amount: -7
+      - !type:AdjustReagent
+        reagent: ForceFemDrugs
+        amount: -7
+      - !type:AdjustReagent
+        reagent: Pomelustine
+        amount: -7
+      - !type:AdjustReagent
+        reagent: Philterex
+        amount: -7
+      - !type:AdjustReagent
+        reagent: Libidozenithizine
+        amount: -7
+      - !type:AdjustReagent
+        reagent: MilkingDrugs
+        amount: -7
 
-- type: reagent #Aurora Polymorph Chem
-  id: Catgirlium
-  name: reagent-name-catgirlium
-  group: Toxins
-  desc: reagent-desc-catgirlium
-  flavor: sweet
-  physicalDesc: reagent-physical-desc-powdery
-  color: "#e0ffff"
+- type: reagent
+  id: StrongHeartBrew
+  name: reagent-name-strong-heart-brew
+  group: Medicine
+  desc: reagent-desc-strong-heart-brew
+  physicalDesc: reagent-physical-desc-hearty
+  flavor: oaken
+  color: "#63542b"
+  tags:
+  - Cryogenic
   metabolisms:
-    Drink:
-      metabolismRate: 0.15
-      effects:
-        - !type:Emote
-          emote: Meow
-          showInChat: true
-          force: true
-          probability: 0.09
-        - !type:Polymorph
-          prototype: ChemicalFelinid
-          conditions:
-            - !type:NFIsHumanoid
-            - !type:ReagentThreshold
-              min: 15
-        - !type:AdjustReagent
-          reagent: Catgirlium
-          amount: -2
-          conditions:
-            - !type:ReagentThreshold
-              min: 15
-        - !type:GenericStatusEffect
-          key: Stutter
-          component: ScrambledAccent
-
-- type: reagent #Aurora Polymorph Chem, wip
-  id: Davisicium
-  name: reagent-name-davisicium
-  group: Toxins
-  desc: reagent-desc-davisicium
-  flavor: flat
-  physicalDesc: reagent-physical-desc-buzzy
-  color: "#FFDE21"
-  metabolisms:
-    Poison:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
+      metabolismRate: 1.0
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
-          min: 15
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
+        - !type:TemperatureCondition
+          max: 213.0
         damage:
           types:
-            Asphyxiation: 2
-    Narcotic:
+            Asphyxiation: -1.5
+            Bloodloss: -1.5
+            Poison: -1
+            Radiation: -1
+      - !type:ModifyBloodLevel
+        amount: 2
+      - !type:SatiateThirst
+        factor: 2
+
+- type: reagent
+  id: WarriorsBlood
+  name: reagent-name-warriors-blood
+  group: Medicine
+  desc: reagent-desc-warriors-blood
+  physicalDesc: reagent-physical-desc-sanguine
+  flavor: warriorBlood
+  color: "#470000"
+  tags:
+  - Cryogenic
+  metabolisms:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
+      metabolismRate: 2.5
       effects:
-      - !type:MovespeedModifier
-        walkSpeedModifier: 1.20
-        sprintSpeedModifier: 1.20
-    Drink:
-      metabolismRate: 0.15
-      effects:
-        - !type:Emote
-          emote: Buzz
-          showInChat: true
-          force: true
-          probability: 0.18
-        - !type:Polymorph
-          prototype: ChemicalBee
-          conditions:
-            - !type:NFIsHumanoid
-            - !type:ReagentThreshold
-              min: 20
-        - !type:AdjustReagent
-          reagent: Davisicium
-          amount: -3
-          conditions:
-            - !type:ReagentThreshold
-              min: 20
+      - !type:ModifyBleed
+        amount: -2
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Sheleg ]
+        - !type:TemperatureCondition
+          max: 213.0
+        damage:
+          types:
+            Piercing: -1.5
+            Slash: -2
+            Blunt: -2.5
+            Heat: -2

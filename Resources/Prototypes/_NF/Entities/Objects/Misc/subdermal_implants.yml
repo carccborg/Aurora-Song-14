@@ -23,7 +23,7 @@
       mobState:
       - Critical
       - Dead
-    - type: Rattle
+    - type: RattleOnTrigger
       radioChannel: "Medical"
 
 - type: entity
@@ -49,7 +49,7 @@
       mobState:
       - Critical
       - Dead
-    - type: Rattle
+    - type: RattleOnTrigger
       radioChannel: "Freelance"
 
 - type: entity
@@ -66,6 +66,7 @@
     - Dead
     - Critical
   - type: GibOnTrigger
+    targetUser: true # Aurora's Song - Add targetUser
     deleteItems: true
     deleteOrgans: true
   - type: SpawnOnTrigger
@@ -85,8 +86,9 @@
   components:
   - type: SubdermalImplant
     permanent: true
-  - type: TriggerOnBeingGibbed
+  #  - type: TriggerOnBeingGibbed # Aurora's Song - Remove TriggerOnBeingGibbed
   - type: GibOnTrigger
+    targetUser: true # Aurora's Song - Add targetUser
     deleteItems: true
     deleteOrgans: true
   - type: SpawnOnTrigger
@@ -158,7 +160,7 @@
   - type: SubdermalImplant
     implantAction: ActionActivateDissonantWhispersImplant
     permanent: true
-  - type: TriggerImplantAction
+  - type: TriggerOnActivateImplant # Aurora's Song - TriggerImplantAction>TriggerOnActivateImplant
   - type: EmitSoundOnTrigger
     sound:
       path: /Audio/_NF/Effects/bloodcult/whispers.ogg

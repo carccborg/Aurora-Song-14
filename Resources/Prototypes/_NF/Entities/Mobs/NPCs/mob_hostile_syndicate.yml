@@ -7,14 +7,13 @@
   - NFMobNoEquipmentOnGib
   - MobStaminaFodder
   - MobMovementSpeedModifierRanged
+  - BaseMobHumanSynthetic # Aurora's Song - Nubody
   - MobHumanoidHostileBase
   - MobHumanoidInvetory
   - MobHumanoidHostileAISimpleRanged
   id: MobSyndicateNavalBase
   components:
-  - type: Body
-    prototype: HumanSyntheticOrgans # New set of synthetic organs grants faster removal of toxins from bloodstream
-    requiredLegs: 2
+  - type: CombatMode # Aurora's Song - Enable NavSmash behavior
   - type: NpcFactionMember
     factions:
     - NFSyndicate
@@ -35,11 +34,12 @@
     rechargeCooldown: 1
     rechargeSound:
       path: /Audio/_NF/Effects/silence.ogg
-  - type: Advertise
-    pack: syndicatehumanoidchatter
-    minimumWait: 30
-    maximumWait: 120
-    nextAdvertisementTime: 10
+  - type: Vocalizer
+    minVocalizeInterval: 30
+    maxVocalizeInterval: 120
+    hideChat: true
+  - type: DatasetVocalizer
+    dataset: syndicatehumanoidchatter
   - type: AutoWakeUp
 
 #region Humans
@@ -258,11 +258,10 @@
     - type: Loadout
       prototypes:
         - SyndicateNavalSecondOfficerGearA
-    - type: ProjectileBatteryAmmoProvider
+    - type: BatteryAmmoProvider # Aurora's Song - ProjectileBatteryAmmoProvider>BatteryAmmoProvider
       proto: NFBulletLaserLow
       fireCost: 100
     - type: BatterySelfRecharger
-      autoRecharge: true
       autoRechargeRate: 50
     - type: Battery
       maxCharge: 600
@@ -305,7 +304,7 @@
     - type: Loadout
       prototypes:
         - SyndicateNavalSecondOfficerGearD
-    - type: ProjectileBatteryAmmoProvider
+    - type: BatteryAmmoProvider # Aurora's Song - ProjectileBatteryAmmoProvider>BatteryAmmoProvider
       proto: NFBulletLaserLow
       fireCost: 50
 
@@ -684,11 +683,11 @@
     - type: Loadout
       prototypes:
         - SyndicateNavalMimeGear
-    - type: Advertise
-      pack: mimehumanoidchatter
-      minimumWait: 120
-      maximumWait: 240
-      nextAdvertisementTime: 0
+    - type: Vocalizer
+      minVocalizeInterval: 120
+      maxVocalizeInterval: 240
+    - type: DatasetVocalizer
+      dataset: mimehumanoidchatter
 
 # Syndicate Chemwarrior, shoots healthy mixes of chems
 # Look for chems here: /Resources/Prototypes/_NF/Entities/Objects/Weapons/Ammunition/Projectiles/chem.yml

@@ -5,6 +5,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using System.Numerics;
 using DrawDepth = Content.Shared.DrawDepth.DrawDepth;
 
 namespace Content.Client._NF.Roles.Systems;
@@ -59,6 +60,9 @@ public sealed class InterviewHologramSystem : SharedInterviewHologramSystem
 
     private void UpdateHologramShader(EntityUid uid, SpriteComponent sprite, InterviewHologramComponent hologramComp)
     {
+        if (!sprite.AllLayers.Any())
+            return;
+
         // Find the texture height of the largest layer
         float texHeight = sprite.AllLayers.Max(x => x.PixelSize.Y);
 

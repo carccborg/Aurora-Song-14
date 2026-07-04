@@ -1,0 +1,31 @@
+- type: department
+  id: ColonialCommand
+  name: department-ColonialCommand
+  description: department-ColonialCommand-description
+  color: "#1C4D8D"
+  roles:
+  - ColonialCommandOfficial
+  - CAFLeader
+  - CAFTrooper
+  - CAFEngineer
+  - CAFMedical
+  editorHidden: true
+  weight: 120
+
+- type: department
+  id: AuroraMedicalClinic
+  name: department-aurora-clinic
+  description: department-aurora-clinic-description
+  color: "#57b8f0"
+  roles:
+  - DirectorOfCare
+  - Medic
+
+- type: department
+  id: DamascusManufactory
+  name: department-damascus
+  description: department-damascus-description
+  color: "#b0c4de"
+  roles:
+  - SiteManager
+  - SiteWorker

@@ -1,0 +1,47 @@
+﻿# Aurora Song - AS Medical Bounty System
+# Based on New Frontier Station 14's Medical Bounty System
+# Original implementation: https://github.com/new-frontiers-14/frontier-station-14
+# Redemption machine for AS medical bounties
+
+- type: entity
+  parent: [MachineMedicalBountyRedemption]
+  id: ASMachineMedicalBountyRedemption
+  name: patient discharge unit
+  description: A specialized medical terminal for processing patient discharges and rewards. Insert healed patients to receive payment.
+  components:
+  - type: Sprite
+    sprite: _NF/Structures/Machines/body_retrieval_unit.rsi
+    snapCardinals: true
+    color: "#A0C0FF"
+    layers:
+    - state: closed
+      map: ["base"]
+    - state: left_on_unlit
+      shader: unshaded
+      map: ["lights"]
+      visible: false
+  - type: UserInterface
+    interfaces:
+      enum.ASMedicalBountyRedemptionUiKey.Key:
+        type: ASMedicalBountyRedemptionBoundUserInterface
+  - type: ActivatableUI
+    key: enum.ASMedicalBountyRedemptionUiKey.Key
+  - type: AccessReader
+    access: [["Medical"]]
+  - type: ASMedicalBountyRedemption
+    bodyContainer: body_container
+    taxAccounts:
+      Medical: 0.75
+  - type: GenericVisualizer
+    visuals:
+      enum.ASMedicalBountyRedemptionVisuals.Full:
+        base:
+          True: { state: closed_full }
+          False: { state: closed }
+        lights:
+          True: { state: both_on_unlit }
+          False: { state: left_on_unlit }
+      enum.PowerDeviceVisuals.Powered:
+        lights:
+          True: { visible: true }
+          False: { visible: false }

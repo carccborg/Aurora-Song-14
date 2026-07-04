@@ -3,8 +3,9 @@
   parent: BaseItem
   id: FrontierUplinkCoin
   suffix: 20 TC
-  description: A token awarded to the SLE for turning in contraband. It can be exchanged in an SLE uplink device for a variety of law enforcement tools.
+  description: A token awarded to the NFSD for turning in contraband. It can be exchanged in an NFSD uplink device for a variety of law enforcement tools.
   components:
+  - type: NFCoin # Aurora's Song
   - type: Sprite
     sprite: _NF/Objects/Specific/Security/frontieruplinkcoin.rsi
     state: frontieruplinkcoin
@@ -47,10 +48,12 @@
     count: 10
 
 # Uplinks
+
+# Aurora's Song - NFSD Uplinks converted to SLE
 - type: entity
   parent: [ BaseItem, StorePresetSecurityUplink ]
   id: BaseSecurityUplinkRadio
-  name: SLE uplink
+  name: SLE uplink # Aurora's Song - changed to SLE uplink
   description: Retro looking old radio...
   suffix: Empty
   categories: [ HideSpawnMenu ]
@@ -84,7 +87,7 @@
 - type: entity
   parent: BaseSecurityUplinkRadio
   id: BaseSecurityUplinkRadioSheriff
-  suffix: Sheriff 20
+  suffix: Commissioner 20 # Aurora's Song - changed from Sheriff to Commissioner
   components:
   - type: Store
     balance:
@@ -100,7 +103,7 @@
       FrontierUplinkCoin: 15
 
 - type: entity
-  name: SLE deployable barrier
+  name: NFSD deployable barrier
   id: NfsdDeployableBarrier
   description: A deployable barrier. Swipe your ID card to lock/unlock it.
   parent: DeployableBarrier

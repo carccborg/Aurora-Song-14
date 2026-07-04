@@ -3,6 +3,7 @@
 - type: latheRecipePack
   id: ToolsStatic
   recipes:
+  - VoiceSensor
   - Wirecutter
   - Screwdriver
   - Welder
@@ -46,6 +47,7 @@
   # - CellRechargerCircuitboard # Frontier: use WeaponCapacitorRecharger* instead
   - WeaponCapacitorRechargerCircuitboard
   - FreezerElectronics
+  - PortableSMESMachineCircuitboard # Frontier
 
 - type: latheRecipePack
   id: EngineeringBoardsStatic

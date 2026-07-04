@@ -4,6 +4,8 @@ using Content.Shared._EE.Silicon.WeldingHealing;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Tools;
@@ -90,12 +92,12 @@ public sealed class WeldingHealableSystem : SharedWeldingHealableSystem
 
  private bool HasDamage(DamageableComponent component, WeldingHealingComponent healable)
     {
-        if (healable.Damage.DamageDict is null)
-            return false;
-
+        // Aurora's Song - Replace with TryGetValue
         foreach (var type in healable.Damage.DamageDict)
-            if (component.Damage.DamageDict[type.Key].Value > 0)
+        {
+            if (component.Damage.DamageDict.TryGetValue(type.Key, out var value) && value > 0)
                 return true;
+        }
 
         return false;
     }

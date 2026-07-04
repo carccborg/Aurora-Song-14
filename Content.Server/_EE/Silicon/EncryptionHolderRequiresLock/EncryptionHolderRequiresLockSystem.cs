@@ -24,5 +24,7 @@ public sealed class EncryptionHolderRequiresLockSystem : EntitySystem
 
         keyHolder.KeysUnlocked = !lockComp.Locked;
         _encryptionKeySystem.UpdateChannels(uid, keyHolder);
+
+        Dirty(uid, keyHolder); // Aurora's Song - Fix IPC encryption key prediction
     }
 }

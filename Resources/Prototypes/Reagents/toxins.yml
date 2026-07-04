@@ -5,14 +5,16 @@
   desc: reagent-desc-toxin
   flavor: bitter
   color: "#cf3600"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-opaque
+  contrabandSeverity: Minor
   plantMetabolism:
   - !type:PlantAdjustToxins
     amount: 10
   - !type:PlantAdjustHealth
     amount: -5
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -26,14 +28,17 @@
   desc: reagent-desc-carpotoxin
   flavor: bitter
   color: "#e2a38c"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-exotic-smelling
+  allowedDepartments:
+  - Medical
   plantMetabolism:
   - !type:PlantAdjustToxins
     amount: 10
   - !type:PlantAdjustHealth
     amount: -5
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -52,26 +57,27 @@
   desc: reagent-desc-chloral-hydrate
   flavor: bitter
   color: "#000067"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-nondescript
+  allowedDepartments:
+  - Medical
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:Emote
         emote: Yawn
         showInChat: true
         probability: 0.1
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 0.65
         sprintSpeedModifier: 0.65
-      - !type:GenericStatusEffect
-        key: Drowsiness
-        component: Drowsiness
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectDrowsiness
         time: 4
-        type: Add
-        refresh: false
+        type: Update
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: ChloralHydrate
           min: 20
         damage:
@@ -85,17 +91,19 @@
   desc: reagent-desc-gastrotoxin
   flavor: bitter
   color: "#acc91a"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-putrid
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
         - !type:HealthChange
           damage:
             types:
               Poison: 2
-        - !type:ChemVomit
+        - !type:Vomit
           conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: GastroToxin
             min: 2
           probability: 0.2
 
@@ -106,15 +114,16 @@
   desc: reagent-desc-mold
   flavor: bitter
   color: "#8a9a5b"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   recognizable: true
   physicalDesc: reagent-physical-desc-fuzzy
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Human
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Human ]
         damage:
           types:
             Poison: 1
@@ -125,8 +134,10 @@
   group: Toxins
   desc: reagent-desc-polytrinic-acid
   physicalDesc: reagent-physical-desc-strong-smelling
+  contrabandSeverity: Major
   flavor: acid
   color: "#a1000b"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   boilingPoint: 78.2 # This isn't a real chemical...
   meltingPoint: -19.4
   plantMetabolism:
@@ -141,7 +152,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -150,7 +160,7 @@
         emote: Scream
         probability: 0.3
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate : 3.00 # High damage, high metabolism rate. You need a lot of units to crit. Simulates acid burning through you fast.
       effects:
       - !type:HealthChange
@@ -173,14 +183,14 @@
   desc: reagent-desc-ferrochromic-acid
   flavor: sour
   color: "#48b3b8"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-ferrous
   metabolisms:
-    Drink:
+    Bloodstream:
       effects:
       - !type:SatiateThirst
         factor: -1.5
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: true
         damage:
           types:
@@ -193,8 +203,10 @@
   group: Toxins
   desc: reagent-desc-fluorosulfuric-acid
   physicalDesc: reagent-physical-desc-strong-smelling
+  contrabandSeverity: Minor
   flavor: acid
   color: "#5050ff"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   boilingPoint: 165
   meltingPoint: -87
   reactiveEffects:
@@ -202,7 +214,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -211,7 +222,7 @@
         emote: Scream
         probability: 0.2
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 3.00 # High damage, high metabolism rate. You need a lot of units to crit. Simulates acid burning through you fast.
       effects:
       - !type:HealthChange
@@ -233,8 +244,11 @@
   group: Toxins
   desc: reagent-desc-sulfuric-acid
   physicalDesc: reagent-physical-desc-oily
+  allowedJobs:
+  - Chemist
   flavor: acid
   color: "#BF8C00"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   recognizable: true
   boilingPoint: 337.0
   meltingPoint: 10.31
@@ -250,7 +264,6 @@
       methods: [ Touch ]
       effects:
       - !type:HealthChange
-        scaleByQuantity: true
         ignoreResistances: false
         damage:
           types:
@@ -259,7 +272,7 @@
         emote: Scream
         probability: 0.1
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 3.00 # Okay damage, high metabolism rate. You need a lot of units to crit. Simulates acid burning through you fast.
       effects:
       - !type:HealthChange
@@ -281,15 +294,19 @@
   group: Toxins
   desc: reagent-desc-unstable-mutagen
   physicalDesc: reagent-physical-desc-glowing
+  allowedJobs:
+  - Chemist
+  - Botanist
   flavor: bitter
   color: "#00ff5f"
-  boilingPoint: 340282300000000000000000000000000000000 # Ethidium bromide, which doesn't boil.
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
+  boilingPoint: 340282300 # Ethidium bromide, which doesn't boil.
   meltingPoint: 261.0
   plantMetabolism:
   - !type:PlantAdjustMutationLevel
     amount: 1
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -302,9 +319,11 @@
   group: Toxins
   desc: reagent-desc-heartbreaker-toxin
   physicalDesc: reagent-physical-desc-strong-smelling
+  contrabandSeverity: Major
   color: "#5f959c"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -320,14 +339,17 @@
   group: Toxins
   desc: reagent-desc-lexorin
   physicalDesc: reagent-physical-desc-pungent
+  contrabandSeverity: Syndicate
   color: "#6b0007"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
-          groups:
-            Airloss: 10
+          types:
+            Asphyxiation: 5
+            Bloodloss: 5
 
 - type: reagent
   id: MindbreakerToxin
@@ -336,19 +358,18 @@
   desc: reagent-desc-mindbreaker-toxin
   physicalDesc: reagent-physical-desc-opaque
   flavor: bitter
-  color: "#77b58e"
+  color: "#53b598" # TheDen - Slightly cooler color to differentiate it from space drugs
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   plantMetabolism:
   - !type:PlantAdjustToxins
     amount: 10
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
-      - !type:GenericStatusEffect
-        key: SeeingRainbows
-        component: SeeingRainbows
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectSeeingRainbow
         type: Add
         time: 10
-        refresh: false
   # TODO: PROPER hallucinations
 
 - type: reagent
@@ -358,24 +379,25 @@
   desc: reagent-desc-histamine
   physicalDesc: reagent-physical-desc-abrasive
   color: "#FA6464"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         probability: 0.1
         damage:
-          groups:
-            Brute: 2
+          types:
+            Blunt: 2
       # todo: cough, sneeze
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Histamine
           min: 45
         damage:
-          groups:
-            Brute: 2
-            Airloss: 2
           types:
+            Blunt: 2
+            Asphyxiation: 2
             Poison: 2
       - !type:PopupMessage
         type: Local
@@ -383,7 +405,8 @@
         probability: 0.1
       - !type:PopupMessage
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Histamine
           min: 45
         type: Local
         visualType: Medium
@@ -397,25 +420,26 @@
   desc: reagent-desc-theobromine
   physicalDesc: reagent-physical-desc-grainy
   color: "#f5f5f5"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   meltingPoint: 351
   boilingPoint: 554 # I'm not a chemist, but it boils at 295, lower than melting point, idk how it works so I gave it higher value
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.04 # DeltaV - Slowed to allow coffee/etc to build up theobromine
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Animal # Applying damage to the mobs with lower metabolism capabilities
+        - !type:MetabolizerTypeCondition
+          type: [Animal] # Applying damage to the mobs with lower metabolism capabilities
         damage:
           types:
             Poison: 0.3 # DeltaV - slightly reduced to account for slowed metabolism rate
-      - !type:ChemVomit
-        probability: 0.1 #Scaled for time, not metabolismrate. # DeltaV - Increased from .04 Vomit more when there is a lot of it
+      - !type:Vomit
+        probability: 0.01 #Scaled for time, not metabolismrate. # DeltaV - Increased from .04 Vomit more when there is a lot of it
         conditions:
-          - !type:OrganType
-            type: Animal
-          - !type:ReagentThreshold # DeltaV - Readded this. No longer causes vomitting at the lightest whiff of coffee
+          - !type:MetabolizerTypeCondition
+            type: [Animal]
+          - !type:ReagentCondition # DeltaV - Readded this. No longer causes vomitting at the lightest whiff of coffee # Aurora's Song - ReagentThreshold>ReagentCondition
             reagent: Theobromine
             min: 0.5
 
@@ -425,9 +449,11 @@
   group: Toxins
   desc: reagent-desc-amatoxin
   physicalDesc: reagent-physical-desc-nondescript
+  contrabandSeverity: Major
   color: "#D6CE7B"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.2
       effects:
       - !type:HealthChange
@@ -443,8 +469,9 @@
   physicalDesc: reagent-physical-desc-sticky
   flavor: bitter
   color: "#000000"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
         - !type:HealthChange
           damage:
@@ -457,15 +484,18 @@
   group: Toxins
   desc: reagent-desc-romerol
   physicalDesc: reagent-physical-desc-necrotic
+  contrabandSeverity: Syndicate
   flavor: bitter
   color: "#7e916e"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   worksOnTheDead: true
   metabolisms:
-    Medicine:
+    Bloodstream:
       effects:
         - !type:CauseZombieInfection
           conditions:
-            - !type:ReagentThreshold
+            - !type:ReagentCondition
+              reagent: Romerol
               min: 5
 
 - type: reagent
@@ -476,58 +506,57 @@
   physicalDesc: reagent-physical-desc-clumpy
   flavor: bitter
   color: "#FFFFE5"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Food:
+    Bloodstream:
       effects:
       - !type:PopupMessage
         conditions:
-          - !type:OrganType
-            type: Animal
-            shouldHave: false
-          - !type:OrganType
-            type: Vox
-            shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox ]
+          inverted: true
         type: Local
         visualType: MediumCaution
         messages: [ "generic-reagent-effect-sick" ]
         probability: 0.5
-      - !type:ChemVomit
+      - !type:Vomit
         probability: 0.1
         conditions:
-          - !type:OrganType
-            type: Animal
-            shouldHave: false
-          - !type:OrganType
-            type: Vox
-            shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox, Plant ]
+          inverted: true
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Animal
-          shouldHave: false
-        - !type:OrganType
-          type: Vox
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Animal, Vox, Plant ]
+          inverted: true
         damage:
           types:
             Poison: 1
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Plant ]
+        damage:
+          types:
+            Poison: .25
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [ Animal ]
         reagent: Protein
         amount: 0.5
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Vox
+        - !type:MetabolizerTypeCondition
+          type: [ Vox ]
         reagent: Protein
         amount: 0.25
       # Frontier: goblin metabolism
       - !type:AdjustReagent
         conditions:
-        - !type:OrganType
-          type: Goblin
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Goblin ]
         reagent: Protein
         amount: 0.5
       # End Frontier: goblin metabolism
@@ -540,16 +569,18 @@
   physicalDesc: reagent-physical-desc-pungent
   flavor: bitter
   color: "#F2E9D2"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Digestion:
       metabolismRate: 0.05
       effects:
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Allicin
           min: 1
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [Animal]
         damage:
           types:
             Poison: 0.06
@@ -560,14 +591,17 @@
   group: Narcotics
   desc: reagent-desc-pax
   physicalDesc: reagent-physical-desc-soothing
+  allowedDepartments:
+  - Security
+  - Medical
   color: "#AAAAAA"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:GenericStatusEffect
         key: Pacified
         component: Pacified
-        type: Add
         time: 4
 
 - type: reagent
@@ -578,8 +612,9 @@
   physicalDesc: reagent-physical-desc-pungent
   flavor: bitter
   color: "#F2E9D2"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.05
       effects:
       - !type:Emote
@@ -590,10 +625,11 @@
         probability: 0.2
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Honk
           min: 1
-        - !type:OrganType
-          type: Animal
+        - !type:MetabolizerTypeCondition
+          type: [ Animal ]
         damage:
           types:
             Poison: 0.06
@@ -605,9 +641,11 @@
   group: Toxins
   desc: reagent-desc-lead
   physicalDesc: reagent-physical-desc-metallic
+  contrabandSeverity: Major
   color: "#5C6274"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.03 # Effectively once every 30 seconds.
       effects:
       - !type:HealthChange
@@ -621,9 +659,11 @@
   group: Toxins
   desc: reagent-desc-bungotoxin
   physicalDesc: reagent-physical-desc-nondescript
+  contrabandSeverity: Major
   color: "#EBFF8E"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.2
       effects:
       - !type:HealthChange
@@ -637,22 +677,31 @@
   group: Toxins
   desc: reagent-desc-vestine
   physicalDesc: reagent-physical-desc-shiny
+  contrabandSeverity: Syndicate
   flavor: medicine
   color: "#435166"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
+  plantMetabolism:
+  - !type:PlantMutateChemicals
+    randomPickBotanyReagent: EvilRandomFillSolution
+  - !type:PlantAdjustToxins
+    amount: 10
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:Jitter
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: Vestine
           min: 5
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         walkSpeedModifier: 0.8
         sprintSpeedModifier: 0.8
       - !type:HealthChange
         damage:
-          groups:
-            Airloss: 2
+          types:
+            Asphyxiation: 1
+            Bloodloss: 1
 
 - type: reagent
   id: Tazinide
@@ -660,13 +709,17 @@
   group: Toxins
   desc: reagent-desc-tazinide
   physicalDesc: reagent-physical-desc-metallic
+  contrabandSeverity: Syndicate
   flavor: shocking
   color: "#FDD023"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
+      metabolismRate: 2.0
       effects:
       - !type:Electrocute
-        probability: 0.8
+        electrocuteTime: 1
+        probability: 0.5
 
 - type: reagent
   id: Lipolicide
@@ -674,14 +727,17 @@
   group: Toxins
   desc: reagent-desc-lipolicide
   physicalDesc: reagent-physical-desc-strong-smelling
+  allowedDepartments:
+  - Medical
   flavor: mothballs #why does weightloss juice taste like mothballs
   color: "#F0FFF0"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         conditions:
-        - !type:Hunger
+        - !type:HungerCondition
           max: 50
         damage:
           types:
@@ -698,37 +754,38 @@
   desc: reagent-desc-mechanotoxin
   flavor: sweet
   color: "#00b408"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   physicalDesc: reagent-physical-desc-nondescript
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.2 # Slower metabolism so it can build up over time for slowdown
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         damage:
           types:
             Poison: 1.6
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: Mechanotoxin
           min: 2
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         walkSpeedModifier: 0.8
         sprintSpeedModifier: 0.8
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
           reagent: Mechanotoxin
           min: 4
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [Arachnid]
+          inverted: true
         walkSpeedModifier: 0.4
         sprintSpeedModifier: 0.4
 
@@ -739,11 +796,32 @@
   desc: reagent-desc-toxintrash
   flavor: trashy
   physicalDesc: reagent-physical-desc-nondescript
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
   metabolisms:
-    Food:
+    Digestion:
       effects:
       - !type:SatiateHunger
         factor: 0.2 # Frontier: 1<0.2
         conditions:
-        - !type:OrganType
-          type: Vox
+        - !type:MetabolizerTypeCondition
+          type: [Vox]
+
+- type: reagent
+  id: Hemorrhinol
+  name: reagent-name-hemorrhinol
+  group: Toxins
+  desc: reagent-desc-hemorrhinol
+  physicalDesc: reagent-physical-desc-thin
+  contrabandSeverity: Major
+  flavor: sharp
+  color: "#96424f"
+  tags: [ Toxin ] # Aurora's Song | Toxin tag required for updated metabolisers
+  metabolisms:
+    Bloodstream:
+      effects:
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectHemorrhage
+        time: 21 # 7 bleed ticks, you bleed every 3 seconds by default.
+        type: Update
+      - !type:ModifyBleed
+        amount: 0.5

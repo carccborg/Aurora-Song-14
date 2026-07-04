@@ -1,13 +1,13 @@
 - type: reagent
   id: ForceFemDrugs
   name: reagent-name-forcefem
-  group: Narcotics
+  group: Aphrodisiacs
   desc: reagent-desc-forcefem
   physicalDesc: reagent-physical-desc-girly
   flavor: cinnamon
   color: "#771534"
   metabolisms:
-    Medicine:
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
       metabolismRate : 0.03 #One 5u dose is 2.7 minutes
       effects:
       - !type:PopupMessage
@@ -24,8 +24,12 @@
           - "reagent-effect-forcefem8"
         probability: 0.04
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: ForceFemDrugs
             max: 30
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
       - !type:PopupMessage # Overdose causes nausea and vomiting
         type: Local
         visualType: LargeCaution
@@ -37,23 +41,39 @@
           - "reagent-effect-forcefem-overdose4"
           - "reagent-effect-forcefem-overdose5"
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: ForceFemDrugs
             min: 30
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
       - !type:Drunk
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: ForceFemDrugs
           min: 50
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: ForceFemDrugs
           min: 35
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
         damage:
           types:
             Poison: 0.01
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition
+          reagent: ForceFemDrugs
           min: 50
+        - !type:Consent # Aurora Song
+          effectTypes:
+            - Aphrodisiacs
         probability: 0.05
       - !type:PopupMessage
         type: Local
@@ -62,5 +82,147 @@
           - "reagent-effect-forcecem-fade" # A decent chance to notify the player when their meds run out, but could happen silently.
         probability: 0.35
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition
+            reagent: ForceFemDrugs
             max: 0.1
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
+
+- type: reagent
+  id: MilkingDrugs
+  name: reagent-name-milkdrug
+  group: Aphrodisiacs
+  desc: reagent-desc-milkdrug
+  physicalDesc: reagent-physical-desc-creamy
+  flavor: milk
+  color: "#FFFFD4"
+  tags: # Aurora's Song
+  - Cryogenic
+  metabolisms:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
+      metabolismRate : 0.03 #One 5u dose is 2.7 minutes
+      effects:
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages:
+          - "reagent-effect-lactation1"
+          - "reagent-effect-lactation2"
+          - "reagent-effect-lactation3"
+          - "reagent-effect-lactation4"
+          - "reagent-effect-lactation5"
+        probability: 0.04
+        conditions:
+          - !type:Consent # Aurora Song
+            effectTypes:
+              - Aphrodisiacs
+
+- type: reagent
+  id: FreyjasKiss
+  name: reagent-name-freyjas-kiss
+  group: Aphrodisiacs
+  desc: reagent-desc-freyjas-kiss
+  physicalDesc: reagent-physical-desc-sparkly
+  flavor: fruity
+  color: "#51c955"
+  tags: # Aurora's Song
+  - Cryogenic
+  metabolisms:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
+      metabolismRate: 0.2 #Sheleg are going to process this at like, 0.04. So it's going to last nearly 2 minutes for 5u
+      effects:
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages:
+        - "reagent-effect-freyja-low1"
+        - "reagent-effect-freyja-low2"
+        - "reagent-effect-freyja-low3"
+        - "reagent-effect-freyja-low4"
+        - "reagent-effect-freyja-low5"
+        - "reagent-effect-freyja-low6"
+        - "reagent-effect-freyja-low7"
+        probability: 0.05
+        conditions:
+        - !type:ReagentCondition
+          reagent: FreyjasKiss
+          min: 1
+          max: 10
+        - !type:Consent
+          effectTypes:
+          - Aphrodisiacs
+      - !type:PopupMessage
+        type: Local
+        visualType: Large
+        messages:
+        - "reagent-effect-freyja-med1"
+        - "reagent-effect-freyja-med2"
+        - "reagent-effect-freyja-med3"
+        - "reagent-effect-freyja-med4"
+        - "reagent-effect-freyja-med5"
+        - "reagent-effect-freyja-med6"
+        - "reagent-effect-freyja-med7"
+        probability: 0.09
+        conditions:
+        - !type:ReagentCondition
+          reagent: FreyjasKiss
+          min: 11
+          max: 30
+        - !type:Consent
+          effectTypes:
+          - Aphrodisiacs
+      - !type:PopupMessage
+        type: Local
+        visualType: MediumCaution
+        messages:
+        - "reagent-effect-freyja-high1"
+        - "reagent-effect-freyja-high2"
+        - "reagent-effect-freyja-high3"
+        - "reagent-effect-freyja-high4"
+        - "reagent-effect-freyja-high5"
+        - "reagent-effect-freyja-high6"
+        probability: 0.1
+        conditions:
+        - !type:ReagentCondition
+          reagent: FreyjasKiss
+          min: 31
+          max: 40
+        - !type:Consent
+          effectTypes:
+          - Aphrodisiacs
+      - !type:PopupMessage
+        type: Local
+        visualType: LargeCaution
+        messages:
+        - "reagent-effect-freyja-od1"
+        - "reagent-effect-freyja-od2"
+        - "reagent-effect-freyja-od3"
+        - "reagent-effect-freyja-od4"
+        - "reagent-effect-freyja-od5"
+        - "reagent-effect-freyja-od6"
+        - "reagent-effect-freyja-od7"
+        probability: 0.2
+        conditions:
+        - !type:ReagentCondition
+          reagent: FreyjasKiss
+          min: 41
+        - !type:Consent
+          effectTypes:
+          - Aphrodisiacs
+
+- type: reagent
+  id: Nymphalexine
+  name: reagent-name-nymphalex
+  group: Medicine
+  desc: reagent-desc-nymphalex
+  physicalDesc: reagent-physical-desc-nympha
+  flavor: fruity
+  color: "#f0b3ff"
+  metabolisms:
+    Digestion: # Aurora's Song - Drink>Digestion
+      effects:
+      - !type:SatiateThirst
+        factor: 1
+      - !type:SatiateHunger
+        factor: 1

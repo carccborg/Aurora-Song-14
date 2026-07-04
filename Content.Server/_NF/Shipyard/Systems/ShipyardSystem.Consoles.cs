@@ -12,6 +12,7 @@ using Content.Shared._NF.Shipyard.Prototypes;
 using Content.Shared._NF.Shipyard.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Access.Components;
+using Content.Shared.Chat; // Einstein Engines - Languages
 using Content.Shared.Ghost;
 using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
@@ -19,6 +20,7 @@ using Robust.Shared.Prototypes;
 using Content.Shared.Radio;
 using System.Linq;
 using Content.Server.Administration.Logs;
+using Content.Shared.Shuttles.Components; // Mono
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Server.Maps;
@@ -33,6 +35,7 @@ using Content.Shared.Preferences;
 using Content.Server.Shuttles.Components;
 using Content.Server._NF.Station.Components;
 using System.Text.RegularExpressions;
+using Content.Server.Shuttles.Systems; // Mono
 using Content.Shared.UserInterface;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Access;
@@ -44,6 +47,8 @@ using Robust.Server.Player;
 using Robust.Shared.Timing;
 using Content.Server._NF.GC.Components;
 using Content.Server._Mono.Shipyard;
+using Content.Shared._AS.Traits;
+using Content.Shared.Maps; // AS
 
 namespace Content.Server._NF.Shipyard.Systems;
 
@@ -204,6 +209,15 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             vesselInfo.Vessel = vessel.ID;
         }
 
+        // Mono: Add FTLLockComponent to the shuttle with Enabled set to true
+        // We need to use the ShuttleConsoleSystem to properly set the Enabled property
+        EnsureComp<FTLLockComponent>(shuttleUid);
+
+        // Mono:  Get the ShuttleConsoleSystem which has proper access to modify FTLLockComponent.Enabled
+        var shuttleConsoleSystem = Get<ShuttleConsoleSystem>();
+        var dockedEntities = new List<NetEntity>();
+        shuttleConsoleSystem.ToggleFTLLock(shuttleUid, dockedEntities, true);
+
         if (TryComp<AccessComponent>(targetId, out var newCap))
         {
             var newAccess = newCap.Tags.ToList();
@@ -258,7 +272,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 TryComp<FingerprintComponent>(player, out var fingerprintComponent);
                 TryComp<DnaComponent>(player, out var dnaComponent);
                 TryComp<StationRecordsComponent>(shuttleStation, out var stationRec);
-                _records.CreateGeneralRecord(shuttleStation.Value, targetId, profile.Name, profile.Age, profile.Species, profile.Gender, $"Captain", fingerprintComponent!.Fingerprint, dnaComponent!.DNA, profile, stationRec!);
+                var replicant = HasComp<ReplicantComponent>(player);  // AS: Replika
+                _records.CreateGeneralRecord(shuttleStation.Value, targetId, profile.Name, profile.Age, profile.Species, profile.Gender, $"Captain", fingerprintComponent!.Fingerprint, dnaComponent!.DNA, replicant, profile, stationRec!);  // AS: Replika
             }
         }
         _records.Synchronize(shuttleStation!.Value);
@@ -312,7 +327,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         RefreshState(shipyardConsoleUid, bank.Balance, true, name, sellValue, targetId, (ShipyardConsoleUiKey)args.UiKey, voucherUsed);
     }
 
-    private void TryParseShuttleName(ShuttleDeedComponent deed, string name)
+    public static void TryParseShuttleName(ShuttleDeedComponent deed, string name) // Aurora's Song - Make public and static so we can use it in the deed system
     {
         // The logic behind this is: if a name part fits the requirements, it is the required part. Otherwise it's the name.
         // This may cause problems but ONLY when renaming a ship. It will still display properly regardless of this.
@@ -357,6 +372,13 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         if (!TryComp<BankAccountComponent>(player, out var bank))
         {
             ConsolePopup(player, Loc.GetString("shipyard-console-no-bank"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        if (!deed.Sellable) // Aurora's Song - Handle non-sellable ships
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-unsellable-station"));
             PlayDenySound(player, uid, component);
             return;
         }
@@ -462,6 +484,23 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         RefreshState(uid, bank.Balance, true, null, 0, refreshId, (ShipyardConsoleUiKey)args.UiKey, voucherUsed);
     }
 
+    // Monolith Start
+    /// <summary>
+    /// Checks if a player is currently on the unassign cooldown and returns the remaining time.
+    /// </summary>
+    private TimeSpan? GetRemainingCooldownTime(EntityUid player)
+    {
+        if (!TryComp<ShipyardUnassignCooldownComponent>(player, out var cooldown))
+            return null;
+
+        var currentTime = _timing.CurTime;
+        if (currentTime >= cooldown.NextUnassignTime)
+            return null;
+
+        return cooldown.NextUnassignTime - currentTime;
+    }
+    // Monolith End
+
     private void OnConsoleUIOpened(EntityUid uid, ShipyardConsoleComponent component, BoundUIOpenedEvent args)
     {
         if (!component.Initialized)
@@ -501,6 +540,17 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         }
 
         var fullName = deed != null ? GetFullName(deed) : null;
+
+        // Monolith Start
+        // If the player is on cooldown, disable the unassign button
+        var remainingCooldown = GetRemainingCooldownTime(player);
+        if (remainingCooldown.HasValue)
+        {
+            // TODO: Update UI to show cooldown time on button
+            // For now we'll just let them see the cooldown message when they try to use it
+        }
+        // Monolith End
+
         RefreshState(uid, bank.Balance, true, fullName, sellValue, targetId, (ShipyardConsoleUiKey)args.UiKey, voucherUsed);
     }
 
@@ -870,4 +920,141 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         return 0;
     }
     #endregion Ship Pricing
+
+    // Monolith start
+    public void OnRenameMessage(EntityUid uid, ShipyardConsoleComponent component, ShipyardConsoleRenameMessage args)
+    {
+        if (args.Actor is not { Valid: true } player)
+            return;
+
+        if (component.TargetIdSlot.ContainerSlot?.ContainedEntity is not { Valid: true } targetId)
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-no-idcard"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        if (!TryComp<ShuttleDeedComponent>(targetId, out var deed) || deed.ShuttleUid == null)
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-no-deed"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        // Validate the new name
+        var newName = args.NewName.Trim();
+        if (string.IsNullOrEmpty(newName))
+        {
+            ConsolePopup(player, "Ship name cannot be empty.");
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        if (newName.Length > ShuttleDeedComponent.MaxNameLength)
+        {
+            ConsolePopup(player, $"Ship name cannot exceed {ShuttleDeedComponent.MaxNameLength} characters.");
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        // Get the old name for logging
+        var oldName = GetFullName(deed);
+
+        // Preserve the original sell value from the current UI state
+        int originalSellValue = 0;
+        if (_ui.TryGetUiState<ShipyardConsoleInterfaceState>(uid, (ShipyardConsoleUiKey)args.UiKey, out var currentState))
+        {
+            originalSellValue = currentState.ShipSellValue;
+        }
+
+        // Rename the ship using the existing method
+        if (TryRenameShuttle(targetId, deed, newName, deed.ShuttleNameSuffix))
+        {
+            ConsolePopup(player, $"Ship renamed to '{GetFullName(deed)}'");
+            PlayConfirmSound(player, uid, component);
+
+            // Get the player's balance or use 0 if they don't have a bank account
+            int balance = 0;
+            if (TryComp<BankAccountComponent>(player, out var bank))
+                balance = bank.Balance;
+
+            // Update the UI with the new ship name, preserving the original sell value
+            var fullName = GetFullName(deed);
+            RefreshState(uid, balance, true, fullName, originalSellValue, targetId, (ShipyardConsoleUiKey)args.UiKey, false);
+
+            _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low,
+                $"{ToPrettyString(player):actor} renamed ship from '{oldName}' to '{GetFullName(deed)}' via {ToPrettyString(uid)}");
+        }
+        else
+        {
+            ConsolePopup(player, "Failed to rename ship.");
+            PlayDenySound(player, uid, component);
+        }
+    }
+
+    public void OnUnassignDeedMessage(EntityUid uid, ShipyardConsoleComponent component, ShipyardConsoleUnassignDeedMessage args)
+    {
+        if (args.Actor is not { Valid: true } player)
+            return;
+
+        if (component.TargetIdSlot.ContainerSlot?.ContainedEntity is not { Valid: true } targetId)
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-no-idcard"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        if (!TryComp<ShuttleDeedComponent>(targetId, out var deed) || deed.ShuttleUid == null)
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-no-deed"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        // Check if the player is on cooldown
+        var cooldown = EnsureComp<ShipyardUnassignCooldownComponent>(player);
+        var currentTime = _timing.CurTime;
+
+        if (currentTime < cooldown.NextUnassignTime)
+        {
+            // Calculate remaining time
+            var timeRemaining = cooldown.NextUnassignTime - currentTime;
+            var hoursRemaining = (int)timeRemaining.TotalHours;
+            var minutesRemaining = (int)timeRemaining.TotalMinutes % 60;
+
+            // Display cooldown message
+            var cooldownMessage = Loc.GetString(
+                "shipyard-console-unassign-cooldown",
+                ("hours", hoursRemaining),
+                ("minutes", minutesRemaining)
+            );
+            ConsolePopup(player, cooldownMessage);
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        // Get the name of the ship before we remove the component
+        var shipName = GetFullName(deed);
+
+        // Remove the deed component from the ID card
+        RemComp<ShuttleDeedComponent>(targetId);
+
+        // Set the cooldown
+        cooldown.NextUnassignTime = currentTime + cooldown.CooldownDuration;
+
+        ConsolePopup(player, Loc.GetString("shipyard-console-deed-unassigned"));
+        PlayConfirmSound(player, uid, component);
+
+        // Get the player's balance or use 0 if they don't have a bank account
+        int balance = 0;
+        if (TryComp<BankAccountComponent>(player, out var bank))
+            balance = bank.Balance;
+
+        // Update the UI
+        RefreshState(uid, balance, true, null, 0, targetId, (ShipyardConsoleUiKey)args.UiKey, false);
+
+        _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low,
+            $"{ToPrettyString(player):actor} unassigned deed for ship '{shipName}' from {ToPrettyString(targetId)} via {ToPrettyString(uid)}");
+    }
+    // Monolith End
 }

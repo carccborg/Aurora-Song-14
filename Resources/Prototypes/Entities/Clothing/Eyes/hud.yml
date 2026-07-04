@@ -1,4 +1,13 @@
 - type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesHudBase
+  abstract: true
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StealTarget
+    stealGroup: ClothingEyesHuds
+
+- type: entity
   id: ShowSecurityIcons
   abstract: true
   categories: [ HideSpawnMenu ]
@@ -7,6 +16,7 @@
   - type: ShowMindShieldIcons
   - type: ShowCriminalRecordIcons
   - type: ShowContrabandDetails
+  - type: ShowLicenseIcons # Aurora
 
 - type: entity
   id: ShowMedicalIcons
@@ -17,7 +27,7 @@
   - type: ShowHealthIcons
 
 - type: entity
-  parent: ClothingEyesBase
+  parent: ClothingEyesHudBase
   id: ClothingEyesHudDiagnostic
   name: diagnostic hud
   description: A heads-up display capable of analyzing the integrity and status of robotics and exosuits. Made out of see-borg-ium.
@@ -31,9 +41,10 @@
     - Inorganic
     - Silicon
     - HumanoidSilicon # DeltaV - IPCs
+  - type: ShowAccessReaderSettings
 
 - type: entity
-  parent: [ClothingEyesBase, ShowMedicalIcons]
+  parent: [ClothingEyesHudBase, ShowMedicalIcons]
   id: ClothingEyesHudMedical
   name: medical hud
   description: A heads-up display that scans the humanoids in view and provides accurate data about their health status.
@@ -45,12 +56,13 @@
   - type: Tag
     tags:
     - HudMedical
+    - PetWearable
     - WhitelistChameleon
   - type: StaticPrice # Frontier
     price: 30 # Frontier
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, BaseC2ContrabandUnredeemable] # Frontier: BaseSecurityContraband<BaseC2ContrabandUnredeemable
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, BaseC2ContrabandUnredeemable] # Frontier: BaseSecurityContraband<BaseC2ContrabandUnredeemable
   id: ClothingEyesHudSecurity
   name: security hud
   description: A heads-up display that scans the humanoids in view and provides accurate data about their ID status and security records.
@@ -62,10 +74,11 @@
   - type: Tag
     tags:
     - HudSecurity
+    - PetWearable
     - WhitelistChameleon
 
 - type: entity
-  parent: [ClothingEyesBase, BaseCommandContraband]
+  parent: [ClothingEyesHudBase, BaseCommandContraband]
   id: ClothingEyesHudCommand
   name: administration hud
   description: A heads-up display that scans the humanoids in view and provides accurate data about their ID status.
@@ -75,9 +88,13 @@
   - type: Clothing
     sprite: Clothing/Eyes/Hud/command.rsi
   - type: ShowJobIcons
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
 
 - type: entity
-  parent: ClothingEyesBase
+  parent: ClothingEyesHudBase
   id: ClothingEyesHudBeer
   name: beer goggles
   description: A pair of sunHud outfitted with apparatus to scan reagents, as well as providing an innate understanding of liquid viscosity while in motion.
@@ -87,12 +104,14 @@
   - type: Clothing
     sprite: Clothing/Eyes/Hud/beergoggles.rsi
   - type: ShowThirstIcons
-  - type: StealTarget
-    stealGroup: ClothingEyesHudBeer
   - type: SolutionScanner
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
 
 - type: entity
-  parent: ClothingEyesBase
+  parent: ClothingEyesHudBase
   id: ClothingEyesHudFriedOnion
   name: fried onion goggles
   description: Filler
@@ -102,7 +121,7 @@
   - type: Clothing
     sprite: Clothing/Eyes/Hud/friedonion.rsi
   - type: ShowHungerIcons
-  - type: Food
+  - type: Edible
   - type: SolutionContainerManager
     solutions:
       food:
@@ -116,7 +135,7 @@
       - greasey
 
 - type: entity
-  parent: ClothingEyesBase
+  parent: ClothingEyesHudBase
   id: ClothingEyesHudOnionBeer
   name: thungerst goggles
   description: Filler
@@ -129,7 +148,7 @@
   - type: ShowThirstIcons
 
 - type: entity
-  parent: [ClothingEyesBase, ShowMedicalIcons]
+  parent: [ClothingEyesHudBase, ShowMedicalIcons]
   id: ClothingEyesHudMedOnion
   name: medonion hud
   description: Filler
@@ -141,7 +160,7 @@
   - type: ShowHungerIcons
 
 - type: entity
-  parent: [ClothingEyesBase, ShowMedicalIcons]
+  parent: [ClothingEyesHudBase, ShowMedicalIcons]
   id: ClothingEyesHudMedOnionBeer
   name: medthungerst hud
   description: Filler
@@ -154,7 +173,7 @@
   - type: ShowThirstIcons
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons, BaseC2ContrabandUnredeemable] # Frontier: BaseSecurityCommandContraband<BaseC2ContrabandUnredeemable
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, ShowMedicalIcons, BaseC2ContrabandUnredeemable] # Frontier: BaseSecurityCommandContraband<BaseC2ContrabandUnredeemable
   id: ClothingEyesHudMedSec
   name: medsec hud
   description: An eye display that looks like a mixture of medical and security huds.
@@ -168,7 +187,7 @@
     node: medsecHud
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons]
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, ShowMedicalIcons]
   id: ClothingEyesHudMultiversal
   name: multiversal hud
   description: Filler
@@ -184,7 +203,7 @@
   - type: ShowSyndicateIcons
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, ShowMedicalIcons]
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, ShowMedicalIcons]
   id: ClothingEyesHudOmni
   name: omni hud
   description: Filler
@@ -202,7 +221,7 @@
   - type: ShowSyndicateIcons
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, BaseC3SyndicateContraband, ContrabandClothing] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband, added ContrabandClothing as parent
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, BaseC3SyndicateContraband, ContrabandClothing] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband, added ContrabandClothing as parent
   id: ClothingEyesHudSyndicate
   name: syndicate visor
   description: The syndicate's professional head-up display, designed for better detection of humanoids and their subsequent elimination.
@@ -212,9 +231,13 @@
   - type: Clothing
     sprite: Clothing/Eyes/Hud/synd.rsi
   - type: ShowSyndicateIcons
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
 
 - type: entity
-  parent: [ClothingEyesBase, ShowSecurityIcons, BaseC3SyndicateContraband, ContrabandClothing] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband, added ContrabandClothing as parent
+  parent: [ClothingEyesHudBase, ShowSecurityIcons, BaseC3SyndicateContraband, ContrabandClothing] # Frontier: BaseSyndicateContraband<BaseC3SyndicateContraband, added ContrabandClothing as parent
   id: ClothingEyesHudSyndicateAgent
   name: syndicate medical visor
   description: The Syndicate Corpsman's professional heads-up display, designed for quick diagnosis of their team's status.
@@ -225,11 +248,18 @@
     sprite: Clothing/Eyes/Hud/syndagent.rsi
   - type: ShowSyndicateIcons
   - type: ShowHealthBars
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
 
 - type: entity
   parent: [ClothingEyesGlassesSunglasses, ShowSecurityIcons, ContrabandClothing] # Frontier: added ContrabandClothing as parent
   id: ClothingEyesGlassesHiddenSecurity
   suffix: Syndicate
+  components:
+  - type: StealTarget
+    stealGroup: ClothingEyesHuds
 
 - type: entity
   parent: [ClothingEyesHudMedical, ClothingHeadEyeBaseFlippable]
@@ -241,6 +271,11 @@
     sprite: Clothing/Eyes/Hud/medpatch.rsi
   - type: Clothing
     sprite: Clothing/Eyes/Hud/medpatch.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
+    - HudMedical
 
 - type: entity
   parent: [ClothingEyesEyepatchHudMedical, ClothingHeadEyeBaseFlipped]
@@ -257,6 +292,11 @@
     sprite: Clothing/Eyes/Hud/secpatch.rsi
   - type: Clothing
     sprite: Clothing/Eyes/Hud/secpatch.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - WhitelistChameleon
+    - HudSecurity
 
 - type: entity
   parent: [ClothingEyesEyepatchHudSecurity,  ClothingHeadEyeBaseFlipped]

@@ -1,0 +1,57 @@
+# Aurora Song - SLE (Sector Law Enforcement) headsets
+# Prototypes for Aurora Song's SLE faction equipment
+
+- type: entity
+  parent: ClothingHeadset
+  id: ASClothingHeadsetSLENavy
+  name: SLE headset
+  description: An updated headset for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_navy.rsi # Aurora Song - Using SLE-recolored sprites
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_navy.rsi # Aurora Song - Using SLE-recolored sprites
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+      - EncryptionKeyNfsd
+
+- type: entity
+  parent: ASClothingHeadsetSLENavy
+  id: ASClothingHeadsetSLEOrange
+  name: SLE headset
+  description: An updated headset for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_orange.rsi # Aurora Song - Using SLE-recolored sprites
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_orange.rsi # Aurora Song - Using SLE-recolored sprites
+
+- type: entity
+  parent: ASClothingHeadsetSLENavy
+  id: ASClothingHeadsetSLECobalt
+  name: SLE headset
+  description: An updated headset for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_cobalt.rsi # Aurora Song - Using SLE-recolored sprites
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_e_cobalt.rsi # Aurora Song - Using SLE-recolored sprites
+
+# Common Versions - can be used without keys
+- type: entity
+  parent: [ClothingHeadsetCommon, ASClothingHeadsetSLENavy]
+  id: ASClothingHeadsetSLENavyCommon
+  categories: [ HideSpawnMenu ]
+
+- type: entity
+  parent: [ClothingHeadsetCommon, ASClothingHeadsetSLEOrange]
+  id: ASClothingHeadsetSLEOrangeCommon
+  categories: [ HideSpawnMenu ]
+
+- type: entity
+  parent: [ClothingHeadsetCommon, ASClothingHeadsetSLECobalt]
+  id: ASClothingHeadsetSLECobaltCommon
+  categories: [ HideSpawnMenu ]
+

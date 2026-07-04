@@ -11,6 +11,7 @@ using Content.Server.Database;
 using Content.Server.Discord;
 using Content.Server.GameTicking;
 using Content.Server.Players.RateLimiting;
+using Content.Shared._AS.Utils; // Aurora's Song - Allow round timer to go over 24h
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
@@ -99,7 +100,7 @@ namespace Content.Server.Administration.Systems
                 string.Empty,
                 string.Empty,
                 true,
-                _gameTicker.RoundDuration().ToString("hh\\:mm\\:ss"),
+                RoundTimerUtils.ToString(_gameTicker.RoundDuration()), // Aurora's Song - Allow round timer to go over 24h
                 _gameTicker.RunLevel,
                 playedSound: false
             );
@@ -172,7 +173,7 @@ namespace Content.Server.Administration.Systems
                 }
 
                 // Check if the user has been banned
-                var ban = await _dbManager.GetServerBanAsync(null, e.Session.UserId, null, null);
+                var ban = await _dbManager.GetBanAsync(null, e.Session.UserId, null, null);
                 if (ban != null)
                 {
                     var banMessage = Loc.GetString("bwoink-system-player-banned", ("banReason", ban.Reason));
@@ -214,7 +215,7 @@ namespace Content.Server.Administration.Systems
 
             // Get the current timestamp
             var timestamp = DateTime.Now.ToString("HH:mm:ss");
-            var roundTime = _gameTicker.RoundDuration().ToString("hh\\:mm\\:ss");
+            var roundTime = RoundTimerUtils.ToString(_gameTicker.RoundDuration()); // Aurora's Song - Allow round timer to go over 24h
 
             // Determine the icon based on the status type
             string icon = statusType switch
@@ -581,7 +582,7 @@ namespace Content.Server.Administration.Systems
             {
                 GameRunLevel.PreRoundLobby => _gameTicker.RoundId == 0
                     ? "pre-round lobby after server restart" // first round after server restart has ID == 0
-                    : $"pre-round lobby for round {_gameTicker.RoundId + 1}",
+                    : $"pre-round lobby for round {_gameTicker.RoundId}",
                 GameRunLevel.InRound => $"round {_gameTicker.RoundId}",
                 GameRunLevel.PostRound => $"post-round {_gameTicker.RoundId}",
                 _ => throw new ArgumentOutOfRangeException(nameof(_gameTicker.RunLevel),
@@ -790,7 +791,7 @@ namespace Content.Server.Administration.Systems
                     senderName,
                     str,
                     senderId != message.UserId,
-                    _gameTicker.RoundDuration().ToString("hh\\:mm\\:ss"),
+                    RoundTimerUtils.ToString(_gameTicker.RoundDuration()), // Aurora's Song - Allow round timer to go over 24h
                     _gameTicker.RunLevel,
                     playedSound: playSound,
                     isDiscord: fromWebhook,

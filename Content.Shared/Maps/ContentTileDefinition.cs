@@ -4,24 +4,26 @@ using Content.Shared.Movement.Systems;
 using Content.Shared.Tools;
 using Robust.Shared.Audio;
 using Robust.Shared.Map;
+using Robust.Shared.Maths; // Mono
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.List;
 using Robust.Shared.Utility;
+using System.Numerics; // Mono
 
 namespace Content.Shared.Maps
 {
     [Prototype("tile")]
     public sealed partial class ContentTileDefinition : IPrototype, IInheritingPrototype, ITileDefinition
     {
-        [ValidatePrototypeId<ToolQualityPrototype>]
-        public const string PryingToolQuality = "Prying";
-        public const string DiggingToolQuality = "Digging"; // Frontier
+        public static readonly ProtoId<ToolQualityPrototype> PryingToolQuality = "Prying";
+        public static readonly ProtoId<ToolQualityPrototype> DiggingToolQuality = "Digging"; // Frontier
 
         public const string SpaceID = "Space";
 
-        [ParentDataFieldAttribute(typeof(AbstractPrototypeIdArraySerializer<ContentTileDefinition>))]
+        [ParentDataField(typeof(AbstractPrototypeIdArraySerializer<ContentTileDefinition>))]
         public string[]? Parents { get; private set; }
 
         [NeverPushInheritance]
@@ -43,7 +45,13 @@ namespace Content.Shared.Maps
         [DataField("isSubfloor")] public bool IsSubFloor { get; private set; }
 
         [DataField("baseTurf")]
-        public string BaseTurf { get; private set; } = string.Empty;
+        public ProtoId<ContentTileDefinition>? BaseTurf { get; private set; }
+
+        /// <summary>
+        /// On what tiles this tile can be placed on. BaseTurf is already included.
+        /// </summary>
+        [DataField]
+        public List<ProtoId<ContentTileDefinition>> BaseWhitelist { get; private set; } = new();
 
         [DataField]
         public PrototypeFlags<ToolQualityPrototype> DeconstructTools { get; set; } = new();
@@ -107,6 +115,19 @@ namespace Content.Shared.Maps
         [DataField("mobFriction")]
         public float? MobFriction { get; private set; }
 
+        //AS
+        /// <summary>
+        /// Whether the tile should be drawn on radar
+        /// </summary>
+        [DataField("invisible")] public bool Invisible = false;
+        // <Mono>
+        /// <summary>
+        /// Vertices for drawing purposes. Has to be a convex shape.
+        /// </summary>
+        [DataField]
+        public List<Vector2> Vertices = new() { Vector2.Zero, new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0) };
+        // </Mono>
+
         /// <summary>
         ///     Accel override for mob mover in <see cref="SharedMoverController"/>
         /// </summary>
@@ -124,6 +145,11 @@ namespace Content.Shared.Maps
         /// Is this tile immune to RCD deconstruct.
         /// </summary>
         [DataField("indestructible")] public bool Indestructible = false;
+
+        /// <summary>
+        ///     Hide this tile in the tile placement editor.
+        /// </summary>
+        [DataField] public bool EditorHidden { get; private set; } = false;
 
         public void AssignTileId(ushort id)
         {

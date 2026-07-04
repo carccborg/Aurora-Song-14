@@ -1,144 +1,106 @@
 using System.Linq;
+using System.Numerics;
+using Content.Shared.Body;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Serialization;
+using Robust.Shared.Utility;
 
 namespace Content.Shared.Humanoid;
 
 [DataDefinition]
 [Serializable, NetSerializable]
-public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, IEquatable<HumanoidCharacterAppearance>
+public sealed partial class HumanoidCharacterAppearance : IEquatable<HumanoidCharacterAppearance>
 {
-    [DataField("hair")]
-    public string HairStyleId { get; set; } = HairStyles.DefaultHairStyle;
-
-    [DataField]
-    public Color HairColor { get; set; } = Color.Black;
-
-    [DataField("facialHair")]
-    public string FacialHairStyleId { get; set; } = HairStyles.DefaultFacialHairStyle;
-
-    [DataField]
-    public Color FacialHairColor { get; set; } = Color.Black;
-
     [DataField]
     public Color EyeColor { get; set; } = Color.Black;
 
     [DataField]
-    public Color SkinColor { get; set; } = Humanoid.SkinColor.ValidHumanSkinTone;
+    public Color SkinColor { get; set; } = Color.FromHsv(new Vector4(0.07f, 0.2f, 1f, 1f));
 
     [DataField]
-    public List<Marking> Markings { get; set; } = new();
+    public Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>> Markings { get; set; } = new();
 
+    // Start Aurora's Song - Add hight and width
     [DataField]
     public float Height { get; set; } = 1.0f;
 
     [DataField]
     public float Width { get; set; } = 1.0f;
+    // End Aurora's Song
 
-    public HumanoidCharacterAppearance(string hairStyleId,
-        Color hairColor,
-        string facialHairStyleId,
-        Color facialHairColor,
+    public HumanoidCharacterAppearance(
         Color eyeColor,
         Color skinColor,
-        List<Marking> markings,
-        float height = 1.0f,
-        float width = 1.0f)
+        Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>> markings,
+        float height = 1.0f, // Aurora's Song
+        float width = 1.0f) // Aurora's Song
     {
-        HairStyleId = hairStyleId;
-        HairColor = ClampColor(hairColor);
-        FacialHairStyleId = facialHairStyleId;
-        FacialHairColor = ClampColor(facialHairColor);
         EyeColor = ClampColor(eyeColor);
         SkinColor = ClampColor(skinColor);
         Markings = markings;
-        Height = height;
-        Width = width;
+        Height = height; // Aurora's Song
+        Width = width; // Aurora's Song
     }
 
     public HumanoidCharacterAppearance(HumanoidCharacterAppearance other) :
-        this(other.HairStyleId, other.HairColor, other.FacialHairStyleId, other.FacialHairColor, other.EyeColor, other.SkinColor, new(other.Markings), other.Height, other.Width)
+        this(other.EyeColor, other.SkinColor, new(other.Markings), other.Height, other.Width) // Aurora's Song - Scale sliders
     {
 
-    }
-
-    public HumanoidCharacterAppearance WithHairStyleName(string newName)
-    {
-        return new(newName, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, Height, Width);
-    }
-
-    public HumanoidCharacterAppearance WithHairColor(Color newColor)
-    {
-        return new(HairStyleId, newColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, Height, Width);
-    }
-
-    public HumanoidCharacterAppearance WithFacialHairStyleName(string newName)
-    {
-        return new(HairStyleId, HairColor, newName, FacialHairColor, EyeColor, SkinColor, Markings, Height, Width);
-    }
-
-    public HumanoidCharacterAppearance WithFacialHairColor(Color newColor)
-    {
-        return new(HairStyleId, HairColor, FacialHairStyleId, newColor, EyeColor, SkinColor, Markings, Height, Width);
     }
 
     public HumanoidCharacterAppearance WithEyeColor(Color newColor)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, newColor, SkinColor, Markings, Height, Width);
+        return new(newColor, SkinColor, Markings, Height, Width); // Aurora's Song - Scale sliders
     }
 
     public HumanoidCharacterAppearance WithSkinColor(Color newColor)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, newColor, Markings, Height, Width);
+        return new(EyeColor, newColor, Markings, Height, Width); // Aurora's Song - Scale sliders
     }
 
-    public HumanoidCharacterAppearance WithMarkings(List<Marking> newMarkings)
+    public HumanoidCharacterAppearance WithMarkings(Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>> newMarkings)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, newMarkings, Height, Width);
+        return new(EyeColor, SkinColor, newMarkings, Height, Width); // Aurora's Song - Scale sliders
     }
 
+    // Aurora's Song
     public HumanoidCharacterAppearance WithHeight(float newHeight)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, newHeight, Width);
+        return new(EyeColor, SkinColor, Markings, newHeight, Width);
     }
 
+    // Aurora's Song
     public HumanoidCharacterAppearance WithWidth(float newWidth)
     {
-        return new(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, Height, newWidth);
+        return new(EyeColor, SkinColor, Markings, Height, newWidth);
     }
 
-    public static HumanoidCharacterAppearance DefaultWithSpecies(string species)
+    public static HumanoidCharacterAppearance DefaultWithSpecies(ProtoId<SpeciesPrototype> species, Sex sex)
     {
-        var speciesPrototype = IoCManager.Resolve<IPrototypeManager>().Index<SpeciesPrototype>(species);
-        var skinColor = speciesPrototype.SkinColoration switch
+        var protoMan = IoCManager.Resolve<IPrototypeManager>();
+        var speciesPrototype = protoMan.Index<SpeciesPrototype>(species);
+        var skinColoration = protoMan.Index(speciesPrototype.SkinColoration).Strategy;
+        var skinColor = skinColoration.InputType switch
         {
-            HumanoidSkinColor.HumanToned => Humanoid.SkinColor.HumanSkinTone(speciesPrototype.DefaultHumanSkinTone),
-            HumanoidSkinColor.Hues => speciesPrototype.DefaultSkinTone,
-            HumanoidSkinColor.TintedHues => Humanoid.SkinColor.TintedHues(speciesPrototype.DefaultSkinTone),
-            HumanoidSkinColor.VoxFeathers => Humanoid.SkinColor.ClosestVoxColor(speciesPrototype.DefaultSkinTone),
-            HumanoidSkinColor.AnimalFur => Humanoid.SkinColor.ClosestAnimalFurColor(speciesPrototype.DefaultSkinTone), // Einstein Engines - Tajaran
-            HumanoidSkinColor.ShelegToned => Humanoid.SkinColor.ShelegSkinTone(speciesPrototype.DefaultHumanSkinTone), // Frontier
-            HumanoidSkinColor.HumanAnimal => speciesPrototype.DefaultSkinTone, // DEN - Humanoid Skin Tones
-            _ => Humanoid.SkinColor.ValidHumanSkinTone,
+            SkinColorationStrategyInput.Unary => skinColoration.FromUnary(speciesPrototype.DefaultHumanSkinTone),
+            SkinColorationStrategyInput.Color => skinColoration.ClosestSkinColor(speciesPrototype.DefaultSkinTone),
+            _ => skinColoration.ClosestSkinColor(speciesPrototype.DefaultSkinTone),
         };
 
-        return new(
-            HairStyles.DefaultHairStyle,
-            Color.Black,
-            HairStyles.DefaultFacialHairStyle,
-            Color.Black,
+        var appearance = new HumanoidCharacterAppearance(
             Color.Black,
             skinColor,
-            new (),
-            1.0f,
-            1.0f
+            new(),
+            1.0f, // Aurora's Song - Height
+            1.0f // Aurora's Song - Width
         );
+        return EnsureValid(appearance, species, sex);
     }
 
-    private static IReadOnlyList<Color> RealisticEyeColors = new List<Color>
+    private static IReadOnlyList<Color> _realisticEyeColors = new List<Color>
     {
         Color.Brown,
         Color.Gray,
@@ -151,60 +113,26 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
     {
         var random = IoCManager.Resolve<IRobustRandom>();
         var markingManager = IoCManager.Resolve<MarkingManager>();
-        var hairStyles = markingManager.MarkingsByCategoryAndSpecies(MarkingCategories.Hair, species).Keys.ToList();
-        var facialHairStyles = markingManager.MarkingsByCategoryAndSpecies(MarkingCategories.FacialHair, species).Keys.ToList();
-
-        var newHairStyle = hairStyles.Count > 0
-            ? random.Pick(hairStyles)
-            : HairStyles.DefaultHairStyle;
-
-        var newFacialHairStyle = facialHairStyles.Count == 0 || sex == Sex.Female
-            ? HairStyles.DefaultFacialHairStyle
-            : random.Pick(facialHairStyles);
-
-        var newHairColor = random.Pick(HairStyles.RealisticHairColors);
-        newHairColor = newHairColor
-            .WithRed(RandomizeColor(newHairColor.R))
-            .WithGreen(RandomizeColor(newHairColor.G))
-            .WithBlue(RandomizeColor(newHairColor.B));
 
         // TODO: Add random markings
 
-        var newEyeColor = random.Pick(RealisticEyeColors);
+        var newEyeColor = random.Pick(_realisticEyeColors);
 
-        var skinType = IoCManager.Resolve<IPrototypeManager>().Index<SpeciesPrototype>(species).SkinColoration;
+        var protoMan = IoCManager.Resolve<IPrototypeManager>();
+        var skinType = protoMan.Index<SpeciesPrototype>(species).SkinColoration;
+        var strategy = protoMan.Index(skinType).Strategy;
 
-        var newSkinColor = new Color(random.NextFloat(1), random.NextFloat(1), random.NextFloat(1), 1);
-        switch (skinType)
+        var newSkinColor = strategy.InputType switch
         {
-            case HumanoidSkinColor.HumanToned:
-                newSkinColor = ToHumanoidTone(newSkinColor);
-                break;
-            case HumanoidSkinColor.Hues:
-                break;
-            case HumanoidSkinColor.TintedHues:
-                newSkinColor = Humanoid.SkinColor.ValidTintedHuesSkinTone(newSkinColor);
-                break;
-            case HumanoidSkinColor.VoxFeathers:
-                newSkinColor = Humanoid.SkinColor.ProportionalVoxColor(newSkinColor);
-                break;
-            case HumanoidSkinColor.AnimalFur: // Einstein Engines - Tajaran
-                newSkinColor = Humanoid.SkinColor.ProportionalAnimalFurColor(newSkinColor);
-                break;
-            case HumanoidSkinColor.HumanAnimal: // The Den - Humanoid Skin Tones
-                if (random.NextFloat(1.0f) > 0.5f) // 50% chance of being humanoid skin
-                    newSkinColor = ToHumanoidTone(newSkinColor);
-                break;
-        }
+            SkinColorationStrategyInput.Unary => strategy.FromUnary(random.NextFloat(0f, 100f)),
+            SkinColorationStrategyInput.Color => strategy.ClosestSkinColor(new Color(random.NextFloat(1), random.NextFloat(1), random.NextFloat(1), 1)),
+            _ => strategy.ClosestSkinColor(new Color(random.NextFloat(1), random.NextFloat(1), random.NextFloat(1), 1)),
+        };
 
         var newHeight = random.NextFloat(0.8f, 1.2f); // Random height between 80% and 120% of normal
         var newWidth = random.NextFloat(0.8f, 1.2f); // Random width between 80% and 120% of normal
-        return new HumanoidCharacterAppearance(newHairStyle, newHairColor, newFacialHairStyle, newHairColor, newEyeColor, newSkinColor, new (), newHeight, newWidth);
 
-        float RandomizeColor(float channel)
-        {
-            return MathHelper.Clamp01(channel + random.Next(-25, 25) / 100f);
-        }
+        return new HumanoidCharacterAppearance(newEyeColor, newSkinColor, new(), newHeight, newWidth); // Aurora's Song - Scale sliders
     }
 
     public static Color ClampColor(Color color)
@@ -212,90 +140,68 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
         return new(color.RByte, color.GByte, color.BByte);
     }
 
-    private static Color ToHumanoidTone(Color skinColor)
+    public static HumanoidCharacterAppearance EnsureValid(HumanoidCharacterAppearance appearance, ProtoId<SpeciesPrototype> species, Sex sex)
     {
-        var tone = Math.Round(Humanoid.SkinColor.HumanSkinToneFromColor(skinColor));
-        return Humanoid.SkinColor.HumanSkinTone((int)tone);
-    }
-
-    public static HumanoidCharacterAppearance EnsureValid(HumanoidCharacterAppearance appearance, string species, Sex sex)
-    {
-        var hairStyleId = appearance.HairStyleId;
-        var facialHairStyleId = appearance.FacialHairStyleId;
-
-        var hairColor = ClampColor(appearance.HairColor);
-        var facialHairColor = ClampColor(appearance.FacialHairColor);
         var eyeColor = ClampColor(appearance.EyeColor);
 
         var proto = IoCManager.Resolve<IPrototypeManager>();
         var markingManager = IoCManager.Resolve<MarkingManager>();
 
-        if (!markingManager.MarkingsByCategory(MarkingCategories.Hair).ContainsKey(hairStyleId))
-        {
-            hairStyleId = HairStyles.DefaultHairStyle;
-        }
-
-        if (!markingManager.MarkingsByCategory(MarkingCategories.FacialHair).ContainsKey(facialHairStyleId))
-        {
-            facialHairStyleId = HairStyles.DefaultFacialHairStyle;
-        }
-
-        var markingSet = new MarkingSet();
         var skinColor = appearance.SkinColor;
-        if (proto.TryIndex(species, out SpeciesPrototype? speciesProto))
-        {
-            markingSet = new MarkingSet(appearance.Markings, speciesProto.MarkingPoints, markingManager, proto);
-            markingSet.EnsureValid(markingManager);
+        var validatedMarkings = appearance.Markings.ShallowClone();
 
-            if (!Humanoid.SkinColor.VerifySkinColor(speciesProto.SkinColoration, skinColor))
+        if (proto.TryIndex(species, out var speciesProto))
+        {
+            var strategy = proto.Index(speciesProto.SkinColoration).Strategy;
+            var organs = markingManager.GetOrgans(species);
+            skinColor = strategy.EnsureVerified(skinColor);
+
+            foreach (var (organ, markings) in appearance.Markings)
             {
-                skinColor = Humanoid.SkinColor.ValidSkinTone(speciesProto.SkinColoration, skinColor);
+                if (!organs.ContainsKey(organ))
+                    validatedMarkings.Remove(organ);
             }
 
-            markingSet.EnsureSpecies(species, skinColor, markingManager);
-            markingSet.EnsureSexes(sex, markingManager);
+            foreach (var (organ, organProtoID) in organs)
+            {
+                if (!markingManager.TryGetMarkingData(organProtoID, out var organData))
+                {
+                    validatedMarkings.Remove(organ);
+                    continue;
+                }
+
+                var actualMarkings = appearance.Markings.GetValueOrDefault(organ)?.ShallowClone() ?? [];
+
+                markingManager.EnsureValidColors(actualMarkings);
+                markingManager.EnsureValidGroupAndSex(actualMarkings, organData.Value.Group, sex);
+                markingManager.EnsureValidLayers(actualMarkings, organData.Value.Layers);
+                markingManager.EnsureValidLimits(actualMarkings, organData.Value.Group, organData.Value.Layers, skinColor, eyeColor);
+
+                validatedMarkings[organ] = actualMarkings;
+            }
+
+            // Aurora: height and width slider limiters
+            appearance.Height = Math.Clamp(appearance.Height, speciesProto.MinHeight, speciesProto.MaxHeight);
+            appearance.Width = Math.Clamp(appearance.Width, speciesProto.MinWidth, speciesProto.MaxWidth);
         }
 
         return new HumanoidCharacterAppearance(
-            hairStyleId,
-            hairColor,
-            facialHairStyleId,
-            facialHairColor,
             eyeColor,
             skinColor,
-            markingSet.GetForwardEnumerator().ToList(),
-            appearance.Height,
-            appearance.Width);
-    }
-
-    public bool MemberwiseEquals(ICharacterAppearance maybeOther)
-    {
-        if (maybeOther is not HumanoidCharacterAppearance other) return false;
-        if (HairStyleId != other.HairStyleId) return false;
-        if (!HairColor.Equals(other.HairColor)) return false;
-        if (FacialHairStyleId != other.FacialHairStyleId) return false;
-        if (!FacialHairColor.Equals(other.FacialHairColor)) return false;
-        if (!EyeColor.Equals(other.EyeColor)) return false;
-        if (!SkinColor.Equals(other.SkinColor)) return false;
-        if (!Markings.SequenceEqual(other.Markings)) return false;
-        if (!Height.Equals(other.Height)) return false;
-        if (!Width.Equals(other.Width)) return false;
-        return true;
+            validatedMarkings,
+            appearance.Height, // Aurora's Song
+            appearance.Width); // Aurora's Song
     }
 
     public bool Equals(HumanoidCharacterAppearance? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return HairStyleId == other.HairStyleId &&
-               HairColor.Equals(other.HairColor) &&
-               FacialHairStyleId == other.FacialHairStyleId &&
-               FacialHairColor.Equals(other.FacialHairColor) &&
-               EyeColor.Equals(other.EyeColor) &&
+        return EyeColor.Equals(other.EyeColor) &&
                SkinColor.Equals(other.SkinColor) &&
-               Markings.SequenceEqual(other.Markings) &&
-               Height.Equals(other.Height) &&
-               Width.Equals(other.Width);
+               MarkingManager.MarkingsAreEqual(Markings, other.Markings) &&
+               Height.Equals(other.Height) && // Aurora's Song
+               Width.Equals(other.Width); // Aurora's Song
     }
 
     public override bool Equals(object? obj)
@@ -305,7 +211,7 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(HairStyleId, HairColor, FacialHairStyleId, FacialHairColor, EyeColor, SkinColor, Markings, HashCode.Combine(Height, Width));
+        return HashCode.Combine(EyeColor, SkinColor, Markings, HashCode.Combine(Height, Width)); // Aurora's Song
     }
 
     public HumanoidCharacterAppearance Clone()

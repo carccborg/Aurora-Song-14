@@ -1,0 +1,61 @@
+# region SLE
+
+- type: entity
+  parent: HoverbikeFlatpack
+  id: HoverbikeSLEFlatpack
+  name: SLE hoverbike flatpack
+  description: A flatpack used for constructing an SLE hoverbike. Keys already slotted in the ignition.
+  components:
+  - type: Flatpack
+    entity: ASVehicleHoverbikeSLEKey
+  - type: StaticPrice
+    price: 2000
+
+- type: entity
+  parent: NfsdTechFabFlatpack
+  id: ASTechFabSLEFlatpack
+  name: SLE techfab flatpack
+  description: A flatpack used for constructing an SLE techfab.
+  components:
+  - type: Flatpack
+    entity: ASTechFabSLE
+  - type: StaticPrice
+    price: 250
+  - type: Item
+    shape:
+    - 0,0,1,1
+
+# region Engineering
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: PoweredTinyFanFlatpack
+  name: powered tiny fan flatpack
+  description: A flatpack used for constructing a powered tiny fan.
+  components:
+  - type: Flatpack
+    entity: PoweredAtmosDeviceFanTiny
+  - type: StaticPrice
+    vendPrice: 12500
+
+- type: entity
+  parent: BaseNFFlatpack
+  id: PoweredDirectionalFanFlatpack
+  name: powered directional fan flatpack
+  description: A flatpack used for constructing a powered directional fan.
+  components:
+  - type: Flatpack
+    entity: PoweredAtmosDeviceFanDirectional
+  - type: StaticPrice
+    vendPrice: 12500
+
+# region Medical
+
+- type: entity
+  parent: MedicalTechFabFlatpack
+  id: ChemDispenserFlatpack
+  name: chemical dispenser flatpack
+  description: A flatpack used for constructing a chemical dispenser.
+  components:
+  - type: Flatpack
+    entity: ChemDispenserEmpty

@@ -1,0 +1,15 @@
+- type: marking
+  id: AvaliTattooEyeLeft
+  bodyPart: Eyes
+  groupWhitelist: [ Avali ]
+  sprites:
+  - sprite: _Moffstation/Mobs/Customization/Avali/avali_eyes.rsi
+    state: eye_left
+
+- type: marking
+  id: AvaliTattooEyeRight
+  bodyPart: Eyes
+  groupWhitelist: [ Avali ]
+  sprites:
+  - sprite: _Moffstation/Mobs/Customization/Avali/avali_eyes.rsi
+    state: eye_right

@@ -15,7 +15,7 @@
     doctor: LockerMedical
     electrical: LockerElectricalSupplies
     engineer: LockerEngineer
-    # evac: LockerEvacRepair # Frontier: not yet in, pending upstream merge
+    evac: LockerEvacRepair
     hop: LockerHeadOfPersonnel
     hos: LockerHeadOfSecurity
     mime: LockerMime
@@ -32,14 +32,26 @@
     mercenary: LockerMercenary # Frontier
     janitor: LockerJanitor # Frontier
     pilot: LockerPilot # Frontier
-    nfsd: LockerNfsdEvidence # Frontier
-    nfsd-copper: LockerNfsdCopper # Frontier
-    nfsd-silver: LockerNfsdSilver # Frontier
-    nfsd-brigmedic: LockerNfsdBrigmedic # Frontier
-    nfsd-gold: LockerNfsdSergeant # Frontier
-    nfsd-sheriff: LockerNfsdSheriff # Frontier
-    station-representative: LockerStationRepresentative # Frontier
+    # Aurora's Song - disabled NFSD locker styles
+    # nfsd: LockerNfsdEvidence # Frontier
+    # nfsd-copper: LockerNfsdCopper # Frontier
+    # nfsd-silver: LockerNfsdSilver # Frontier
+    # nfsd-brigmedic: LockerNfsdBrigmedic # Frontier
+    # nfsd-gold: LockerNfsdSergeant # Frontier
+    # nfsd-sheriff: LockerNfsdSheriff # Frontier
+    # station-representative: LockerStationRepresentative # Frontier - Aurora Song: moved to Colonial Representative
+    colonial-representative: ASLockerColonialRepresentativeFilled # Aurora's Song - changed from Station Representative to Colonial Representative
     fsb: ClosetFsbEva # Frontier
+    sle: ASLockerSLEBlank # Aurora
+    sle-evidence: ASLockerSLEEvidence # Aurora
+    sle-badge: ASLockerSLEBadge # Aurora
+    sle-copper: ASLockerSLECopper # Aurora
+    sle-silver: ASLockerSLESilver # Aurora
+    sle-detective: ASLockerSLEDetective # Aurora
+    sle-corpsman: ASLockerSLECorpsman # Aurora
+    sle-gold: ASLockerSLESergeant # Aurora
+    sle-lieutenant: ASLockerSLELieutenant # Aurora
+    sle-commissioner: ASLockerSLECommissioner # Aurora
 
 - type: paintableGroup
   id: Closet
@@ -86,12 +98,11 @@
     internals: ClosetWallO2N2 # Frontier
     # TODO: add in erhard's "color" locker styles
 
-# Frontier: return this once there are more than one (if that) style in this group
-# - type: paintableGroup
-#   id: WallLocker
-#   cost: 2
-#   defaultStyle: medical
-#   styles:
-#     # evac: LockerWallEvacRepair # Frontier: not yet in, pending upstream merge
-#     medical: LockerWallMedical
+- type: paintableGroup
+  id: WallLocker
+  cost: 2
+  defaultStyle: medical
+  styles:
+    evac: LockerWallEvacRepair
+    medical: LockerWallMedical
 #     # TODO: add in erhard's "color" locker styles

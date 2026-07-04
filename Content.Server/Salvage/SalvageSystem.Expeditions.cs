@@ -1,23 +1,21 @@
 using System.Linq;
 using System.Threading;
 using Content.Server.Salvage.Expeditions;
-using Content.Server.Salvage.Expeditions.Structure;
 using Content.Shared.CCVar;
 using Content.Shared.Examine;
-using Content.Shared.Random.Helpers;
 using Content.Shared.Salvage.Expeditions;
+using Content.Shared.Shuttles.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.CPUJob.JobQueues;
 using Robust.Shared.CPUJob.JobQueues.Queues;
 using Robust.Shared.GameStates;
 using Robust.Shared.Map;
 using Content.Server._NF.Salvage.Expeditions; // Frontier
-using Content.Server.Station.Components; // Frontier
+using Content.Shared.Station.Components; // Frontier
 using Content.Shared.Procedural; // Frontier
 using Content.Shared.Salvage; // Frontier
 using Robust.Shared.Prototypes; // Frontier
 using Content.Shared._NF.CCVar; // Frontier
-using Content.Shared.Shuttles.Components; // Frontier
 using Robust.Shared.Configuration;
 using Content.Shared.Ghost;
 using System.Numerics; // Frontier
@@ -30,7 +28,7 @@ public sealed partial class SalvageSystem
      * Handles setup / teardown of salvage expeditions.
      */
 
-    private const int MissionLimit = 6; // Frontier: 3<5 #Hardlight 5<6 :3
+    private const int MissionLimit = 6; // Frontier: 3<5 Aurora Song 5>6
 
     private readonly JobQueue _salvageQueue = new();
     private readonly List<(SpawnSalvageMissionJob Job, CancellationTokenSource CancelToken)> _salvageJobs = new();
@@ -56,8 +54,6 @@ public sealed partial class SalvageSystem
         SubscribeLocalEvent<SalvageExpeditionComponent, ComponentShutdown>(OnExpeditionShutdown);
         SubscribeLocalEvent<SalvageExpeditionComponent, ComponentGetState>(OnExpeditionGetState);
         SubscribeLocalEvent<SalvageExpeditionComponent, EntityTerminatingEvent>(OnMapTerminating); // Frontier
-
-        SubscribeLocalEvent<SalvageStructureComponent, ExaminedEvent>(OnStructureExamine);
 
         _cooldown = _cfgManager.GetCVar(CCVars.SalvageExpeditionCooldown);
         Subs.CVar(_cfgManager, CCVars.SalvageExpeditionCooldown, SetCooldownChange);
@@ -120,6 +116,15 @@ public sealed partial class SalvageSystem
     {
         // component.Stream = _audio.Stop(component.Stream); // Frontier: moved to client
 
+        // First wipe any disks referencing us
+        var disks = AllEntityQuery<ShuttleDestinationCoordinatesComponent>();
+        while (disks.MoveNext(out var disk, out var diskComp)
+               && diskComp.Destination == uid)
+        {
+            diskComp.Destination = null;
+            Dirty(disk, diskComp);
+        }
+
         foreach (var (job, cancelToken) in _salvageJobs.ToArray())
         {
             if (job.Station == component.Station)
@@ -163,7 +168,7 @@ public sealed partial class SalvageSystem
 
             // Frontier: disable cooldown when still in FTL
             if (!TryComp<StationDataComponent>(uid, out var stationData)
-                || !HasComp<FTLComponent>(_station.GetLargestGrid(stationData)))
+                || !HasComp<FTLComponent>(_station.GetLargestGrid((uid, stationData))))
             {
                 comp.Cooldown = false;
             }
@@ -268,11 +273,6 @@ public sealed partial class SalvageSystem
 
         _salvageJobs.Add((job, cancelToken));
         _salvageQueue.EnqueueJob(job);
-    }
-
-    private void OnStructureExamine(EntityUid uid, SalvageStructureComponent component, ExaminedEvent args)
-    {
-        args.PushMarkup(Loc.GetString("salvage-expedition-structure-examine"));
     }
 
     // Frontier: exped job handling, ghost reparenting

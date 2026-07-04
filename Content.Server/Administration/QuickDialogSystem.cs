@@ -121,7 +121,7 @@ public sealed partial class QuickDialogSystem : EntitySystem
             }
             case QuickDialogEntryType.ShortText:
             {
-                if (input.Length > 100)
+                if (input.Length > 200) // Aurora's Song - 100 > 200 - Allows longer prayers.
                 {
                     output = default;
                     return false;

@@ -1,4 +1,68 @@
-﻿#region .25 caseless
+﻿# Added back stuff from upmerge
+#region Upmerge
+- type: Tag
+  id: ATVKeys
+
+- type: Tag
+  id: DeathAcidifier
+
+- type: Tag
+  id: DrinkGlass
+
+- type: Tag
+  id: Ingredient
+
+- type: Tag
+  id: Katana
+
+- type: Tag
+  id: MagazineCaselessRifle
+
+- type: Tag
+  id: RodMetal1
+
+- type: Tag
+  id: SecwayKeys
+
+- type: Tag
+  id: SkeletonMotorcycleKeys
+
+- type: Tag
+  id: SyndicateSegwayKeys
+
+- type: Tag # This one might be able to be removed
+  id: WizardStaff
+
+- type: Tag
+  id: Wringer
+#endregion
+
+#region .30 rifle
+- type: Tag
+  id: ASMagazineMarksmanRifle30
+#endregion
+
+#region .40 pistol
+- type: Tag
+  id: ASCartridgePistol40
+
+- type: Tag
+  id: ASMagazinePistol40
+
+- type: Tag
+  id: ASMagazineHighCapacityPistol40
+
+- type: Tag
+  id: ASMagazineSubMachineGunPistol40
+
+- type: Tag
+  id: ASMagazineSubMachineGunTopMountedPistol40
+
+- type: Tag
+  id: ASSpeedLoaderPistol40
+#endregion
+
+#region .25 caseless
 - type: Tag
   id: ASMagazineCaselessRifle
 
@@ -7,6 +71,24 @@
 
 - type: Tag
   id: ASMagazinePistolCaselessRifle
+#endregion
+
+#region Chems
+- type: Tag
+  id: Cryogenic
+
+- type: Tag
+  id: IPC
+
+- type: Tag
+  id: Narcotic
+
+- type: Tag
+  id: Toxin
+
+- type: Tag
+  id: Sheleg
+#endregion
 
 #region Docking Tags
 - type: Tag
@@ -23,6 +105,7 @@
 
 - type: Tag
   id: ArrivalShuttle
+#endregion
 
 #region uplinks - Aurora
 - type: Tag
@@ -30,7 +113,26 @@
 
 - type: Tag
   id: ExchangeUplink
+#endregion
 
 #region licenses
 - type: Tag
   id: License
+#endregion
+
+#region Power Cells
+- type: Tag
+  id: PowerCellMedium
+
+- type: Tag
+  id: PowerCellHigh
+
+- type: Tag
+  id: PowerCellHyper
+
+- type: Tag
+  id: PowerCellFusion
+
+- type: Tag
+  id: PowerCellAntique
+#endregion

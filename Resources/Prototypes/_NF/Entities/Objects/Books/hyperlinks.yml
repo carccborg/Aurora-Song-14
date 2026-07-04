@@ -22,7 +22,7 @@
     layers:
     - state: law_space
   - type: HyperlinkBook
-    url: https://wiki.aurorasong.net/index.php?title=Space_Law
+    url: https://frontierstation.wiki.gg/wiki/Space_Law
   - type: Tag
     tags:
     - Book
@@ -31,15 +31,15 @@
 - type: entity
   parent: BaseHyperlinkBook
   id: HyperlinkBookNfsdSop
-  name: SLE SOP manual
-  description: A book defining SLE standard operating procedures.
+  name: NFSD SOP manual
+  description: A book defining NFSD standard operating procedures.
   components:
   - type: Sprite
     sprite: _NF/Objects/Misc/books.rsi
     layers:
     - state: nfsd_sop
   - type: HyperlinkBook
-    url: https://wiki.aurorasong.net/index.php?title=Standard_Operating_Procedures
+    url: https://frontierstation.wiki.gg/wiki/NFSDSOP
   - type: Tag
     tags:
     - Book

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Made by stagnation for Frontier",
+  "copyright": "Made by stagnation for Frontier, paper label Sprites by Vermidia.",
   "size": {
     "x": 32,
     "y": 32
@@ -68,6 +68,12 @@
       "name": "frezon-1"
     },
     {
+      "name": "helium"
+    },
+    {
+      "name": "helium-1"
+    },
+    {
       "name": "nitrogen"
     },
     {
@@ -126,6 +132,18 @@
     },
     {
       "name": "water_vapor-1"
+    },
+    {
+      "name": "paper"
+    },
+    {
+      "name": "bounty"
+    },
+    {
+      "name": "captains_paper"
+    },
+    {
+      "name": "invoice"
     }
   ]
 }

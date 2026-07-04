@@ -31,9 +31,14 @@
   parent: ClothingOuterBase
   id: ClothingOuterStorageBase
   components:
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,2
   - type: Storage
     grid:
     - 0,0,2,1
+    maxItemSize: Small
   - type: ContainerContainer
     containers:
       storagebase: !type:Container
@@ -117,7 +122,7 @@
     heatingCoefficient: 0.01
     coolingCoefficient: 0.01
   - type: ClothingSpeedModifier
-    walkModifier: 0.4
+    walkModifier: 0.6
     sprintModifier: 0.6
   - type: HeldSpeedModifier
   - type: Item
@@ -147,6 +152,10 @@
       flatReductions:
         Heat: 10 # the average lightbulb only does around four damage!
     slots: OUTERCLOTHING
+  # Aurora's Song - Disable tail hiding on hardsuits
+  # - type: HideLayerClothing
+  #   slots:
+  #   - Tail
   - type: HarpyHideWings # Frontier, needed for Harpies
   - type: StaticPrice # Frontier
     price: 20 # Frontier
@@ -180,6 +189,10 @@
       flatReductions:
         Heat: 10 # the average lightbulb only does around four damage!
     slots: OUTERCLOTHING
+  # Aurora's Song - Disable tail hiding on hardsuits
+  # - type: HideLayerClothing
+  #   slots:
+  #   - Tail
 #  - type: PhysicalComposition # Frontier
 #    materialComposition: # Frontier
 #      Durathread: 100 # Frontier
@@ -206,4 +219,6 @@
   id: ClothingOuterBaseMedium
   components:
   - type: Item
-    size: Huge
+    size: Large
+    shape:
+    - 0,0,2,3

@@ -1,0 +1,128 @@
+#region SLE
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ASClothingHeadsetAltSLENavy
+  name: SLE over-ear headset
+  description: An updated over-ear headset for Sector Law Enforcement personnel.
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+      - EncryptionKeyNfsd
+      - EncryptionKeyCommand
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_navy.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_navy.rsi
+
+- type: entity
+  parent: ASClothingHeadsetAltSLENavy
+  id: ASClothingHeadsetAltSLEOrange
+  name: SLE over-ear headset
+  description: An updated over-ear headset for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_orange.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_orange.rsi
+
+- type: entity
+  parent: ASClothingHeadsetAltSLENavy
+  id: ASClothingHeadsetAltSLECobalt
+  name: SLE over-ear headset
+  description: An updated over-ear headset for Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_cobalt.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_cobalt.rsi
+
+# Centcom/Sheriff variants with station master encryption
+- type: entity
+  parent: [ClothingHeadsetAlt, BaseCommandContraband]
+  id: ASClothingHeadsetAltSLENavyCentcom
+  name: Commissioner's over-ear headset
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyStationMaster
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_navy.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_navy.rsi
+
+- type: entity
+  parent: ASClothingHeadsetAltSLENavyCentcom
+  id: ASClothingHeadsetAltSLEOrangeCentcom
+  name: Commissioner's over-ear headset
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_orange.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_orange.rsi
+
+- type: entity
+  parent: ASClothingHeadsetAltSLENavyCentcom
+  id: ASClothingHeadsetAltSLECobaltCentcom
+  name: Commissioner's over-ear headset
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_cobalt.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/sle_h_cobalt.rsi
+
+#region Colonial Command
+
+- type: entity
+  parent: [ClothingHeadsetAlt, BaseColcommCommandContraband]
+  id: ClothingHeadsetAltColCom
+  name: ColComm over-ear headset
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyColCom
+      - EncryptionKeyStationMaster
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/colcom.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/colcom.rsi
+
+#region Site Manager
+- type: entity
+  parent: [ClothingHeadsetAlt, BaseCommandContraband]
+  id: ClothingHeadsetAltEngineeringSiteManager
+  name: site manager's over-ear headset
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeySiteManager
+      - EncryptionKeyTraffic
+      - EncryptionKeyShipboard
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/engineering.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/engineering.rsi
+
+# Nanotrasen
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ASClothingHeadsetNanotrasen
+  name: nanotrasen over-ear headset
+  description: An updated over-ear headset used by employees of Nanotrasen.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Ears/Headsets/nanotrasen.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Ears/Headsets/nanotrasen.rsi
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+      - EncryptionKeyNanotrasen

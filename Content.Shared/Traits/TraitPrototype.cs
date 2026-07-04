@@ -1,3 +1,5 @@
+using Content.Shared.Humanoid.Prototypes; // Misfit - Species Trait Hiding
+using Content.Shared.Roles;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
 
@@ -39,9 +41,17 @@ public sealed partial class TraitPrototype : IPrototype
 
     /// <summary>
     /// The components that get added to the player, when they pick this trait.
+    /// NOTE: When implementing a new trait, it's preferable to add it as a status effect instead if possible.
     /// </summary>
     [DataField]
-    public ComponentRegistry Components { get; private set; } = default!;
+    [Obsolete("Use JobSpecial instead.")]
+    public ComponentRegistry Components { get; private set; } = new();
+
+    /// <summary>
+    /// Special effects applied to the player who takes this Trait.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public List<JobSpecial> Specials { get; private set; } = new();
 
     /// <summary>
     /// Gear that is given to the player, when they pick this trait.
@@ -60,4 +70,18 @@ public sealed partial class TraitPrototype : IPrototype
     /// </summary>
     [DataField]
     public ProtoId<TraitCategoryPrototype>? Category;
+
+    /// Misfit - Species Trait Hiding
+    /// <summary>
+    /// Species whitelist for certain traits, this applies to the menu as well, hence its separation.
+    /// </summary>
+    [DataField]
+    public ProtoId<SpeciesPrototype>[] SpeciesWhitelist = [];
+
+    /// Misfit - Species Trait Hiding
+    /// <summary>
+    /// Species blacklist for certain traits, this applies to the menu as well, hence its separation.
+    /// </summary>
+    [DataField]
+    public ProtoId<SpeciesPrototype>[] SpeciesBlacklist = [];
 }

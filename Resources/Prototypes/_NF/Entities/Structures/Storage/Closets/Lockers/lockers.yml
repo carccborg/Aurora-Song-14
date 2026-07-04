@@ -108,7 +108,8 @@
 - type: entity
   id: LockerNfsdEvidence
   parent: [NFLockerBaseSecure, LockerSecurity]
-  name: SLE evidence locker
+  name: NFSD locker
+  suffix: Evidence
   components:
   - type: EntityStorageVisuals
     stateBaseClosed: nfsd
@@ -119,7 +120,7 @@
 - type: entity
   id: LockerNfsdCopper
   parent: [NFLockerBaseSecure, LockerSecurity]
-  name: SLE locker
+  name: NFSD locker
   suffix: Copper
   components:
   - type: EntityStorageVisuals
@@ -131,7 +132,7 @@
 - type: entity
   id: LockerNfsdSilver
   parent: [NFLockerBaseSecure, LockerSecurity]
-  name: SLE locker
+  name: NFSD locker
   suffix: Silver
   components:
   - type: EntityStorageVisuals
@@ -143,7 +144,7 @@
 - type: entity
   id: LockerNfsdBrigmedic
   parent: NFLockerBaseSecure
-  name: SLE locker
+  name: NFSD locker
   suffix: Brigmedic
   components:
   - type: EntityStorageVisuals
@@ -151,13 +152,13 @@
     stateDoorOpen: nfsd_brigmed_open
     stateDoorClosed: nfsd_brigmed_door
   - type: AccessReader
-    access: [["Brigmedic"]]
+    access: [["Corpsman"]] # Aurora's Song - Changed from Brigmedic to Corpsman
 
 # NFSD Gold - Sergeant
 - type: entity
   id: LockerNfsdSergeant
   parent: NFLockerBaseSecure
-  name: SLE locker
+  name: NFSD locker
   suffix: Sergeant
   components:
   - type: EntityStorageVisuals
@@ -171,17 +172,17 @@
 - type: entity
   id: LockerNfsdBailiff
   parent: LockerNfsdSergeant
-  name: SLE locker
+  name: NFSD locker
   suffix: Bailiff
   components:
   - type: AccessReader
-    access: [["Bailiff"]]
+    access: [["Lieutenant"]] # Aurora's Song - Changed from Bailiff to Lieutenant
 
 # NFSD Sheriff
 - type: entity
   id: LockerNfsdSheriff
   parent: [BaseStructureIndestructible, BaseStructureLockImmuneToEmag, BaseStructureAccessReaderImmuneToEmag, NFLockerBaseSecure, LockerHeadOfSecurity] # Aurora - Made indestructible and immune to emag, due to new effort to enforce not robbing offline roles.
-  name: SLE locker
+  name: NFSD locker
   suffix: Sheriff
   components:
   - type: EntityStorageVisuals

@@ -39,6 +39,15 @@
   result: JetpackNfsd
 
 - type: latheRecipe
+  id: JetpackMini
+  result: JetpackMini
+  completetime: 5
+  materials:
+    Steel: 500
+    Glass: 200
+    Plastic: 200
+
+- type: latheRecipe
   id: ClothingBackpackMessengerHolding
   result: ClothingBackpackMessengerHolding
   completetime: 5
@@ -77,3 +86,17 @@
   materials:
     Steel: 400
     Glass: 100
+
+- type: latheRecipe
+  id: ClothingNeckBodyCamera
+  result: ClothingNeckBodyCameraOff
+  completetime: 5
+  materials:
+    Steel: 100
+    Plastic: 200
+    Glass: 100
+
+- type: latheRecipe
+  id: ClothingNeckBodyCameraNFSD
+  parent: ClothingNeckBodyCamera
+  result: ClothingNeckBodyCameraNFSDOff

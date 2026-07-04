@@ -9,10 +9,10 @@
   - type: Tag
     tags:
     - WhitelistChameleon
-  - type: HideLayerClothing
-    layers:
-      HeadTop : HEAD
-      HeadSide : HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #HeadTop : HEAD
+      #HeadSide : HEAD
 
 - type: entity
   parent: ClothingHeadHelmetBase
@@ -42,9 +42,9 @@
     tags:
     - WhitelistChameleon
     - SecurityHelmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 #Mercenary Helmet
 - type: entity
@@ -57,9 +57,9 @@
     sprite: Clothing/Head/Helmets/merc_helmet.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/merc_helmet.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 #SWAT Helmet
 - type: entity
@@ -83,9 +83,9 @@
         Caustic: 0.95
   - type: ExplosionResistance
     damageCoefficient: 0.75
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 #Syndicate SWAT Helmet
 - type: entity
@@ -99,9 +99,9 @@
     sprite: Clothing/Head/Helmets/swat_syndicate.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/swat_syndicate.rsi
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 #Light Riot Helmet
 - type: entity
@@ -121,9 +121,9 @@
         Blunt: 0.8
         Slash: 0.8
         Piercing: 0.95
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - Removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 #Bombsuit Helmet
 - type: entity
@@ -221,6 +221,8 @@
     sprite: Clothing/Head/Helmets/templar.rsi
   - type: Clothing
     sprite: Clothing/Head/Helmets/templar.rsi
+  - type: Item
+    storedRotation: 0
   - type: IngestionBlocker
   - type: IdentityBlocker
   - type: HideLayerClothing
@@ -273,8 +275,8 @@
     quickEquip: true
   - type: IngestionBlocker
   - type: TemperatureProtection
-    heatingCoefficient: 0.01
-    coolingCoefficient: 0.2
+    heatingCoefficient: 0.5
+    coolingCoefficient: 0.8
   - type: FireProtection
     reduction: 0.15 # not fully sealed so less protection
   - type: IdentityBlocker
@@ -301,8 +303,8 @@
     quickEquip: true
   - type: IngestionBlocker
   - type: TemperatureProtection
-    heatingCoefficient: 0.01
-    coolingCoefficient: 0.2
+    heatingCoefficient: 0.3
+    coolingCoefficient: 0.8
   - type: FireProtection
     reduction: 0.2
   - type: PressureProtection
@@ -517,7 +519,7 @@
   - type: PointLight
     enabled: false
     radius: 1.4
-    energy: 1.4
+    energy: 2.5
     color: red
     netsync: false
     mask: /Textures/Effects/LightMasks/double_cone.png
@@ -539,9 +541,9 @@
   - type: Construction
     graph: HelmetJustice
     node: helmet
-  - type: HideLayerClothing
-    layers:
-      Hair: HEAD
+  #- type: HideLayerClothing # Aurora's Song - removed helmet hiding layers
+    #layers:
+      #Hair: HEAD
 
 - type: entity
   parent: ClothingHeadHelmetJustice
@@ -567,3 +569,23 @@
     itemIconStyle: BigItem
   - type: InstantAction
     event: !type:ToggleActionEvent
+
+#card helmet
+- type: entity
+  parent: ClothingHeadHelmetBase
+  id: CardHelmet
+  name: cardboard helmet
+  description: A medieval helmet built from cardboard.
+  components:
+  - type: Sprite
+    sprite: Clothing/Head/Helmets/card_helmet.rsi
+  - type: Clothing
+    sprite: Clothing/Head/Helmets/card_helmet.rsi
+  - type: IngestionBlocker
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.95
+  - type: Construction
+    graph: cardHelmet
+    node: cardhelmet

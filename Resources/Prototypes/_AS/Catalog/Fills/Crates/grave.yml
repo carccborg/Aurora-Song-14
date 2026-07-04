@@ -1,0 +1,12 @@
+- type: entity
+  id: ASCrateWoodenGraveBagFill
+  parent: CrateWoodenGrave
+  name: grave
+  suffix: Filled, Ring Bag
+  description: Someone died here...
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: ASClothingBackpackSatchelSmugglerUnanchoredGraveFill

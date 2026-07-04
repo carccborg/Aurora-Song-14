@@ -1,0 +1,15 @@
+- type: entity
+  id: ASDresserColonialRepresentativeFilled
+  parent: Dresser
+  suffix: Filled, Colonial Representative
+  components:
+  - type: EntityTableContainerFill # Aurora's Song - StorageFill>EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ASClothingNeckMantleColonialRepresentative
+        - id: ASClothingHeadHatColonialRepresentativeCap
+        - id: ASClothingOuterJacketColonialRepresentative
+        - id: ASClothingUniformJumpsuitColonialRepresentative
+        - id: ASClothingUniformJumpskirtColonialRepresentative
+        - id: ClothingShoesLeather

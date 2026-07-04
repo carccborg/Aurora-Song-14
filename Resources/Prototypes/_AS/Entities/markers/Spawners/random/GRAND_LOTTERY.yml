@@ -17,21 +17,12 @@
         color: red
   - type: RandomSpawner
     prototypes:
-    - SpawnDungeonLootCircuitBoard
-    - SpawnDungeonLootToolbox
-    - SpawnDungeonLootFlatpacksEngi
-    - SpawnDungeonLootFlatpacks
-    - SpawnDungeonLootFlatpacks
-    - SpawnDungeonLootPartsEngi
-    - SpawnDungeonLootToolsBasicEngineering
-    - SpawnDungeonLootMaterialsValuableSingle
-    - SpawnDungeonLootMaterialsBasicSingle
-    - SpawnDungeonLootMaterialsBasicFull
-    - SpawnDungeonLootClothesEngi
-    - SpawnDungeonLootVendingRestocks
-    - SpawnDungeonLootFlatpacksEngi
-    - SpawnDungeonLootBureaucracy
-    - SpawnDungeonLootGunT2
+    - WeaponCaseLongWT550Expedition
+    - WeaponCaseLongM90Expedition
+    - WeaponCaseLongBulldog
+    - WeaponCaseLongVulcanExpedition
+    - ASPlasmaRifleScourer
+    - WeaponCaseLongAtreidesExpedition
     - Telecrystal1
     - Telecrystal5
     - FoodCakeSlime
@@ -44,19 +35,15 @@
     - SpaceCash10
     - SpaceCash
     - CigaretteSpent
-    - SpawnDungeonLootMeleeT3
-    - SpawnDungeonLootGunT2 # Frontier: WeaponSniperMosin<NFWeaponRifleBarlowsBolt
-    - SpawnDungeonLootGunT3 # Frontier: WeMakeshiftLaser<NFWeaponEnergyPistolLaserMakeshift
     - Sledgehammer
     - WeaponMeleeToolboxRobust
-    - ThrowingStar #
-    - SpawnDungeonLootMeleeT2 # Frontier: WeaponShotgunHandmade<NFWeaponShotgunHandmade
+    - ThrowingStar
     - WeaponFlareGun
     - ToySword
     - Shovel
     - WeaponWaterPistol
     - WeaponWaterBlaster
-    - NFWeaponRifleFoam # Frontier: WeaponRifleFoam<NFWeaponRifleFoam
+    - NFWeaponRifleFoam
     - ClothingUniformJumpsuitFamilyGuy
     - ClothingOuterFlannelBlue
     - ClothingHeadHelmetBone
@@ -107,22 +94,23 @@
     - HydroponicsToolHatchet
     - ToyAmongPequeno
     - Lamp
-    - NFCartridgeCap # Frontier: CartridgeCap<NFCartridgeCap
+    - NFCartridgeCap
     - CableHVStack1
     - DrinkMugBlue
     - CablecuffsBroken
     - FoodPlateTin
-    - NFMagazineBoxFoam # Frontier: MagazineFoamBox<
-    - NFBoxDonkSoftBox # Frontier: use NF variant
+    - NFMagazineBoxFoam
+    - NFBoxDonkSoftBox
     - GrenadeFoamDart
     - StorageFillAmmoBoxHonk35
     - StorageFillAmmoBoxHonk35SMG
+    - ClothingHandsKnuckleDustersQM
     chance: 1
     offset: 0.0
     rarePrototypes:
-    - SweepingSongGAMBLING
+    #- SweepingSongGAMBLING
     - ASWeaponPKSLAYGambling
-    - ClothingHandsGlovesNorthStarRaiden
+    #- ClothingHandsGlovesNorthStarRaiden
     - ClothingMagbootsGamblingCursed
     - ClothingEyesHudOmni
     - Omnitool

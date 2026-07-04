@@ -7,12 +7,14 @@
   flavor: medicine
   color: "#880077"
   worksOnTheDead: true
+  tags: # Aurora's Song
+  - Cryogenic
   metabolisms:
-    Cryogenic:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
       effects:
       - !type:HealthChange
         conditions:
-        - !type:Temperature
+        - !type:TemperatureCondition # Aurora's Song - Temperature>TemperatureCondition
           max: 213.0
         damage:
           types:
@@ -29,19 +31,23 @@
   flavor: medicine
   color: "#FFA861"
   worksOnTheDead: true
+  tags: # Aurora's Song
+  - Cryogenic
   metabolisms:
-    Cryogenic:
+    Bloodstream: # Aurora's Song - Cryogenic>Bloodstream
       effects:
       - !type:HealthChange
         conditions:
-        - !type:Temperature
+        - !type:TemperatureCondition # Aurora's Song - Temperature>TemperatureCondition
           max: 213.0
         damage:
           types:
             Poison: -6
             Radiation: -3
-          groups:
-            Brute: 3
+            # Aurora's Song - Convert from groups to types
+            Blunt: 1
+            Slash: 1
+            Piercing: 1
 
 #impstation
 - type: reagent
@@ -53,7 +59,7 @@
   color: "#bdfff3"
   recognizable: true
   metabolisms:
-    Medicine:
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
       metabolismRate: 0.1 #this should metabolise in the same amount of time as a drink in a 5:1 mix
       effects:
       - !type:AdjustReagent
@@ -62,4 +68,4 @@
       - !type:HealthChange
         damage:
           types:
-            Poison: -1
+            Poison: -0.1 # Aurora's Song - Half as effective as dylo

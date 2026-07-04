@@ -10,13 +10,6 @@
   - CutterMachineCircuitboard
   - BorgChargerCircuitboard
 
-- type: latheRecipePack
-  id: CircuitFloorsStatic
-  recipes:
-  - FloorGreenCircuit
-  - FloorBlueCircuit
-  - FloorRedCircuit
-
 ## Dynamic
 
 - type: latheRecipePack
@@ -30,6 +23,7 @@
   - SignallerAdvanced
   # - DeviceQuantumSpinInverter # Frontier
   - DeviceDesynchronizer
+  - NFClothingBackpackHarmpack # Frontier: use NF variant
 
 - type: latheRecipePack
   id: ScienceClothing
@@ -37,6 +31,7 @@
   - ClothingShoesBootsMagSci
   - NFClothingShoesBootsMoon # Frontier: use NF variant
   - ClothingShoesBootsSpeed
+  - ClothingShoesBootsJump
   - ClothingBackpackHolding
   - ClothingBackpackSatchelHolding
   - ClothingBackpackDuffelHolding
@@ -60,16 +55,6 @@
   # - PKAUpgradeFireRate # Frontier
   # - WeaponTetherGun # Frontier
   - WeaponGauntletGorilla
-
-- type: latheRecipePack
-  id: FauxTiles
-  recipes:
-  - FauxTileAstroGrass
-  - FauxTileMowedAstroGrass
-  - FauxTileJungleAstroGrass
-  - FauxTileAstroIce
-  - FauxTileAstroSnow
-  - FauxTileAstroAsteroidSand
 
 # Only contains parts for making basic modular grenades, no actual explosives
 - type: latheRecipePack
@@ -131,3 +116,8 @@
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
   - MiniGravityGeneratorCircuitboard
+  - MachineDriveCTLA25Circuitboard # Aurora's Song
+  - MachineDriveCTLA25sCircuitboard # Aurora's Song
+  - MachineDriveCTLA50Circuitboard # Aurora's Song
+  - MachineDriveCTLA160Circuitboard # Aurora's Song
+  - ComputerDriveCTLA160ConsoleCircuitboard # Aurora's Song

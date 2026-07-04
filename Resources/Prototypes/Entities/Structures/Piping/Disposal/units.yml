@@ -39,9 +39,9 @@
           bounds: "-0.45,-0.45,0.45,0.45"
         density: 55
         mask:
-        - TableMask
+        - MachineMask
         layer:
-        - TableLayer
+        - MachineLayer
   - type: Destructible
     thresholds:
     - trigger:
@@ -92,13 +92,19 @@
     graph: DisposalMachine
     node: disposal_unit
   - type: DisposalUnit
+    blacklist:
+      tags:
+      - MantisGreatsword # TheDen - Prevents a potential exploit
   - type: ThrowInsertContainer
     containerId: disposals
+    probability: 0.67
   - type: UserInterface
     interfaces:
       enum.DisposalUnitUiKey.Key:
         type: DisposalUnitBoundUserInterface
-  - type: RatKingRummageable
+  - type: Rummageable
+    table: !type:NestedSelector
+      tableId: RatKingLoot
   - type: RequireProjectileTarget
   - type: PotentialDeadDrop # Frontier
     hintText: dead-drop-hint-disposals # Frontier

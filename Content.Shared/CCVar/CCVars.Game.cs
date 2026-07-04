@@ -69,7 +69,7 @@ public sealed partial class CCVars
     ///     Controls the game map prototype to load. SS14 stores these prototypes in Prototypes/Maps.
     /// </summary>
     public static readonly CVarDef<string>
-        GameMap = CVarDef.Create("game.map", "Frontier", CVar.SERVERONLY); // Frontier: string.Empty<Frontier
+        GameMap = CVarDef.Create("game.map", "PortBoreal", CVar.SERVERONLY); // Frontier: string.Empty<Frontier
 
     /// <summary>
     ///     Controls whether to use world persistence or not.
@@ -88,7 +88,7 @@ public sealed partial class CCVars
     ///     Prototype to use for map pool.
     /// </summary>
     public static readonly CVarDef<string>
-        GameMapPool = CVarDef.Create("game.map_pool", "NFMapPool", CVar.SERVERONLY); // Frontier: DefaultMapPool<NFMapPool
+        GameMapPool = CVarDef.Create("game.map_pool", "ASMapPool", CVar.SERVERONLY); // Aurora's Song - DefaultMapPool<ASMapPool
 
     /// <summary>
     ///     The depth of the queue used to calculate which map is next in rotation.
@@ -108,6 +108,12 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool>
         GameRoleTimers = CVarDef.Create("game.role_timers", true, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// If role loadout items should be restricted based on time.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        GameRoleLoadoutTimers = CVarDef.Create("game.role_loadout_timers", true, CVar.SERVER | CVar.REPLICATED);
 
     /// <summary>
     ///     Override default role requirements using a <see cref="JobRequirementOverridePrototype"/>
@@ -285,10 +291,10 @@ public sealed partial class CCVars
 
     /// <summary>
     /// Amount of playtime in minutes to be exempt from an IP check. 0 to search everyone. 5 hours by default.
+    /// </summary>
     /// <remarks>
     /// Trust me you want one.
-    /// </remarks>>
-    /// </summary>
+    /// </remarks>
     public static readonly CVarDef<TimeSpan> GameIPIntelExemptPlaytime =
         CVarDef.Create("game.ipintel_exempt_playtime", TimeSpan.FromMinutes(300), CVar.SERVERONLY);
 
@@ -403,4 +409,13 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool> GameHostnameInTitlebar =
         CVarDef.Create("game.hostname_in_titlebar", true, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// The maximum amount of tiles you can stack on top of each other. 0 is unlimited.
+    /// </summary>
+    /// <remarks>
+    /// Having it too high can result in "doomstacking" tiles - this messes with efficiency of explosions, deconstruction of tiles, and might result in memory problems.
+    /// </remarks>
+    public static readonly CVarDef<int> TileStackLimit =
+        CVarDef.Create("game.tile_stack_limit", 5, CVar.SERVER | CVar.REPLICATED);
 }

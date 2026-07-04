@@ -110,7 +110,7 @@ namespace Content.Client.Examine
         {
             var entity = args.EntityUid;
 
-            if (!args.EntityUid.IsValid() || !EntityManager.EntityExists(entity))
+            if (!args.EntityUid.IsValid() || !Exists(entity))
             {
                 return false;
             }
@@ -201,7 +201,7 @@ namespace Content.Client.Examine
             }
 
             // Actually open the tooltip.
-            _examineTooltipOpen = new Popup { MaxWidth = 400 };
+            _examineTooltipOpen = new Popup { MaxWidth = 1200 }; // Coyote
             _userInterfaceManager.ModalRoot.AddChild(_examineTooltipOpen);
             var panel = new PanelContainer() { Name = "ExaminePopupPanel" };
             panel.AddStyleClass(StyleClassEntityTooltip);
@@ -225,7 +225,7 @@ namespace Content.Client.Examine
 
             vBox.AddChild(hBox);
 
-            if (EntityManager.HasComponent<SpriteComponent>(target))
+            if (HasComp<SpriteComponent>(target))
             {
                 var spriteView = new SpriteView
                 {

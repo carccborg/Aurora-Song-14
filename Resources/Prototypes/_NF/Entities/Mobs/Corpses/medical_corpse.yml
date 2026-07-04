@@ -73,6 +73,11 @@
 
 - type: randomHumanoidSettings
   id: MedicalBounty
+  randomizeName: true # Patients should have names (easier to remember)
+  speciesBlacklist:
+  - IPC # Aurora's Song - IPCs don't work well with medical damage mechanics
+  - Fairy # Aurora's Song - incredibly annoying if rotted
+  - Sheleg # Aurora's Song - can't guarantee spawns with suit
   components:
   - type: StinkyTrait
   - type: Carriable # Carrying system from nyanotrasen.
@@ -85,12 +90,11 @@
   - type: GibOnTrigger
     deleteItems: true
     deleteOrgans: true
-    gib: false
-    useArgumentEntity: true
+  # Aurora's Song - Remove old NF trigger
+  #   gib: false
+  #   useArgumentEntity: true
     # Medical bounty-specific fields
-  - type: MedicalBounty
-  - type: RandomHumanoidAppearance
-    randomizeName: true # Patients should have names (easier to remember)
+  - type: ASMedicalBounty # Aurora's Song - MedicalBounty>ASMedicalBounty
   - type: NpcFactionMember
     factions:
     - NanoTrasen # Unsure about this one, but friendly turrets shouldn't gun them down

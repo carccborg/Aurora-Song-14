@@ -1,3 +1,31 @@
+# Aurora Song - Mantis drip merge
+- type: loadout
+  id: ContractorClothingBeltMantisAiry
+  price: 500
+  equipment:
+    belt: ClothingBeltMantisAiry
+
+- type: loadout
+  id: ContractorClothingBeltMantisDark
+  price: 500
+  equipment:
+    belt: ClothingBeltMantisDark
+
+- type: loadout
+  id: ContractorClothingBeltMantisOrnate
+  price: 500
+  equipment:
+    belt: ClothingBeltMantisOrnate
+# Aurora Song - Mantis drip merge end
+
+# Aurora Song - Chaplain drip start
+- type: loadout
+  id: ContractorClothingBeltDragon
+  price: 500
+  equipment:
+    belt: ClothingBeltChaplainDragon
+# Aurora Song - Chaplain drip end
+
 - type: loadout
   id: ContractorClothingBeltPlant
   price: 500
@@ -239,6 +267,9 @@
   effects:
   - !type:GroupLoadoutEffect
     proto: ContractorT3
+  hideEffects:
+  - !type:GroupLoadoutEffect
+    proto: NFNotStationRep
   price: 2500
   equipment:
     belt: ClothingBeltSheathFilledHilt

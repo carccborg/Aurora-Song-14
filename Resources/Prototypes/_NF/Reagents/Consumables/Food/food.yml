@@ -7,16 +7,17 @@
   flavor: nutriment
   color: "#775441"
   metabolisms:
-    Food:
+    Digestion: # Aurora's Song - Food>Digestion
       metabolismRate: 0.1
       effects:
-      - !type:MovespeedModifier
+      - !type:MovementSpeedModifier # Aurora's Song - MovespeedModifier>MovementSpeedModifier
         walkSpeedModifier: 1.15
         sprintSpeedModifier: 1.15
       - !type:SatiateHunger
       - !type:HealthChange #minor health benefit if you eat full meals, helps with the existing 'healthy' vitamins etc. to create a complete and balanced diet.
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Flavorol
           min: 10
         damage:
           types:
@@ -42,12 +43,39 @@
   color: "#3f1d04"
   recognizable: true
   metabolisms:
-    Food:
-      effects:
+    Digestion: # Aurora's Song - Food>Digestion
+      metabolites:
       # Minimally filling
-      - !type:AdjustReagent
-        reagent: Sugar
-        amount: 0.2
-      - !type:AdjustReagent
-        reagent: Nutriment
-        amount: 0.1
+        Sugar: 0.2
+        Nutriment: 0.1
+
+- type: reagent
+  id: SourCream
+  name: reagent-name-sourcream
+  group: Foods
+  desc: reagent-desc-sourcream
+  physicalDesc: reagent-physical-desc-creamy
+  flavor: sharp
+  color: "#F5F5F5"
+  metabolisms:
+    Digestion: # Aurora's Song - Food>Digestion
+      effects:
+      - !type:SatiateHunger
+        factor: 0.3
+
+- type: reagent
+  id: Salsa
+  name: reagent-name-salsa
+  group: Foods
+  desc: reagent-desc-salsa
+  physicalDesc: reagent-physical-desc-refreshing
+  flavor: tangy
+  color: "#ff6347"
+  recognizable: true
+  metabolisms:
+    Digestion: # Aurora's Song - Food>Digestion
+      effects:
+      - !type:SatiateHunger
+        factor: 0.2
+      - !type:SatiateThirst
+        factor: 0.5 # watery, tomato-y

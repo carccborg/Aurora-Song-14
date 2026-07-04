@@ -13,6 +13,7 @@
   id: MobMercenaryBase
   description: A mercenary, merc, soldier of fortune, hired gun, dog of war.
   components:
+  - type: CombatMode # Aurora's Song - Enable NavSmash behavior
   - type: RandomHumanoidAppearance
     randomizeName: true
   - type: Damageable
@@ -23,8 +24,8 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      110: Dead
+      100: Critical # Aurora Song 80>100
+      110: Dead # Aurora Song 100>110
   - type: SlowOnDamage
     speedModifierThresholds:
       48: 0.7
@@ -36,7 +37,7 @@
   - type: Butcherable
     butcheringType: Spike
     spawned:
-    - id: FoodMeatHuman
+    - id: FoodMeatHuman # Aurora Song FoodMeatRotten>FoodMeatHuman
       amount: 2
   - type: RechargeBasicEntityAmmo
     rechargeCooldown: 1.5
@@ -55,11 +56,12 @@
       path: /Audio/Weapons/bladeslice.ogg
       params:
         variation: 0.125
-  - type: Advertise
-    pack: mercenaryhumanoidchatter
-    minimumWait: 30
-    maximumWait: 120
-    nextAdvertisementTime: 10
+  - type: Vocalizer
+    minVocalizeInterval: 30
+    maxVocalizeInterval: 120
+    hideChat: true
+  - type: DatasetVocalizer
+    dataset: mercenaryhumanoidchatter
   - type: AutoWakeUp
 
 # Variations
@@ -385,11 +387,10 @@
       state: equipped-NECK-on
       color: "#a9b6bd"
       shader: unshaded
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider # Aurora's Song - ProjectileBatteryAmmoProvider>BatteryAmmoProvider
     proto: NFBulletLaserLow
     fireCost: 100
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
   - type: Battery
     maxCharge: 600
@@ -540,9 +541,58 @@
     - MindRoleGhostRoleTeamAntagonist
   - type: GhostTakeoverAvailable
   - type: ActionGun
-    action: ActionSideArmFan
-    gunProto: GunSideArmFan
+# Aurora's Song Start - Replacing the Captain's revolver fan ability with a flashbang
+    action: ActionFlashbangToss
+    gunProto: FlashbangGun
 
+
+- type: entity
+  id: FlashbangGun
+  name: flashbang gun
+  description: Needed to shoot flashbang.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RechargeBasicEntityAmmo
+    rechargeCooldown: 50
+    rechargeSound:
+      path: /Audio/_NF/Effects/silence.ogg
+  - type: BasicEntityAmmoProvider
+    proto: ASBulletFlashBang
+    capacity: 1
+    count: 1
+  - type: Gun
+    minAngle: 2
+    maxAngle: 8
+    fireRate: 1
+    selectedMode: SemiAuto
+    availableModes:
+      - SemiAuto
+    soundGunshot:
+      path: /Audio/Items/bow_pull.ogg
+    soundEmpty: null
+    projectileSpeed: 15
+  - type: UseDelay
+    delay: 50
+
+- type: entity
+  id: ActionFlashbangToss
+  parent: BaseAction
+  categories: [ HideSpawnMenu ]
+  name: "[color=yellow]Throw Flashbang[/color]"
+  description: "Hurls a flashbang, 50 second cooldown."
+  components:
+  - type: Action
+    icon: {sprite : Objects/Weapons/Grenades/flashbang.rsi, state: icon}
+    priority: 2
+    itemIconStyle: BigAction
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+  - type: WorldTargetAction
+    event: !type:ActionGunShootEvent
+# Aurora's Song End
+
+# Aurora's Song | Not commenting this out, because we can just not use it on the Captain and it may find use elsewhere
 - type: entity
   id: GunSideArmFan
   name: trusty Lucky 45

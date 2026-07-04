@@ -1,0 +1,90 @@
+# Surplus
+- type: entity # Aurora's Song - Copy of WT-550 from NF but legalized with sprite changes
+  id: ASWeaponSubMachineGunSurpWt550
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponSubMachineGunWt550 ]
+  name: WT-550
+  suffix: surplus
+  description: |-
+    An excellent SMG. On the receiver is a label that says 'Certified Surplus.'
+  components:
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpwt550.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: base-unshaded
+        map: ["enum.GunVisualLayers.BaseUnshaded"]
+        shader: unshaded
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+      - state: mag-unshaded-0
+        map: ["enum.GunVisualLayers.MagUnshaded"]
+        shader: unshaded
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpwt550.rsi
+
+- type: entity # Aurora's Song - Copy of Atreides from NF but legalized with sprite changes
+  id: ASWeaponSubMachineGunSurpAtreides
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponSubMachineGunAtreides ]
+  name: Atreides
+  suffix: Surplus
+  description: |-
+    A submachinegun previously used by Syndicate agents. On the receiver is a label that says 'Certified Surplus.'
+  components:
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpatreides.rsi
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpatreides.rsi
+
+- type: entity # Aurora's Song - Copy of Drozd from NF but legalized with sprite changes
+  id: ASWeaponSubMachineGunSurpDrozd
+  parent: [ BaseC2ContrabandUnredeemable, NFWeaponSubMachineGunDrozd ]
+  name: Drozd
+  suffix: Surplus
+  components:
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpdrozd.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/SMGs/surpdrozd.rsi
+
+# Aurora's Song - B&S AP4C SMG chambered in .40 pistol
+- type: entity
+  id: ASWeaponSubMachineGunAP4C
+  parent: [ BaseC2ContrabandUnredeemable, ASBaseWeaponSubMachineGunChamber40, ASBaseWeaponFrameSubMachineGunNanotrasenWieldable ]
+  name: B&S AP4C
+  description: |-
+    A compact submachine gun originally employed by SWAT teams. Manufactured by Becker & Schulz Armorers.
+  components:
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/SMGs/ap4c.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/SMGs/ap4c.rsi
+  - type: MagazineVisuals
+    magState: mag
+    steps: 3
+    zeroVisible: true
+  - type: GunWieldBonus
+    minAngle: -6
+    maxAngle: -11
+  - type: Gun
+    minAngle: 4
+    maxAngle: 22
+    fireRate: 6.5
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+      params:
+        pitch: 0.7
+        variation: 0.05
+        volume: -3
+  - type: NFWeaponDetails
+    manufacturer: weapon-details-manufacturer-bsa

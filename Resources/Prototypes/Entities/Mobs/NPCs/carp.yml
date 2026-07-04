@@ -44,7 +44,7 @@
       baseWalkSpeed: 2.5
       baseSprintSpeed: 3.5
     - type: Stamina
-      critThreshold: 100
+      baseCritThreshold: 100
     - type: DamageStateVisuals
       states:
         Alive:
@@ -76,6 +76,7 @@
       tags:
         - Carp
         - DoorBumpOpener
+        - CannotSuicide
     - type: ReplacementAccent
       accent: genericAggressive
     - type: Speech
@@ -86,7 +87,6 @@
       interactFailureSound:
         path: /Audio/Effects/bite.ogg
     - type: Carriable # DeltaV
-    - type: LeashAnchor # Floofstation - sometimes you gotta walk that fish
 
 - type: entity
   parent: BaseMobCarp
@@ -152,7 +152,7 @@
   components:
   - type: PointLight
     radius: 1.5
-    energy: 0.5
+    energy: 2
   - type: RgbLightController
     layers: [ 0 ]
 
@@ -163,6 +163,10 @@
   categories: [ HideSpawnMenu ] # Frontier
   components:
     - type: NFSalvageMobRestrictions # Frontier: SalvageMobRestrictions<NFSalvageMobRestrictions
+    - type: MobThresholds
+      thresholds:
+        0: Alive
+        30: Dead
 
 - type: entity
   name: space carp
@@ -180,16 +184,16 @@
       rules: ghost-role-information-space-dragon-summoned-carp-rules
       mindRoles:
       - MindRoleGhostRoleTeamAntagonistFlock
-      raffle:
-        settings: short
     - type: GhostTakeoverAvailable
     - type: HTN
       rootTask:
         task: DragonCarpCompound
-    - type: LeashAnchor # Floofstation - we can't exactly remove this component coming from the parent, so we disable it
-      enabled: false
-
-
+    - type: Flammable
+      damage:
+       types: {}
+    - type: Temperature
+    - type: TemperatureDamage
+      heatDamageThreshold: 1200
 - type: entity
   id: MobCarpDungeon
   parent: MobCarp
@@ -207,12 +211,10 @@
     damage:
       types:
         Slash: 6
-  - type: LeashAnchor # Floofstation - we can't exactly remove this component coming from the parent, so we disable it
-    enabled: false
 
 - type: entity
   name: sharkminnow
-  parent: BaseMobCarp
+  parent: [ BaseMobBloodsucker, BaseMobCarp ]
   id: MobShark
   description: A dangerous shark from the blackness of endless space, who loves to drink blood.
   categories: [ HideSpawnMenu ] # Frontier
@@ -239,9 +241,9 @@
     - type: MobThresholds
       thresholds:
         0: Alive
-        150: Dead
+        82: Dead # Might seem random, but this brings up the hits to kill with a crusher mark to 3
     - type: Stamina
-      critThreshold: 150
+      baseCritThreshold: 150
     - type: DamageStateVisuals
       states:
         Alive:
@@ -250,9 +252,6 @@
         Dead:
           Base: dead
           BaseUnshaded: dead_mouth
-    - type: Body
-      prototype: Bloodsucker
-      requiredLegs: 1
     - type: Butcherable
       spawned:
         - id: FoodMeatFish

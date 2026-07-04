@@ -1,8 +1,8 @@
-using Content.Server.Administration.Logs;
+﻿using Content.Server.Administration.Logs;
 using Content.Server.Audio;
-using Content.Server.Emp;
 using Content.Server.Power.Components;
 using Content.Shared.Database;
+using Content.Shared.Emp;
 using Content.Shared.Power;
 using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
@@ -29,7 +29,6 @@ public sealed class PowerChargeSystem : EntitySystem
         // This needs to be ui key agnostic
         SubscribeLocalEvent<PowerChargeComponent, SwitchChargingMachineMessage>(OnSwitchGenerator);
 
-        SubscribeLocalEvent<PowerChargeComponent, EmpPulseEvent>(OnEmpPulse); // Frontier: emp code
         SubscribeLocalEvent<PowerChargeComponent, PowerChargeActionMessage>(OnActionAttempt); // Frontier
     }
 
@@ -89,8 +88,8 @@ public sealed class PowerChargeSystem : EntitySystem
         if (!Resolve(uid, ref powerReceiver))
             return;
 
-        if (user is { } )
-            _adminLogger.Add(LogType.Action, on ? LogImpact.Medium : LogImpact.High, $"{ToPrettyString(user):player} set ${ToPrettyString(uid):target} to {(on ? "on" : "off")}");
+        if (user is { })
+            _adminLogger.Add(LogType.Action, on ? LogImpact.Medium : LogImpact.High, $"{ToPrettyString(user):player} set {ToPrettyString(uid):target} to {(on ? "on" : "off")}");
 
         component.SwitchedOn = on;
         UpdatePowerState(component, powerReceiver);
@@ -326,24 +325,6 @@ public sealed class PowerChargeSystem : EntitySystem
 
         _appearance.SetData(ent, PowerChargeVisuals.State, PowerChargeStatus.On, appearance);
     }
-
-    // Frontier: EMP on charge system (Upstream - #28984, MIT)
-    private void OnEmpPulse(Entity<PowerChargeComponent> ent, ref EmpPulseEvent args)
-    {
-        ent.Comp.Active = false;
-        ent.Comp.Charge = 0;
-        var eventDeactivatedArgs = new ChargedMachineDeactivatedEvent();
-        RaiseLocalEvent(ent.Owner, ref eventDeactivatedArgs);
-
-        ent.Comp.NeedUIUpdate = true;
-
-        if (!TryComp<ApcPowerReceiverComponent>(ent.Owner, out var powerReceiver))
-            return;
-
-        // update power state
-        UpdateState((ent.Owner, ent.Comp, powerReceiver));
-    }
-    // End Frontier
 }
 
 [ByRefEvent] public record struct ChargedMachineActivatedEvent;

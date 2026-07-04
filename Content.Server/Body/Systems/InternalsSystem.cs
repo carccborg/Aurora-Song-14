@@ -1,4 +1,5 @@
 using Content.Server.Atmos.EntitySystems;
+using Content.Server.Body.Components;
 using Content.Server.Popups;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
@@ -38,8 +39,12 @@ public sealed class InternalsSystem : SharedInternalsSystem
         if (component.GasTankEntity != null)
             return; // already connected
 
+        // Aurora's Song - Make sure that the entity actually breathes
+        if (!TryComp<RespiratorComponent>(uid, out var respiratorComp))
+            return;
+
         // Can the entity breathe the air it is currently exposed to?
-        if (_respirator.CanMetabolizeInhaledAir(uid))
+        if (_respirator.CanMetabolizeInhaledAir((uid, respiratorComp))) // Aurora's Song - Add respirator to reduce re-resolving
             return;
 
         var tank = FindBestGasTank(uid);
@@ -47,7 +52,7 @@ public sealed class InternalsSystem : SharedInternalsSystem
             return;
 
         // Could the entity metabolise the air in the linked gas tank?
-        if (!_respirator.CanMetabolizeGas(uid, tank.Value.Comp.Air))
+        if (!_respirator.CanMetabolizeInhaledAir((uid, respiratorComp), tank.Value.Comp.Air)) // Aurora's Song - Add respirator to reduce re-resolving
             return;
 
         ToggleInternals(uid, uid, force: false, component, ToggleMode.On);
@@ -58,9 +63,9 @@ public sealed class InternalsSystem : SharedInternalsSystem
         if (AreInternalsWorking(ent))
         {
             var gasTank = Comp<GasTankComponent>(ent.Comp.GasTankEntity!.Value);
-            args.Gas = _gasTank.RemoveAirVolume((ent.Comp.GasTankEntity.Value, gasTank), Atmospherics.BreathVolume);
+            args.Gas = _gasTank.RemoveAirVolume((ent.Comp.GasTankEntity.Value, gasTank), args.Respirator.BreathVolume);
             // TODO: Should listen to gas tank updates instead I guess?
-            _alerts.ShowAlert(ent, ent.Comp.InternalsAlert, GetSeverity(ent));
+            _alerts.ShowAlert(ent.Owner, ent.Comp.InternalsAlert, GetSeverity(ent));
         }
     }
 }

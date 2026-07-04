@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Damage;
 using Content.Shared.Examine;
@@ -7,6 +7,7 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Item.ItemToggle; // Goobstation
 using Content.Shared.Maps;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Physics;
@@ -31,6 +32,8 @@ public sealed partial class BlockingSystem : EntitySystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ExamineSystemShared _examine = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly ItemToggleSystem _toggle = default!; // Goobstation
 
     public override void Initialize()
     {
@@ -96,7 +99,7 @@ public sealed partial class BlockingSystem : EntitySystem
         if (!handQuery.TryGetComponent(args.Performer, out var hands))
             return;
 
-        var shields = _handsSystem.EnumerateHeld(args.Performer, hands).ToArray();
+        var shields = _handsSystem.EnumerateHeld((args.Performer, hands)).ToArray();
 
         foreach (var shield in shields)
         {
@@ -165,7 +168,7 @@ public sealed partial class BlockingSystem : EntitySystem
         }
 
         //Don't allow someone to block if someone else is on the same tile
-        var playerTileRef = xform.Coordinates.GetTileRef();
+        var playerTileRef = _turf.GetTileRef(xform.Coordinates);
         if (playerTileRef != null)
         {
             var intersecting = _lookup.GetLocalEntitiesIntersecting(playerTileRef.Value, 0f);
@@ -244,7 +247,7 @@ public sealed partial class BlockingSystem : EntitySystem
         if (TryComp<BlockingUserComponent>(user, out var blockingUserComponent) && TryComp<PhysicsComponent>(user, out var physicsComponent))
         {
             if (xform.Anchored)
-                _transformSystem.Unanchor(user, xform);
+                _transformSystem.Unanchor(user, xform, false);
 
             _actionsSystem.SetToggled(component.BlockingToggleActionEntity, false);
             _fixtureSystem.DestroyFixture(user, BlockingComponent.BlockFixtureID, body: physicsComponent);
@@ -276,7 +279,7 @@ public sealed partial class BlockingSystem : EntitySystem
         if (!handQuery.TryGetComponent(user, out var hands))
             return;
 
-        var shields = _handsSystem.EnumerateHeld(user, hands).ToArray();
+        var shields = _handsSystem.EnumerateHeld((user, hands)).ToArray();
 
         foreach (var shield in shields)
         {
@@ -297,6 +300,8 @@ public sealed partial class BlockingSystem : EntitySystem
             return;
 
         var fraction = component.IsBlocking ? component.ActiveBlockFraction : component.PassiveBlockFraction;
+        if (!_toggle.IsActivated(uid)) // Goobstation
+            fraction = 0f;
         var modifier = component.IsBlocking ? component.ActiveBlockDamageModifier : component.PassiveBlockDamageModifer;
 
         var msg = new FormattedMessage();

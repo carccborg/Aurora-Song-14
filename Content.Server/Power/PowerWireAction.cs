@@ -88,7 +88,6 @@ public sealed partial class PowerWireAction : BaseWireAction
             {
                 return;
             }
-            // End Frontier: Upstream - #28984
 
             receiverSys.SetPowerDisabled(owner, false, power);
         }

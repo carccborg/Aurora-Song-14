@@ -60,11 +60,12 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         SubscribeLocalEvent<ShuttleConsoleComponent, ComponentShutdown>(OnConsoleShutdown);
         SubscribeLocalEvent<ShuttleConsoleComponent, PowerChangedEvent>(OnConsolePowerChange);
         SubscribeLocalEvent<ShuttleConsoleComponent, AnchorStateChangedEvent>(OnConsoleAnchorChange);
-        SubscribeLocalEvent<ShuttleConsoleComponent, ActivatableUIOpenAttemptEvent>(OnConsoleUIOpenAttempt);
+        SubscribeLocalEvent<ShuttleConsoleComponent, AfterActivatableUIOpenEvent>(OnConsoleUIOpenAttempt);
         Subs.BuiEvents<ShuttleConsoleComponent>(ShuttleConsoleUiKey.Key, subs =>
         {
             subs.Event<ShuttleConsoleFTLBeaconMessage>(OnBeaconFTLMessage);
             subs.Event<ShuttleConsoleFTLPositionMessage>(OnPositionFTLMessage);
+            subs.Event<ToggleFTLLockRequestMessage>(OnToggleFTLLock); // Mono
             subs.Event<BoundUIClosedEvent>(OnConsoleUIClose);
         });
 
@@ -156,10 +157,9 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     }
 
     private void OnConsoleUIOpenAttempt(EntityUid uid, ShuttleConsoleComponent component,
-        ActivatableUIOpenAttemptEvent args)
+        AfterActivatableUIOpenEvent args)
     {
-        if (!TryPilot(args.User, uid))
-            args.Cancel();
+        TryPilot(args.User, uid);
     }
 
     private void OnConsoleAnchorChange(EntityUid uid, ShuttleConsoleComponent component,
@@ -215,8 +215,95 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     {
         if (ent.Comp.Console != null)
         {
-            RemovePilot(ent, ent);
+            RemovePilot(ent);
         }
+    }
+
+    // Mono
+    /// <summary>
+    /// Handles FTL lock toggling for docked shuttles
+    /// </summary>
+    private void OnToggleFTLLock(EntityUid uid, ShuttleConsoleComponent component, ToggleFTLLockRequestMessage args)
+    {
+        // Get the console's grid (shuttle)
+        var consoleXform = Transform(uid);
+        var shuttleGrid = consoleXform.GridUid;
+
+        Logger.DebugS("shuttle", $"Server received FTL lock request with {args.DockedEntities.Count} entities, enabled={args.Enabled}");
+
+        // If the shuttleGrid is null, we can't do anything
+        if (shuttleGrid == null)
+        {
+            Logger.DebugS("shuttle", $"Cannot toggle FTL lock: console {ToPrettyString(uid)} is not on a grid");
+            return;
+        }
+
+        bool processedMainGrid = false;
+
+        // Process each entity in the request
+        foreach (var dockedEntityNet in args.DockedEntities)
+        {
+            var dockedEntity = GetEntity(dockedEntityNet);
+
+            // Check if this is the main shuttle grid
+            if (dockedEntity == shuttleGrid)
+            {
+                processedMainGrid = true;
+            }
+
+            if (TryComp<FTLLockComponent>(dockedEntity, out var ftlLock))
+            {
+                Logger.DebugS("shuttle", $"Setting FTL lock for {ToPrettyString(dockedEntity)} to {args.Enabled}");
+                ftlLock.Enabled = args.Enabled;
+                Dirty(dockedEntity, ftlLock);
+            }
+        }
+
+        // If we didn't process the main grid yet, do it now
+        if (!processedMainGrid && shuttleGrid != null)
+        {
+            if (TryComp<FTLLockComponent>(shuttleGrid, out var ftlLock))
+            {
+                Logger.DebugS("shuttle", $"Setting FTL lock for main grid {ToPrettyString(shuttleGrid.Value)} to {args.Enabled}");
+                ftlLock.Enabled = args.Enabled;
+                Dirty(shuttleGrid.Value, ftlLock);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the FTL lock state of a shuttle entity.
+    /// </summary>
+    /// <param name="shuttleUid">The shuttle entity to modify</param>
+    /// <param name="dockedEntities">List of docked entities to also modify, or empty to only modify the shuttle</param>
+    /// <param name="enabled">The desired FTL lock state (true to enable, false to disable)</param>
+    /// <returns>True if at least one entity was modified, false otherwise</returns>
+    public bool ToggleFTLLock(EntityUid shuttleUid, List<NetEntity> dockedEntities, bool enabled)
+    {
+        var modified = false;
+
+        // Modify the main shuttle if it has the component
+        if (TryComp<FTLLockComponent>(shuttleUid, out var shuttleFtlLock))
+        {
+            shuttleFtlLock.Enabled = enabled;
+            Dirty(shuttleUid, shuttleFtlLock);
+            modified = true;
+        }
+
+        // Modify any docked entities if provided
+        foreach (var dockedEntityNet in dockedEntities)
+        {
+            var dockedEntity = GetEntity(dockedEntityNet);
+
+            if (TryComp<FTLLockComponent>(dockedEntity, out var ftlLock))
+            {
+                ftlLock.Enabled = enabled;
+                Dirty(dockedEntity, ftlLock);
+                modified = true;
+            }
+        }
+
+        return modified;
     }
 
     /// <summary>
@@ -250,6 +337,8 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
                     _xformQuery.TryGetComponent(comp.DockedWith, out var otherDockXform) ?
                     GetNetEntity(otherDockXform.GridUid) :
                     null,
+                Color = comp.RadarColor,
+                HighlightedColor = comp.HighlightedRadarColor,
                 LabelName = comp.Name != null ? Loc.GetString(comp.Name) : null, // Frontier: docking labels
                 RadarColor = comp.RadarColor, // Frontier
                 HighlightedRadarColor = comp.HighlightedRadarColor, // Frontier
@@ -340,7 +429,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
     public void AddPilot(EntityUid uid, EntityUid entity, ShuttleConsoleComponent component)
     {
-        if (!EntityManager.TryGetComponent(entity, out PilotComponent? pilotComponent)
+        if (!TryComp(entity, out PilotComponent? pilotComponent)
         || component.SubscribedPilots.Contains(entity))
         {
             return;
@@ -354,7 +443,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         pilotComponent.Console = uid;
         ActionBlockerSystem.UpdateCanMove(entity);
-        pilotComponent.Position = EntityManager.GetComponent<TransformComponent>(entity).Coordinates;
+        pilotComponent.Position = Comp<TransformComponent>(entity).Coordinates;
         Dirty(entity, pilotComponent);
     }
 
@@ -377,12 +466,12 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         _popup.PopupEntity(Loc.GetString("shuttle-pilot-end"), pilotUid, pilotUid);
 
         if (pilotComponent.LifeStage < ComponentLifeStage.Stopping)
-            EntityManager.RemoveComponent<PilotComponent>(pilotUid);
+            RemComp<PilotComponent>(pilotUid);
     }
 
     public void RemovePilot(EntityUid entity)
     {
-        if (!EntityManager.TryGetComponent(entity, out PilotComponent? pilotComponent))
+        if (!TryComp(entity, out PilotComponent? pilotComponent))
             return;
 
         RemovePilot(entity, pilotComponent);

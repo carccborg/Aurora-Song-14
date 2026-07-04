@@ -81,9 +81,9 @@ public enum LogType
     ChemicalReaction = 17,
 
     /// <summary>
-    /// Reagent effects related interactions.
+    /// EntityEffect related interactions.
     /// </summary>
-    ReagentEffect = 18,
+    EntityEffect = 18,
 
     /// <summary>
     /// Canister valve was opened or closed.
@@ -475,6 +475,16 @@ public enum LogType
     /// </summary>
     ShuttleImpact = 102,
 
+    /// <summary>
+    /// Events relating to midi playback.
+    /// </summary>
+    Instrument = 103,
+
+    /// <summary>
+    /// Events related to players connecting/disconnecting.
+    /// </summary>
+    Connection = 104,
+
     // Frontier Station Specific
     #region Frontier Values
     ATMUsage = 200,
@@ -523,7 +533,37 @@ public enum LogType
     ObjectiveSummary = 422,
     #endregion DeltaV Values
 
-	#region Aurora
+    #region Aurora
     StationPayDeposit = 14001,
+
+    /// <summary>
+    /// Persistent Record Created
+    /// </summary>
+    RecordCreate = 14100,
+
+    /// <summary>
+    /// Persistent Record Edited
+    /// </summary>
+    RecordEdit = 14101,
+
+    /// <summary>
+    /// Persistent Record Hidden
+    /// </summary>
+    RecordHide = 14102,
+
+    /// <summary>
+    /// Persistent Record Unhidden
+    /// </summary>
+    RecordUnhide = 14103,
+
+    /// <summary>
+    /// Persistent Record Deleted
+    /// </summary>
+    RecordDelete = 14104,
+
+    /// <summary>
+    /// Persistent Record restored from a deleted state
+    /// </summary>
+    RecordRestore = 14105,
     #endregion
 }

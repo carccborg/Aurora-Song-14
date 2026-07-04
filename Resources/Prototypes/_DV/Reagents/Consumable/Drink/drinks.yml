@@ -13,24 +13,25 @@
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.3
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.3
       - !type:PopupMessage
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: HealthViolation
           min: 30
         type: Local
         visualType: Medium
         messages: [ "generic-reagent-effect-damnation" ]
         probability: 0.2
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: HealthViolation
           min: 30
         probability: 0.02
 
@@ -49,14 +50,13 @@
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.2
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.20
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:HealthChange
         damage:
@@ -77,13 +77,12 @@
   metamorphicMaxFillLevels: 3
   metamorphicFillBaseName: fill-
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.15
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.15
 
 - type: reagent
   id: GreenGrass
@@ -99,13 +98,12 @@
   metamorphicMaxFillLevels: 5
   metamorphicFillBaseName: fill-
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.05
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.05
 
 - type: reagent
   id: ArsonistsBrew
@@ -122,20 +120,19 @@
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.3
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.30
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:HealthChange
         damage:
           types:
             Heat: 2
-      - !type:FlammableReaction
+      - !type:Flammable # Aurora's Song - FlammableReaction>Flammable
         multiplier: 0.5
       - !type:Ignite
       - !type:Emote
@@ -172,14 +169,13 @@
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
+      metabolites:
+        Ethanol: 0.25
       effects:
       - !type:SatiateThirst
         factor: 2
-      - !type:AdjustReagent
-        reagent: Ethanol
-        amount: 0.25
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:Jitter
 
@@ -215,7 +211,7 @@
   metamorphicChangeColor: false
   fizziness: 0.2
   metabolisms:
-    Drink:
+    Digestion: # Aurora's Song - Drink>Digestion
       effects:
       - !type:SatiateThirst
         factor: 2

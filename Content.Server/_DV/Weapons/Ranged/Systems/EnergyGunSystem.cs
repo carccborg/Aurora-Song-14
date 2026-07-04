@@ -122,7 +122,7 @@ public sealed class EnergyGunSystem : EntitySystem
 
         component.CurrentFireMode = fireMode;
 
-        if (TryComp(uid, out ProjectileBatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
+        if (TryComp(uid, out BatteryAmmoProviderComponent? projectileBatteryAmmoProvider))
         {
             if (!_prototypeManager.TryIndex<EntityPrototype>(fireMode.Prototype, out var prototype))
                 return;
@@ -132,7 +132,7 @@ public sealed class EnergyGunSystem : EntitySystem
 
             if (user != null)
             {
-                _popupSystem.PopupEntity(Loc.GetString("gun-set-fire-mode", ("mode", component.CurrentFireMode.Name != string.Empty ? component.CurrentFireMode.Name : prototype.Name)), uid, user.Value);
+                _popupSystem.PopupEntity(Loc.GetString("gun-set-fire-mode-popup", ("mode", component.CurrentFireMode.Name != string.Empty ? component.CurrentFireMode.Name : prototype.Name)), uid, user.Value); // Aurora's Song Edit - gun-set-fire-mode -> gun-set-fire-mode-popup
             }
 
             if (component.CurrentFireMode.State == string.Empty)

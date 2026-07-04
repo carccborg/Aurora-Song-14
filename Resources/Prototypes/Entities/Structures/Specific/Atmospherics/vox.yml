@@ -16,6 +16,7 @@
       NitrousOxide: stationNO
       Frezon: danger
       Respiron: ignore # Frontier
+      Helium: stationHe # Frontier
 
 - type: entity
   parent: [AirSensorVoxBase, AirSensor]
@@ -24,6 +25,11 @@
 - type: entity
   parent: [AirSensorVoxBase, GasVentPump]
   id: GasVentPumpVox
+  components:
+  - type: Tag
+    tags:
+    - GasVent
+    - Unstackable
 
 - type: entity
   parent: [AirSensorVoxBase, GasVentScrubber]
@@ -40,6 +46,11 @@
     - Ammonia
     - NitrousOxide
     - Frezon
+    - Helium # Frontier
+  - type: Tag
+    tags:
+    - GasVent
+    - Unstackable
 
 # use this to prevent overriding filters with hardcoded defaults
 - type: entity

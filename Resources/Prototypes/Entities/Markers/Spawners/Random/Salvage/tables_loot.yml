@@ -14,6 +14,8 @@
     - id: ScrapFirelock3
     - id: ScrapIntercom
     - id: ScrapMedkit
+    - id: ScrapElectrum # TheDen
+      weight: 0.1
     - !type:GroupSelector
       children:
       - id: ScrapPAI
@@ -90,6 +92,7 @@
       weight: 0.25 # Frontier
     - id: ScrapGenericMachineAncient # Frontier
       weight: 0.1 # Frontier
+# Frontier: Remove duplicate upstream chem barrels
 #    - !type:GroupSelector
 #      weight: 2
 #      children:
@@ -99,6 +102,7 @@
 #      - !type:NestedSelector
 #        weight: 1
 #        tableId: RandomChemicalBarrelRadioactive
+# End Frontier: Remove duplicate upstream chem barrels
 
 # Treasure: High-value scatterables that don't do a ton.
 
@@ -117,7 +121,7 @@
       rolls: !type:RangeNumberSelector
         range: 1, 2
     - !type:NestedSelector
-      tableId: RandomInstrumentTable
+      tableId: SalvageInstrumentTable
 
 - type: entityTable
   id: SalvageTreasureUncommon
@@ -154,7 +158,11 @@
     #   weight: 0.5 # Frontier
     - id: ResearchDisk10000
       weight: 0.5
-    - id: ArabianLamp
+    #- id: ResearchDisk20000
+    #  weight: 0.5
+    - id: MaterialEidolite1 # TheDen - Pretty rock, worth 500 each
+      amount: !type:RangeNumberSelector
+        range: 3, 5
     - !type:NestedSelector
       tableId: TreasureCoinPileRare
       rolls: !type:RangeNumberSelector
@@ -197,9 +205,12 @@
     - id: ClothingHeadHatFancyCrown
     - id: GoldenBikeHorn
     - id: ClothingHeadHatCatEars
-      weight: 0.001 # Frontier - 1 in 1000
+      weight: 0.01 # Frontier - 1 in 100
     - id: GoldenPersonalAI
     - id: TreasureCoinDiamond
+      amount: !type:RangeNumberSelector
+        range: 2, 5
+    - id: MaterialEidolite1 # TheDen - Pretty rock, worth 500 each
       amount: !type:RangeNumberSelector
         range: 2, 5
     - !type:NestedSelector
@@ -263,6 +274,7 @@
       - id: ClothingHeadHatWeldingMaskPainted
         weight: 0.1
     - id: ClothingBeltQuiverCrossbowFilledBolt # Frontier
+    - id: NFGlowshroom # Frontier
 
 - type: entityTable
   id: SalvageEquipmentRare

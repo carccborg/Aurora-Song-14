@@ -1,0 +1,133 @@
+#region SLE
+
+- type: entity
+  parent: ClothingBackpackMessengerContractor
+  id: ASClothingBackpackMessengerSLENavy
+  name: SLE messenger bag
+  description: A versatile messenger bag used by Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    layers:
+    - state: icon-base
+      color: "#2a4a7c"  # SLE dark blue
+    - state: icon-base-top
+      color: "#7a9cc6"  # SLE light blue
+    - state: icon-sling
+      color: "#E9823C"  # SLE orange accent
+    - state: icon-clasp
+      color: "#e1af4e"  # Gold clasp
+  - type: Clothing
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    clothingVisuals:
+      back:
+      - state: base-equipped-BACKPACK
+        color: "#2a4a7c"  # SLE dark blue
+      - state: base-top-equipped-BACKPACK
+        color: "#7a9cc6"  # SLE light blue
+      - state: sling-equipped-BACKPACK
+        color: "#E9823C"  # SLE orange accent
+      - state: clasp-equipped-BACKPACK
+        color: "#e1af4e"  # Gold clasp
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: base-inhand-left
+        color: "#2a4a7c"  # SLE dark blue
+      - state: base-top-inhand-left
+        color: "#7a9cc6"  # SLE light blue
+      - state: clasp-inhand-left
+        color: "#e1af4e"  # Gold clasp
+      right:
+      - state: base-inhand-right
+        color: "#2a4a7c"  # SLE dark blue
+      - state: base-top-inhand-right
+        color: "#7a9cc6"  # SLE light blue
+      - state: clasp-inhand-right
+        color: "#e1af4e"  # Gold clasp
+
+- type: entity
+  parent: ClothingBackpackMessengerContractor
+  id: ASClothingBackpackMessengerSLECobalt
+  name: SLE messenger bag
+  description: A versatile messenger bag used by Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    layers:
+    - state: icon-base
+      color: "#7a9cc6"  # SLE light blue
+    - state: icon-decor
+      color: "#E9823C"  # SLE orange accent
+    - state: icon-sling
+      color: "#E9823C"  # SLE orange accent
+    - state: icon-clasp
+      color: "#e1af4e"  # Gold clasp
+  - type: Clothing
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    clothingVisuals:
+      back:
+      - state: base-equipped-BACKPACK
+        color: "#7a9cc6"  # SLE light blue
+      - state: decor-equipped-BACKPACK
+        color: "#E9823C"  # SLE orange accent
+      - state: sling-equipped-BACKPACK
+        color: "#E9823C"  # SLE orange accent
+      - state: clasp-equipped-BACKPACK
+        color: "#e1af4e"  # Gold clasp
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: base-inhand-left
+        color: "#7a9cc6"  # SLE light blue
+      - state: decor-inhand-left
+        color: "#E9823C"  # SLE orange accent
+      - state: clasp-inhand-left
+        color: "#e1af4e"  # Gold clasp
+      right:
+      - state: base-inhand-right
+        color: "#7a9cc6"  # SLE light blue
+      - state: decor-inhand-right
+        color: "#E9823C"  # SLE orange accent
+      - state: clasp-inhand-right
+        color: "#e1af4e"  # Gold clasp
+
+#region Command
+
+- type: entity
+  parent: ClothingBackpackMessenger
+  id: ASClothingBackpackMessengerColonialRepresentative
+  name: colonial representative messenger bag
+  description: A sturdy bag for carrying administrative paperwork.
+  components:
+  - type: Sprite
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    layers:
+    - state: icon-base
+      color: "#0F2854"
+    - state: icon-sling
+      color: "#4988C4"
+    - state: icon-clasp
+      color: "#eca615"
+  - type: Clothing
+    sprite: _NF/Clothing/Back/Messenger/color.rsi
+    clothingVisuals:
+      back:
+      - state: base-equipped-BACKPACK
+        color: "#0F2854"
+      - state: sling-equipped-BACKPACK
+        color: "#4988C4"
+      - state: clasp-equipped-BACKPACK
+        color: "#eca615"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: base-inhand-left
+        color: "#0F2854"
+      - state: clasp-inhand-left
+        color: "#eca615"
+      right:
+      - state: base-inhand-right
+        color: "#0F2854"
+      - state: clasp-inhand-right
+        color: "#eca615"

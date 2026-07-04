@@ -2,7 +2,6 @@ using Content.Server._NF.Radio; // Frontier
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Systems;
 using Content.Server.Power.Components;
-using Content.Server.Radio.Components;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Radio;
@@ -106,7 +105,7 @@ public sealed class RadioSystem : EntitySystem
         name = FormattedMessage.EscapeText(name);
 
         SpeechVerbPrototype speech;
-        if (evt.SpeechVerb != null && _prototype.TryIndex(evt.SpeechVerb, out var evntProto))
+        if (evt.SpeechVerb != null && _prototype.Resolve(evt.SpeechVerb, out var evntProto))
             speech = evntProto;
         else
             speech = _chat.GetSpeechVerb(messageSource, message);
@@ -170,6 +169,19 @@ public sealed class RadioSystem : EntitySystem
 
             if (!channel.LongRange && transform.MapID != sourceMapId && !radio.GlobalReceive)
                 continue;
+
+            // Start Monolith changes - Logged change by Aurora's Song
+            // Check if within range for range-limited channels
+            if (channel.MaxRange.HasValue && channel.MaxRange.Value > 0)
+            {
+                var sourcePos = Transform(radioSource).WorldPosition;
+                var targetPos = transform.WorldPosition;
+
+                // Check distance between sender and receiver
+                if ((sourcePos - targetPos).Length() > channel.MaxRange.Value)
+                    continue;
+            }
+            // End Monolith changes
 
             // don't need telecom server for long range channels or handheld radios and intercoms
             var needServer = !channel.LongRange && !sourceServerExempt;

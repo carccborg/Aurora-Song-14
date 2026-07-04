@@ -744,7 +744,7 @@
   suffix: Frontier, Tabletop
   components:
   - type: StationBankATM
-    account: Frontier
+    account: Aurora # Aurora Song - Changed from Frontier to Aurora
 
 - type: entity
   parent: BaseComputerTabletopStationAdminBankATM
@@ -753,7 +753,7 @@
   suffix: NFSD, Tabletop
   components:
   - type: StationBankATM
-    account: Nfsd
+    account: Sle # Aurora Song - Changed from Nfsd to Sle (Station Law Enforcement)
 
 - type: entity
   parent: BaseComputerTabletopStationAdminBankATM
@@ -767,11 +767,11 @@
 - type: entity
   parent: BaseComputerTabletopStationAdminBankATM
   id: ComputerTabletopStationAdminBankATMEdison
-  description: Used to transfer funds to and from Edison's bank account.
+  description: Used to transfer funds to and from Damascus's bank account. # AS Edison -> Damascus
   suffix: Edison, Tabletop
   components:
   - type: StationBankATM
-    account: Edison
+    account: Damascus # AS Edison -> Damascus
 
 - type: entity
   parent: [BaseStructureIndestructible, BaseStructureComputerTabletop, ComputerContrabandPalletConsole]
@@ -904,11 +904,7 @@
 - type: entity
   parent: [BaseStructureIndestructible, BaseStructureComputerTabletop, ComputerShuttleFrontierOutpostRemote]
   id: ComputerTabletopShuttleFrontierOutpostRemote
-  suffix: Remote, Tabletop
-  components:
-  - type: Sprite
-    drawdepth: SmallObjects
-    layers: *NFTabletopShuttleConsoleVisuals
+  suffix: Remote, Tabletop # Aurora's Song - Removed the different sprite because it was bothering me that was different from the standard version
 
 - type: entity
   parent: [BaseStructureIndestructible, BaseStructureComputerTabletop, ComputerShuttleTradeOutpostLocal]
@@ -922,8 +918,4 @@
 - type: entity
   parent: [BaseStructureIndestructible, BaseStructureComputerTabletop, ComputerShuttleTradeOutpostRemote]
   id: ComputerTabletopShuttleTradeOutpostRemote
-  suffix: Remote, Tabletop
-  components:
-  - type: Sprite
-    drawdepth: SmallObjects
-    layers: *NFTabletopShuttleConsoleVisuals
+  suffix: Remote, Tabletop # Aurora's Song - Removed the different sprite because it was bothering me that was different from the standard version

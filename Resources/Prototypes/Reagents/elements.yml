@@ -9,7 +9,7 @@
   boilingPoint: 2327.0
   meltingPoint: 660.0
   metabolisms: #Floofstation, wipes aphrodisiacs
-    Medicine:
+    Bloodstream: # Aurora's Song - Medicine>Bloodstream
       effects:
       - !type:AdjustReagent
         reagent: Pomelustine
@@ -55,9 +55,15 @@
     - !type:PlantAdjustHealth
       amount: -1
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
+        # Moffstation start - Allow avali to drink ammonia
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Avali ]
+          inverted: true
+        # Moffstation end
         damage:
           types:
             Poison: 2
@@ -73,24 +79,21 @@
   boilingPoint: 2595.0
   meltingPoint: 1083.0
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.1
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Arachnid ]
+          inverted: true
         damage:
           types:
             Poison: 0.1
-    Medicine:
-      effects:
       - !type:ModifyBloodLevel
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: true
+        - !type:MetabolizerTypeCondition
+          type: [ Arachnid ]
         amount: 0.4
 
 - type: reagent
@@ -113,7 +116,7 @@
     - !type:PlantAdjustHealth
       amount: -2
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -164,24 +167,21 @@
   boilingPoint: 2862.0
   meltingPoint: 1538.0
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.1
       effects:
       - !type:HealthChange
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: true
+        - !type:MetabolizerTypeCondition
+          type: [ Arachnid ]
         damage:
           types:
             Poison: 0.1
-    Medicine:
-      effects:
       - !type:ModifyBloodLevel
         conditions:
-        - !type:OrganType
-          type: Arachnid
-          shouldHave: false
+        - !type:MetabolizerTypeCondition
+          type: [ Arachnid ]
+          inverted: true
         amount: 0.4
 
 - type: reagent
@@ -195,7 +195,7 @@
   meltingPoint: 180.5
   boilingPoint: 1330.0
   metabolisms:
-    Poison:
+    Bloodstream:
       metabolismRate: 0.1
       effects:
       - !type:HealthChange
@@ -222,15 +222,15 @@
   meltingPoint: -38.83
   boilingPoint: 356.73
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
           types:
             Poison: 1
-      - !type:GenericStatusEffect
-        key: Stutter
-        component: ScrambledAccent
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectScrambled
+        type: Update
 
 - type: reagent
   id: Potassium
@@ -244,60 +244,54 @@
   boilingPoint: 759.0
   # Frontier: Sheleg
   metabolisms:
-    Food:
+    Digestion: # Aurora's Song - Food>Digestion
       effects:
       - !type:AdjustTemperature
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
-        - !type:Temperature
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
+        - !type:TemperatureCondition # Aurora's Song - Temperature>TemperatureCondition
           max: 293.15
         amount: 100000 # thermal energy, not temperature!
       - !type:AdjustTemperature
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
-        - !type:Temperature
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
+        - !type:TemperatureCondition # Aurora's Song - Temperature>TemperatureCondition
           min: 293.15
         amount: -10000
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         probability: 0.15
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
-        - !type:ReagentThreshold
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Potassium
           min: 30
       - !type:PopupMessage
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
         type: Local
         visualType: Large
         messages: [ "generic-reagent-effect-burning-insides" ]
         probability: 0.33
       - !type:Emote
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
         emote: Scream
         probability: 0.2
       - !type:GenericStatusEffect
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
         key: Stutter
         component: StutteringAccent
       - !type:Jitter
         conditions:
-        - !type:OrganType
-          type: Sheleg
-          shouldHave: true
+        - !type:MetabolizerTypeCondition # Aurora's Song - OrganType>MetabolizerTypeCondition
+          type: [ Sheleg ]
   # End Frontier: Sheleg
 
 - type: reagent
@@ -341,7 +335,7 @@
   boilingPoint: 3265.0
   meltingPoint: 1414.0
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -370,7 +364,7 @@
   boilingPoint: 445.0
   meltingPoint: 120.0
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:
@@ -409,7 +403,7 @@
     probability: 0.2
     amount: 0.1
   metabolisms:
-    Poison:
+    Bloodstream:
       effects:
       - !type:HealthChange
         damage:

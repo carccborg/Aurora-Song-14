@@ -1,0 +1,11 @@
+- type: marking
+  id: SnoutBovine
+  bodyPart: Snout
+  groupWhitelist: [Vulpkanin, Rodentia, Slime, Human, Harpy, IPC, Arachnid, Felinid, Oni, Ovinia] # Auroras Song - added Ovinia
+  sprites:
+  - sprite: Floof/Mobs/Customization/skyratsnouts.rsi
+    state:  snout_bovine_primary
+  - sprite: Floof/Mobs/Customization/skyratsnouts.rsi
+    state:  snout_bovine_secondary
+  - sprite: Floof/Mobs/Customization/skyratsnouts.rsi
+    state:  snout_bovine_tertiary

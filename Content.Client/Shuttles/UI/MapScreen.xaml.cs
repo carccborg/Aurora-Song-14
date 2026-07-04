@@ -49,8 +49,8 @@ public sealed partial class MapScreen : BoxContainer
     private TimeSpan _pingCooldown = TimeSpan.FromSeconds(3);
     private TimeSpan _nextMapDequeue;
 
-    private float _minMapDequeue = 0.05f;
-    private float _maxMapDequeue = 0.10f; // Frontier: 0.25<0.10
+    private float _minMapDequeue = 0.001f; // Frontier: 0.05<0.001
+    private float _maxMapDequeue = 0.005f; // Frontier: 0.25<0.005
 
     private StyleBoxFlat _ftlStyle;
 
@@ -119,7 +119,7 @@ public sealed partial class MapScreen : BoxContainer
         //frontier - we only allow pre-approved vessels to FTL
         if (!_entManager.HasComponent<ShuttleFTLComponent>(_shuttleEntity))
         {
-            MapFTLButton.Visible = false;
+            MapFTLButton.Visible = true; // Mono
         }
         else
         {
@@ -165,7 +165,7 @@ public sealed partial class MapScreen : BoxContainer
                 break;
         }
 
-        if (IsFTLBlocked())
+        if (IsPingBlocked())
         {
             MapRebuildButton.Disabled = true;
             ClearMapObjects();
@@ -183,6 +183,7 @@ public sealed partial class MapScreen : BoxContainer
             // Unselect FTL
             MapFTLButton.Pressed = false;
             MapRadar.FtlMode = false;
+            MapRadar.ShowFTLRangeOnly = false;
             MapFTLButton.Disabled = true;
         }
     }
@@ -190,11 +191,18 @@ public sealed partial class MapScreen : BoxContainer
     private void FtlPreviewToggled(BaseButton.ButtonToggledEventArgs obj)
     {
         MapRadar.FtlMode = obj.Pressed;
+
+        // Mono: When FTL button is toggled, disable the ShowFTLRangeOnly mode
+        if (obj.Pressed)
+        {
+            MapRadar.ShowFTLRangeOnly = false;
+        }
     }
 
     public void SetConsole(EntityUid? console)
     {
         _console = console;
+        MapRadar.SetConsole(console); // Mono
     }
 
     public void SetShuttle(EntityUid? shuttle)
@@ -227,7 +235,13 @@ public sealed partial class MapScreen : BoxContainer
         }
 
         RebuildMapObjects();
-        BumpMapDequeue();
+
+        // Mono: Immediately add all objects to the map instead of queueing them
+        foreach (var mapObj in _pendingMapObjects)
+        {
+            AddMapObject(mapObj.mapId, mapObj.mapobj);
+        }
+        _pendingMapObjects.Clear();
 
         _nextPing = _timing.CurTime + _pingCooldown;
         MapRebuildButton.Disabled = true;
@@ -240,7 +254,11 @@ public sealed partial class MapScreen : BoxContainer
 
     private void MapRebuildPressed(BaseButton.ButtonEventArgs obj)
     {
+        MapRadar.ShowFTLRangeOnly = true; // Mono
         PingMap();
+
+        // Mono: Reset range back after map pinging is complete.
+        MapRadar.ShowFTLRangeOnly = !MapFTLButton.Pressed;
     }
 
     /// <summary>
@@ -249,7 +267,7 @@ public sealed partial class MapScreen : BoxContainer
     private void ClearMapObjects()
     {
         _mapObjectControls.Clear();
-        HyperspaceDestinations.DisposeAllChildren();
+        HyperspaceDestinations.RemoveAllChildren();
         _pendingMapObjects.Clear();
         _mapObjects.Clear();
         _mapHeadings.Clear();
@@ -432,9 +450,21 @@ public sealed partial class MapScreen : BoxContainer
         }
     }
 
+    /// <summary>
+    /// Returns true if we shouldn't be able to select the Scan for Objects button.
+    /// </summary>
+    private bool IsPingBlocked()
+    {
+        return _state switch
+        {
+            FTLState.Available or FTLState.Cooldown => false,
+            _ => true,
+        };
+    }
+
     private void OnMapObjectPress(IMapObject mapObject)
     {
-        if (IsFTLBlocked())
+        if (IsPingBlocked())
             return;
 
         var coordinates = _shuttles.GetMapCoordinates(mapObject);
@@ -559,7 +589,7 @@ public sealed partial class MapScreen : BoxContainer
             BumpMapDequeue();
         }
 
-        if (!IsFTLBlocked() && _nextPing < curTime)
+        if (!IsPingBlocked() && _nextPing < curTime)
         {
             MapRebuildButton.Disabled = false;
         }

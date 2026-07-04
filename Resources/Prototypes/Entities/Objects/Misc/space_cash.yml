@@ -73,12 +73,6 @@
   icon: { sprite: /Textures/Objects/Economy/cash.rsi, state: cash }
   price: 1
 
-- type: stack
-  id: Credit
-  name: stack-nf-credit # Frontier: use NF version (plurals)
-  icon: { sprite: /Textures/Objects/Economy/cash.rsi, state: cash }
-  spawn: SpaceCash
-
 - type: entity
   parent: SpaceCash
   id: SpaceCash10
@@ -177,6 +171,17 @@
     state: cash_25000
   - type: Stack
     count: 30000
+
+- type: entity # Aurora's Song - Added 50k stack
+  parent: SpaceCash
+  id: SpaceCash50000
+  suffix: 50000
+  components:
+  - type: Icon
+    sprite: Objects/Economy/cash.rsi
+    state: cash_50000
+  - type: Stack
+    count: 50000
 
 - type: entity
   parent: SpaceCash

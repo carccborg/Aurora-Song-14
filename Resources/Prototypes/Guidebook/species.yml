@@ -3,23 +3,27 @@
   name: guide-entry-species
   text: "/ServerInfo/Guidebook/Mobs/Species.xml"
   children:
-    - Arachnid
-    - Diona # Note: Frontier changes inside
-    - Dwarf # Note: Frontier changes inside
-    - Human
-    - Moth
-    - Reptilian
-    - SlimePerson
-    - Vox
-    - Goblin # Frontier
-    - Sheleg # Frontier
-    - Vulpkanin # DeltaV
-    - Harpy # DeltaV
-    - Felinid # DeltaV
-    - Oni # DeltaV
-    - Rodentia # DeltaV
-    - Feroxi # DeltaV
-    - Tajaran # EE
+  - Arachnid
+  - Diona # Note: Frontier changes inside
+  - Dwarf # Note: Frontier changes inside
+  - Human
+  - Moth
+  - Reptilian
+  - Avali # Moffstation - Avali Guidebook Entry
+  - SlimePerson
+  - Vox
+  - Vulpkanin
+  - Goblin # Frontier
+  - Sheleg # Frontier
+  - Harpy # DeltaV
+  - Felinid # DeltaV
+  - Oni # DeltaV
+  - Rodentia # DeltaV
+  - Feroxi # DeltaV
+  - Tajaran # EE
+  - Fairy # Aurora
+  - Ovinia # Den addition
+  - IPC # Aurora
 
 - type: guideEntry
   id: Arachnid
@@ -62,6 +66,12 @@
   name: species-name-vox
   text: "/ServerInfo/Guidebook/Mobs/Vox.xml"
 
+# Aurora's Song - Comment out because we have DV guidebook
+# - type: guideEntry
+#   id: Vulpkanin
+#   name: species-name-vulpkanin
+#   text: "/ServerInfo/Guidebook/Mobs/Vulpkanin.xml"
+
 - type: guideEntry
   id: IPC
   name: species-name-ipc
@@ -71,3 +81,8 @@
   id: Tajaran
   name: species-name-tajaran
   text: "/ServerInfo/Guidebook/Mobs/Tajaran.xml"
+
+- type: guideEntry # Aurora
+  id: Fairy
+  name: species-name-fairy
+  text: "/ServerInfo/Guidebook/Mobs/_AS/Fairy.xml"

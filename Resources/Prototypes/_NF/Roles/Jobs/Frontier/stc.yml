@@ -18,10 +18,11 @@
   displayWeight: 50 # Second from the top
   setPreference: true
   access:
+  - Cargo # Aurora's Song - Cargo access is being undeprecated
   - Service
   - Maintenance
   - External
-  - Frontier
+  - Aurora # Aurora Song - Changed from Frontier to Aurora
   - StationTrafficController
   special:
   - !type:GiveItemOnHolidaySpecial
@@ -33,15 +34,18 @@
   equipment:
     id: StcPDA
   storage:
-    back:
+    back: # Aurora's Song - moved encryption keys to the appropriate section and the folder into back storage
     - Flash
     - RubberStampStc
-    - EncryptionKeySecurity
-    - EncryptionKeyTraffic
     - ShipVoucherFrontierStc
-    - EncryptionKeyService
-  encryptionKeys:
-  - BoxFolderStc
+    - BoxFolderStc
+  encryptionKeys: # Aurora's Song - Added traffic, shipboard, security, greeting, command and service encryption keys
+  - EncryptionKeyTraffic
+  - EncryptionKeyShipboard
+  - EncryptionKeySecurity
+  - EncryptionKeyGreeting
+  - EncryptionKeyService
+  - EncryptionKeyCommand
 
 - type: chameleonOutfit
   id: StationTrafficControllerChameleonOutfit

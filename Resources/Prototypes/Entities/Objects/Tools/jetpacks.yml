@@ -108,8 +108,8 @@
       volume: 5
       temperature: 293.15
       moles:
-        - 1.025689525 # oxygen
-        - 1.025689525 # nitrogen
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
 
 #Empty black
 - type: entity
@@ -135,6 +135,8 @@
   - type: Jetpack
     radarBlip: false
   # End Frontier: emaggable jetpacks
+#  - type: StaticPrice # Frontier
+#    price: 1000 # Frontier
 
 # Filled black
 - type: entity
@@ -150,8 +152,8 @@
       volume: 5
       temperature: 293.15
       moles:
-        - 1.025689525 # oxygen
-        - 1.025689525 # nitrogen
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
 
 #Empty captain
 - type: entity
@@ -191,8 +193,8 @@
       volume: 5
       temperature: 293.15
       moles:
-        - 1.025689525 # oxygen
-        - 1.025689525 # nitrogen
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
 
 #Empty mini
 - type: entity
@@ -233,8 +235,8 @@
       volume: 1.5
       temperature: 293.15
       moles:
-        - 0.307706858 # oxygen
-        - 0.307706858 # nitrogen
+        Oxygen: 0.307706858 # oxygen
+        Nitrogen: 0.307706858 # nitrogen
 
 #Empty security
 - type: entity
@@ -264,12 +266,12 @@
   - type: GasTank
     outputPressure: 42.6
     air:
-      # 13 minutes thrust
-      volume: 5
+      # 4 minutes of thrust
+      volume: 1.5
       temperature: 293.15
       moles:
-        - 1.025689525 # oxygen
-        - 1.025689525 # nitrogen
+        Oxygen: 0.307706858 # oxygen
+        Nitrogen: 0.307706858 # nitrogen
 
 #Empty void
 - type: entity
@@ -303,8 +305,8 @@
       volume: 5
       temperature: 293.15
       moles:
-        - 1.025689525 # oxygen
-        - 1.025689525 # nitrogen
+        Oxygen: 1.025689525 # oxygen
+        Nitrogen: 1.025689525 # nitrogen
 
 # Infinite jetpack
 - type: entity
@@ -324,3 +326,8 @@
     weightlessAcceleration: 1.3
     weightlessFriction: 0.3
     weightlessModifier: 1
+
+- type: entity # AS
+  parent: [ JetpackXenoborg ]
+  id: JetpackShipmind
+  name: shipmind chassis jetpack

@@ -205,6 +205,10 @@
   - type: HideLayerClothing
     slots:
     - Hair
+  - type: Tag
+    tags:
+    - ClothMade
+    - WhitelistChameleon
 
 - type: entity
   parent: ClothingHeadBase

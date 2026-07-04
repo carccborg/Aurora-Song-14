@@ -2,6 +2,15 @@
 
 - type: marking
   abstract: true
+  id: BaseColorWhite
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+          color: "#FFFFFF"
+
+- type: marking
+  abstract: true
   id: BaseTattoo
   coloring:
     default:
@@ -12,9 +21,63 @@
   abstract: true
   id: BaseEyes
   bodyPart: Eyes
-  markingCategory: Head
   coloring:
     default:
       type:
         !type:EyeColoring
           negative: true
+
+- type: marking
+  abstract: true
+  id: BaseChest
+  bodyPart: Chest
+
+- type: marking
+  abstract: true
+  id: BaseHead
+  bodyPart: Head
+
+- type: marking
+  abstract: true
+  id: BaseHeadTop
+  bodyPart: HeadTop
+
+- type: marking
+  abstract: true
+  id: BaseHeadSide
+  bodyPart: HeadSide
+
+- type: marking
+  abstract: true
+  id: BaseSnout
+  bodyPart: Snout
+
+- type: marking
+  abstract: true
+  id: BaseTail
+  bodyPart: Tail
+
+# Cyberlimbs
+## (These are basic IPC parts, but they're also prosthetic markings for other species.)
+
+## Exclude anything that doesn't have standard arms (e.g. harpies)
+- type: marking
+  abstract: true
+  parent: BaseSpeciesIPC
+  id: BaseArmsCyberlimb
+  invertGroupWhitelist: true
+  groupWhitelist:
+  - Harpy
+  - Vox
+  - Diona
+
+## Exclude anything that doesn't have standard legs (e.g. if any taurs are ever added)
+- type: marking
+  abstract: true
+  parent: BaseSpeciesIPC
+  id: BaseLegsCyberlimb
+  invertGroupWhitelist: true
+  groupWhitelist:
+  - Harpy
+  - Vox
+  - Diona

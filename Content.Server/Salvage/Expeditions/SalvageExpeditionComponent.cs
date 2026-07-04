@@ -61,4 +61,33 @@ public sealed partial class SalvageExpeditionComponent : SharedSalvageExpedition
     // [DataField]
     // public ResolvedSoundSpecifier SelectedSong;
     // End Frontier: moved to Shared
+
+    // Coyote
+    /// <summary>
+    /// Next time to check for autoabort
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public TimeSpan NextAutoAbortCheck = TimeSpan.Zero;
+
+    // Aurora's Song
+    /// <summary>
+    /// How many auto abort checks have been failed
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public int ChecksFailed = 0;
+
+    // Aurora's Song
+    /// <summary>
+    /// How many auto abort checks need to fail sequentially before we abort
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public int AllowedFailures = 2;
+
+    // Aurora's Song
+    /// <summary>
+    /// Has the Exped Saviour System triggered
+    /// </summary>
+    // Spam Prevention
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public bool Warped = false;
 }

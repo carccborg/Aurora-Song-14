@@ -40,7 +40,6 @@ namespace Content.Server.Chemistry.EntitySystems
         [Dependency] private readonly OpenableSystem _openable = default!;
         [Dependency] private readonly HandsSystem _handsSystem = default!;
         [Dependency] private readonly LabelSystem _label = default!; // Frontier
-        [Dependency] private readonly SharedContainerSystem _containers = default!; // Frontier
 
         public override void Initialize()
         {
@@ -215,10 +214,10 @@ namespace Content.Server.Chemistry.EntitySystems
             {
                 // force open container, if applicable, to avoid confusing people on why it doesn't dispense
                 _openable.SetOpen(storedContainer, true);
-                _solutionTransferSystem.Transfer(reagentDispenser,
+                _solutionTransferSystem.Transfer(new SolutionTransferData(reagentDispenser,
                         storedContainer, src.Value,
                         outputContainer.Value, dst.Value,
-                        (int)reagentDispenser.Comp.DispenseAmount);
+                        (int)reagentDispenser.Comp.DispenseAmount));
             }
 
             UpdateUiState(reagentDispenser);

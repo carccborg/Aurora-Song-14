@@ -1,0 +1,17 @@
+- type: entity
+  parent: ClothingBackpackSatchelSecurity
+  id: ASClothingBackpackSatchelSLENavy
+  name: SLE satchel
+  description: A tactical satchel used by Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Back/Satchels/sle_navy.rsi
+
+- type: entity
+  parent: ASClothingBackpackSatchelSLENavy
+  id: ASClothingBackpackSatchelSLECobalt
+  name: SLE satchel
+  description: A tactical satchel used by Sector Law Enforcement personnel.
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Back/Satchels/sle_cobalt.rsi

@@ -9,7 +9,7 @@
     drawdepth: Mobs
   - type: StatusIcon
     bounds: -0.5,-0.5,0.5,0.5
-  - type: HumanoidAppearance
+  - type: HumanoidProfile # Aurora's Song - HumanoidAppearance>HumanoidProfile
     species: Human
   - type: Fixtures
     fixtures: # Fixtures taken from species/base.yml
@@ -28,7 +28,7 @@
   - type: AnimationPlayer
   - type: SSDIndicator
   - type: MindContainer
-    showExamineInfo: true
+#    showExamineInfo: true # Aurora's Song - Deprecated
   - type: Speech
     speechVerb: Robotic
     speechSounds: Borg

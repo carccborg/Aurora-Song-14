@@ -1,5 +1,6 @@
 using Content.Server.Nutrition;
 using Content.Server.Speech;
+using Content.Shared.Speech; // Aurora
 using Content.Server.Speech.EntitySystems;
 using Content.Shared._DV.Storage.Components;
 using Content.Shared._DV.Storage.EntitySystems;
@@ -37,6 +38,6 @@ public sealed class MouthStorageSystem : SharedMouthStorageSystem
 
         var firstItem = storage.Container.ContainedEntities[0];
         args.Blocker = firstItem;
-        args.Cancel();
+        args.Cancelled = true; // Aurora's Song - Replace with Cancelled
     }
 }

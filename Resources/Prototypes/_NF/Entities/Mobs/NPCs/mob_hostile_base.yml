@@ -3,13 +3,14 @@
   abstract: true
   components:
   - type: Temperature
+    currentTemperature: 310.15
+    specificHeat: 42
+  - type: TemperatureDamage
     heatDamageThreshold: 2000 # Should prevent mobs from taking damage on planets with extreme heat
     coldDamageThreshold: -250 # Should make mobs immune to cold planets
-    currentTemperature: 310.15
     coldDamage: #per second, scales with temperature & other constants
       types:
         Cold: 0.1
-    specificHeat: 42
     heatDamage: #per second, scales with temperature & other constants
       types:
         Heat: 1.5
@@ -35,18 +36,13 @@
 
 # region Regeneration
 - type: entity
+  parent: [ MobPassiveRegen ] # Aurora's Song - Use inheritance more wisely
   id: MobPassiveRegenWeak
   abstract: true
   components:
   - type: PassiveDamage
     allowedStates:
     - Alive
-    damageCap: 500
-    damage:
-      groups:
-        Brute: -0.5
-        Burn: -0.5
-        Airloss: -1
 
 - type: entity
   id: MobPassiveRegen
@@ -58,12 +54,19 @@
     - Critical
     damageCap: 500
     damage:
-      groups:
-        Brute: -0.5
-        Burn: -0.5
-        Airloss: -1
+      types: # Aurora's Song - Convert from groups to types
+        Blunt: -0.2
+        Slash: -0.15
+        Piercing: -0.15
+        Heat: -0.13
+        Shock: -0.12
+        Cold: -0.13
+        Caustic: -0.12
+        Asphyxiation: -0.5
+        Bloodloss: -0.5
 
 - type: entity
+  parent: [ MobPassiveRegen ] # Aurora's Song - Use inheritance more wisely
   id: MobPassiveRegenStrong
   abstract: true
   components:
@@ -73,11 +76,6 @@
     - Critical
     - Dead
     damageCap: 9999
-    damage:
-      groups:
-        Brute: -0.5
-        Burn: -0.5
-        Airloss: -1
 #endregion
 
 #region Restrictions
@@ -307,22 +305,24 @@
   id: MobStaminaFodder
   abstract: true
   components:
+  - type: MobThrowableOnHit
   - type: Stamina
-    critThreshold: 0
+    baseCritThreshold: 100 # Aurora's Song - new stamina threshold
 
 - type: entity
   id: MobStaminaSpecial
   abstract: true
   components:
+  - type: MobThrowableOnHit
   - type: Stamina
-    critThreshold: 200
+    baseCritThreshold: 200 # Aurora's Song - critThreshold>baseCritThreshold
 
 - type: entity
   id: MobStaminaBoss
   abstract: true
   components:
   - type: Stamina
-    critThreshold: 500
+    baseCritThreshold: 500 # Aurora's Song - critThreshold>baseCritThreshold
 #endregion
 
 #region Dungeon boss
@@ -340,7 +340,7 @@
   - type: Hands
   - type: Puller
   - type: Stamina
-    critThreshold: 999
+    baseCritThreshold: 999 # Aurora's Song - critThreshold>baseCritThreshold
   - type: Tag
     tags:
     - CanPilot
@@ -377,8 +377,8 @@
     rootTask:
        task: SimpleHostileCompound
     blackboard:
-      NavClimb: !type:Bool
-        false
+      NavClimb: !type:Bool # Aurora's Song - Enable climbing
+        true
       NavInteract: !type:Bool
         true
       NavPry: !type:Bool
@@ -394,8 +394,8 @@
     rootTask:
        task: SimpleRangedHostileCompound
     blackboard:
-      NavClimb: !type:Bool
-        false
+      NavClimb: !type:Bool # Aurora's Song - Enable climbing
+        true
       NavInteract: !type:Bool
         true
       NavPry: !type:Bool
@@ -411,8 +411,8 @@
     rootTask:
        task: SimpleHumanoidHostileCompound
     blackboard:
-      NavClimb: !type:Bool
-        false
+      NavClimb: !type:Bool # Aurora's Song - Enable climbing
+        true
       NavInteract: !type:Bool
         true
       NavPry: !type:Bool
@@ -434,7 +434,8 @@
   - MobBloodstream
   - MobFlammable
   - MobEnhancedMovement
-  - BaseMobSpecies
+  - AppearanceHuman # Aurora's Song
+  - BaseSpeciesMob # Aurora's Song - BaseMobSpecies>BaseSpeciesMob
   - MobHumanoidHostileAIComplex
   - BaseC3MobHuman
   - NFBaseMobRestrictions
@@ -449,10 +450,10 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Critical
-      140: Dead
+      100: Critical # Aurora Song 80>100
+      140: Dead # Aurora Song 120>140
   - type: Stamina
-    critThreshold: 100
+    baseCritThreshold: 100 # Aurora's Song - critThreshold>baseCritThreshold
   - type: SlowOnDamage
     speedModifierThresholds:
       40: 0.7
@@ -461,17 +462,18 @@
   - type: Butcherable
     butcheringType: Spike
     spawned:
-    - id: FoodMeatHuman
+    - id: FoodMeatHuman # Aurora Song FoodMeatHuman>FoodMeatHuman
       amount: 2
   - type: NpcFactionMember
     factions:
     - SimpleHostile
   - type: Carriable # Carrying system from nyanotrasen.
-  - type: Advertise
-    pack: syndicatehumanoidchatter
-    minimumWait: 120
-    maximumWait: 240
-    nextAdvertisementTime: 0
+  - type: Vocalizer
+    minVocalizeInterval: 120
+    maxVocalizeInterval: 240
+    hideChat: true
+  - type: DatasetVocalizer
+    dataset: syndicatehumanoidchatter
   - type: FTLKnockdownImmune
   - type: Respirator
     updateInterval: 99999 # Shouldn't run often, if ever.
@@ -539,10 +541,10 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      80: Critical
-      120: Dead
+      80: Critical # Aurora Song 65>80
+      120: Dead # Aurora Song 100>120
   - type: Stamina
-    critThreshold: 100
+    baseCritThreshold: 100 # Aurora's Song - critThreshold>baseCritThreshold
   - type: NpcFactionMember
     factions:
     - SimpleHostile
@@ -619,5 +621,6 @@
   - type: GibOnTrigger
     deleteItems: true
     deleteOrgans: true
-    gib: false
-    useArgumentEntity: true
+  # Aurora's Song - Remove old NF trigger
+  #   gib: false
+  #   useArgumentEntity: true

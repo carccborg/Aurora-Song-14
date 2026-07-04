@@ -116,6 +116,19 @@
       - NFPosterContrabandFsbNightlight
       - NFPosterContrabandFsbRetort
       # End Frontier
+      # Aurora's Song
+      - ASPosterContrabandBHLogo
+      - ASPosterContrabandIACLogo1
+      - ASPosterContrabandIACLogo2
+      - ASPosterContrabandIACLogo3
+      - ASPosterContrabandIACLogo4
+      - ASPosterContrabandIACLogo5
+      - ASPosterContrabandIACLogo6
+      - ASPosterContrabandIACLogo7
+      - ASPosterContrabandIACLogo8
+      - ASPosterContrabandIACLogo9
+      - ASPosterContrabandCNSHorizon
+      # End Aurora's Song
     chance: 1
 
 - type: entity
@@ -182,6 +195,7 @@
       - PosterLegitOppenhopper
       - PosterLegitTyrone
       - PosterLegitHelio
+      - PosterLegitBotanyFear
         # Frontier
       - NFPosterLegitMagnusWatching
       - NFPosterLegitGoblinTinkerer
@@ -192,4 +206,8 @@
       - NFPosterLegitHaveYouSeenThisEgg
       - NFPosterLegitGunTurnIn
         # End Frontier
+        # Aurora's Song
+      - ASPosterLegitAuroraSector
+      - ASPosterLegitIHSLogo
+        # End Aurora's Song
     chance: 1

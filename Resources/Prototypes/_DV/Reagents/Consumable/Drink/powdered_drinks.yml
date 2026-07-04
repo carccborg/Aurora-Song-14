@@ -3,18 +3,6 @@
   abstract: true
   physicalDesc: reagent-physical-desc-powdery
   flavor: terrible
-  metabolisms:
-    Poison:
-      effects:
-      - !type:Emote
-        emote: Cough
-        showInChat: true
-        probability: 0.33
-      - !type:ChemVomit
-        probability: 0.1
-        conditions:
-        - !type:ReagentThreshold
-          min: 15
 
 - type: reagent
   parent: BasePowderedBeverage
@@ -24,6 +12,19 @@
   desc: reagent-desc-powdered-milk
   flavor: sweet
   color: "#FAFAFA"
+  metabolisms: # Aurora's Song - Copy metabolism from parent
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
+      effects:
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.33
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
+        probability: 0.1
+        conditions:
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedMilk
+          min: 15
 
 - type: reagent
   parent: BasePowderedBeverage
@@ -33,6 +34,19 @@
   desc: reagent-desc-powdered-milk-soy
   flavor: soy
   color: "#FFFCE3"
+  metabolisms: # Aurora's Song - Copy metabolism from parent
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
+      effects:
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.33
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
+        probability: 0.1
+        conditions:
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedMilkSoy
+          min: 15
 
 - type: reagent
   parent: BasePowderedBeverage
@@ -42,6 +56,19 @@
   desc: reagent-desc-powdered-juice-orange
   flavor: sour
   color: "#FFC420"
+  metabolisms: # Aurora's Song - Copy metabolism from parent
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
+      effects:
+      - !type:Emote
+        emote: Cough
+        showInChat: true
+        probability: 0.33
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
+        probability: 0.1
+        conditions:
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedJuiceOrange
+          min: 15
 
 - type: reagent
   parent: BasePowderedBeverage
@@ -52,7 +79,7 @@
   flavor: sour
   color: "#B4FF64"
   metabolisms:
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:HealthChange
         damage:
@@ -62,10 +89,11 @@
         emote: Cough
         showInChat: true
         probability: 0.33
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         probability: 0.1
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedJuiceLime
           min: 15
 
 - type: reagent
@@ -77,7 +105,7 @@
   flavor: sour
   color: "#FFFC69"
   metabolisms:
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:HealthChange
         damage:
@@ -87,10 +115,11 @@
         emote: Cough
         showInChat: true
         probability: 0.33
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         probability: 0.1
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedJuiceLemon
           min: 15
 
 - type: reagent
@@ -102,7 +131,7 @@
   flavor: sour
   color: "#FFD644"
   metabolisms:
-    Poison:
+    Bloodstream: # Aurora's Song - Poison>Bloodstream
       effects:
       - !type:HealthChange
         damage:
@@ -112,10 +141,11 @@
         emote: Cough
         showInChat: true
         probability: 0.33
-      - !type:ChemVomit
+      - !type:Vomit # Aurora's Song - ChemVomit>Vomit
         probability: 0.1
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: PowderedJuicePineapple
           min: 15
 
 - type: reagent

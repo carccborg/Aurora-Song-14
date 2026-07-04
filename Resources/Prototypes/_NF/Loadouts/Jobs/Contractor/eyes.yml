@@ -23,6 +23,34 @@
   equipment:
     eyes: ClothingEyesEyepatch
 
+#Aurora Song- Mantis drip merge start
+- type: loadout
+  id: ContractorClothingEyesGlassesMantis
+  price: 1000
+  equipment:
+    eyes: ClothingEyesGlassesEpistemicsMantis
+
+- type: loadout
+  id: ContractorClothingEyesGlassesMantisTinted
+  price: 1000
+  equipment:
+    eyes: ClothingEyesGlassesEpistemicsMantisTinted
+
+- type: loadout
+  id: ContractorClothingEyesGlassesMantisBlindfold
+  price: 1000
+  equipment: #I know it's confusing, but this is the blindfold, not the veil, which is a mask.
+    eyes: ClothingEyesGlassesEpistemicsMantisVeil
+# Aurora Song- Mantis drip merge end
+
+# Aurora Song - Chaplain drip start
+- type: loadout
+  id: ContractorClothingEyesChaplainBlindfold
+  price: 500
+  equipment:
+    eyes: ClothingEyesChaplainBlindfold
+# Aurora Song - Chaplain drip end
+
 #T1
 - type: loadout
   id: ContractorClothingEyesGlassesJamjar

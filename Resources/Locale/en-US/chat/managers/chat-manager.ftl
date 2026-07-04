@@ -35,9 +35,10 @@ chat-manager-entity-me-wrap-message = [italic]{ PROPER($entity) ->
      [true] [Name]{CAPITALIZE($entityName)}[/Name] {$message}[/italic]
     }
 
-chat-manager-entity-subtle-wrap-message = [italic][color={$color}]{ PROPER($entity) ->
-    *[false] the {$entityName} {$message}[/color][/italic]
-     [true] {$entityName} {$message}[/color][/italic]
+# Aurora's Song - change to bolditalic
+chat-manager-entity-subtle-wrap-message = [bolditalic][color={$color}]{ PROPER($entity) ->
+    *[false] the {$entityName} {$message}[/color][/bolditalic]
+     [true] [Name]{$entityName}[/Name] {$message}[/color][/bolditalic]
     }
 
 chat-manager-entity-looc-wrap-message = LOOC: [bold]{$entityName}:[/bold] {$message}
@@ -163,6 +164,13 @@ chat-speech-verb-name-electricity = Electricity
 chat-speech-verb-electricity-1 = crackles
 chat-speech-verb-electricity-2 = buzzes
 chat-speech-verb-electricity-3 = screeches
+
+# Aurora's Song - Disable upstream vulpkanin
+# chat-speech-verb-vulpkanin-1 = rawrs
+# chat-speech-verb-vulpkanin-2 = barks
+# chat-speech-verb-vulpkanin-3 = rurs
+# chat-speech-verb-vulpkanin-4 = yaps
+# chat-speech-verb-vulpkanin = Vulpkanin
 
 chat-speech-verb-name-wawa = Wawa
 chat-speech-verb-wawa-1 = intones

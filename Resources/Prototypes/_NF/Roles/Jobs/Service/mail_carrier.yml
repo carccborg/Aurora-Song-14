@@ -14,11 +14,12 @@
   displayWeight: 30 # Frontier
   canBeAntag: false
   access:
+  - Cargo # Aurora's Song - Cargo access is being undeprecated
   - External # Frontier
   - Maintenance
   - Service
   - Mail # Frontier
-  - Frontier # Frontier
+  - Aurora # Frontier - Aurora Song - Changed from Frontier to Aurora
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -35,11 +36,15 @@
 #    ears: ClothingHeadsetService # Frontier - ClothingHeadsetCargo<ClothingHeadsetService
     belt: NFMailBag
   storage:
-    back:
-    - EncryptionKeyService # Frontier
+    back: # Aurora's Song - moved service encryption key to the appropriate section
     - HandheldCrewMonitor # Frontier
     - ShipVoucherFrontierMailCarrier # Frontier
     - MailMetricsCartridge # Frontier
+    - CrayonBox # Aurora's Song - for labeling mail areas
+  encryptionKeys: # Aurora's Song - Added traffic, shipboard, and service encryption keys
+  - EncryptionKeyTraffic
+  - EncryptionKeyShipboard
+  - EncryptionKeyService
 
 - type: chameleonOutfit
   id: MailCarrierChameleonOutfit

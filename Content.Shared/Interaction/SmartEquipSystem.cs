@@ -9,6 +9,7 @@ using Content.Shared.Stacks;
 using Content.Shared.Storage;
 using Content.Shared.Storage.EntitySystems;
 using Content.Shared.Whitelist;
+using Content.Shared.Weapons.Ranged.Components; // AS
 using Robust.Shared.Containers;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Player;
@@ -36,9 +37,9 @@ public sealed class SmartEquipSystem : EntitySystem
             .Bind(ContentKeyFunctions.SmartEquipBackpack, InputCmdHandler.FromDelegate(HandleSmartEquipBackpack, handle: false, outsidePrediction: false))
             .Bind(ContentKeyFunctions.SmartEquipBelt, InputCmdHandler.FromDelegate(HandleSmartEquipBelt, handle: false, outsidePrediction: false))
             .Bind(ContentKeyFunctions.SmartEquipWallet, InputCmdHandler.FromDelegate(HandleSmartEquipWallet, handle: false, outsidePrediction: false)) // Frontier
-            .Bind(ContentKeyFunctions.SmartEquipSuitStorage, InputCmdHandler.FromDelegate(HandleSmartEquipSuitStorage, handle: false, outsidePrediction: false))
             .Bind(ContentKeyFunctions.SmartEquipPocket1, InputCmdHandler.FromDelegate(HandleSmartEquipPocket1, handle: false, outsidePrediction: false))
             .Bind(ContentKeyFunctions.SmartEquipPocket2, InputCmdHandler.FromDelegate(HandleSmartEquipPocket2, handle: false, outsidePrediction: false))
+            .Bind(ContentKeyFunctions.SmartEquipSuitStorage, InputCmdHandler.FromDelegate(HandleSmartEquipSuitStorage, handle: false, outsidePrediction: false))
             .Register<SmartEquipSystem>();
     }
 
@@ -64,10 +65,6 @@ public sealed class SmartEquipSystem : EntitySystem
         HandleSmartEquip(session, "wallet");
     }
     // End Frontier: smart-equip to wallet
-    private void HandleSmartEquipSuitStorage(ICommonSession? session)
-    {
-        HandleSmartEquip(session, "suitstorage");
-    }
 
     private void HandleSmartEquipPocket1(ICommonSession? session)
     {
@@ -79,19 +76,9 @@ public sealed class SmartEquipSystem : EntitySystem
         HandleSmartEquip(session, "pocket2");
     }
 
-    private void SaveLocation(StorageComponent storage, EntityUid itemUid)
+    private void HandleSmartEquipSuitStorage(ICommonSession? session)
     {
-        var id = IoCManager.Resolve<IEntityManager>().GetNetEntity(itemUid).ToString();
-        storage.StoredItems.TryGetValue(itemUid, out var location);
-
-        if (!storage.SavedLocations.TryGetValue(id, out var locations))
-            locations = new();
-
-        if (locations.Contains(location))
-            return;
-
-        locations.Add(location);
-        storage.SavedLocations[id] = locations;
+        HandleSmartEquip(session, "suitstorage");
     }
 
     private void HandleSmartEquip(ICommonSession? session, string equipmentSlot)
@@ -103,10 +90,10 @@ public sealed class SmartEquipSystem : EntitySystem
             return;
 
         // early out if we don't have any hands or a valid inventory slot
-        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHand == null)
+        if (!TryComp<HandsComponent>(uid, out var hands) || hands.ActiveHandId == null)
             return;
 
-        var handItem = hands.ActiveHand.HeldEntity;
+        var handItem = _hands.GetActiveItem((uid, hands));
 
         // can the user interact, and is the item interactable? e.g. virtual items
         if (!_actionBlocker.CanInteract(uid, handItem))
@@ -119,7 +106,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // early out if we have an item and cant drop it at all
-        if (handItem != null && !_hands.CanDropHeld(uid, hands.ActiveHand))
+        if (handItem != null && !_hands.CanDropHeld(uid, hands.ActiveHandId))
         {
             _popup.PopupClient(Loc.GetString("smart-equip-cant-drop"), uid, uid);
             return;
@@ -160,7 +147,7 @@ public sealed class SmartEquipSystem : EntitySystem
                 return;
             }
 
-            _hands.TryDrop(uid, hands.ActiveHand, handsComp: hands);
+            _hands.TryDrop((uid, hands), hands.ActiveHandId!);
             _inventory.TryEquip(uid, handItem.Value, equipmentSlot, predicted: true, checkDoafter:true);
             return;
         }
@@ -188,8 +175,8 @@ public sealed class SmartEquipSystem : EntitySystem
                 return;
             }
 
-            _hands.TryDrop(uid, hands.ActiveHand, handsComp: hands);
-            _storage.Insert(slotItem, handItem.Value, out var stacked, out _);
+            _hands.TryDrop((uid, hands), hands.ActiveHandId!);
+            _storage.Insert(slotItem, handItem.Value, out var stacked, out _, user: uid);
 
             // if the hand item stacked with the things in inventory, but there's no more space left for the rest
             // of the stack, place the stack back in hand rather than dropping it on the floor
@@ -203,7 +190,7 @@ public sealed class SmartEquipSystem : EntitySystem
         }
 
         // case 3 (itemslot item):
-        if (TryComp<ItemSlotsComponent>(slotItem, out var slots))
+        if (TryComp<ItemSlotsComponent>(slotItem, out var slots) && !TryComp<GunComponent>(slotItem, out var _)) // AS: I want to grab my gun, not take the mag out
         {
             if (handItem == null)
             {

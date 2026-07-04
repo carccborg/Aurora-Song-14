@@ -17,6 +17,7 @@
   name: punk
   abstract: true
   parent:
+  - BaseMobHumanNoHands # Aurora's Song - Nubody
   - NFMobNoEquipmentOnGib
   - MobStaminaFodder
   - MobMovementSpeedModifierMelee
@@ -31,9 +32,6 @@
   - type: NpcFactionMember
     factions:
     - StreetGangNF
-  - type: Body
-    prototype: NFHumanNoHands
-    requiredLegs: 2
   - type: RechargeBasicEntityAmmo
     rechargeCooldown: 1.5
     rechargeSound:
@@ -51,11 +49,12 @@
       path: /Audio/Weapons/bladeslice.ogg
   - type: ReplacementAccent
     accent: streetpunk
-  - type: Advertise
-    pack: spacepunkhumanoidchatter
-    minimumWait: 30
-    maximumWait: 120
-    nextAdvertisementTime: 10
+  - type: Vocalizer
+    minVocalizeInterval: 30
+    maxVocalizeInterval: 120
+    hideChat: true
+  - type: DatasetVocalizer
+    dataset: spacepunkhumanoidchatter
   - type: AutoWakeUp
 
 # Humans
@@ -203,11 +202,10 @@
   - type: Loadout
     prototypes:
     - PunkGangerGearLaser
-  - type: ProjectileBatteryAmmoProvider
+  - type: BatteryAmmoProvider # Aurora's Song - ProjectileBatteryAmmoProvider>BatteryAmmoProvider
     proto: NFBulletLaserLow
     fireCost: 100
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 50
   - type: Battery
     maxCharge: 600

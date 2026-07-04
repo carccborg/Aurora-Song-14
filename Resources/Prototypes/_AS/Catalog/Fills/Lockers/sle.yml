@@ -1,0 +1,113 @@
+# SLE Filled Locker Prototypes using _AS items
+- type: entity
+  id: ASLockerSLESilverDetectiveFilled
+  suffix: Detective, Filled
+  parent: ASLockerSLEDetective
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillASLockerSLEDetective
+  - type: AccessReader
+    access: [["Detective"]]
+
+- type: entityTable
+  id: FillASLockerSLEDetective
+  table: !type:AllSelector
+    children:
+    - id: BoxForensicPad
+    - id: DrinkDetFlask
+    - id: BoxEvidenceMarkers
+    - id: HandLabeler
+
+- type: entity
+  id: ASLockerSLESecurityFilled
+  parent: ASLockerSLEBadge
+  suffix: SLE, Filled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillASLockerSLESecurity
+
+- type: entityTable
+  id: FillASLockerSLESecurity
+  table: !type:AllSelector
+    children:
+    - id: FlashlightSeclite
+      prob: 0.8
+    - id: NFWeaponEnergyPistolDisabler
+    - id: ASClothingUniformJumpskirtSLEClassic
+      prob: 0.3
+    - id: ASClothingHeadHelmetSLE
+    - id: ASClothingOuterArmorSLE
+    - id: ASClothingBeltSLEFilled
+    - id: Flash
+      prob: 0.5
+    - id: ASClothingEyesGlassesSLE
+    - id: ClothingHeadsetSecurity
+    - id: ASClothingHandsGlovesCombatSLEDarkBlue
+    - id: ASClothingShoesBootsSLEDarkBlueFilled
+    - id: WeaponMeleeNeedle
+      prob: 0.6
+    - id: ASHyperlinkBookSpaceLaw # Use this instead of BookSpaceLaw
+      prob: 0.5
+
+    - id: ASHoloprojectorSLE
+
+- type: entity
+  id: ASClosetSLEBombFilled
+  parent: ClosetBombFilled
+  suffix: SLE, Filled
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillASClosetSLEBomb
+
+- type: entityTable
+  id: FillASClosetSLEBomb
+  table: !type:AllSelector
+    children:
+    - !type:NestedSelector
+      tableId: FillClosetBomb
+    - id: Wirecutter
+    - id: Screwdriver
+    - id: Multitool
+
+- type: entity
+  id: ASLockerSLECommissionerFilled
+  suffix: Commissioner, Filled
+  parent: ASLockerSLECommissioner
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: FillASLockerSLECommissioner
+
+- type: entityTable
+  id: FillASLockerSLECommissioner
+  table: !type:AllSelector
+    children:
+    - id: ASClothingHeadHatBeretCommissioner
+    - id: ASClothingOuterCoatSLEFormalCommissioner
+    - id: ASClothingHeadsetSLEOrangeCommon
+    - id: ASClothingNeckSLEBadgeCommissioner
+    - id: ASCommissionerIDCard
+    - id: BoxHandcuff
+    - id: CommsComputerCircuitboard
+    - id: MedalCaseNfsd
+    - id: Demag
+    - id: ASWeaponShotgunBailiff
+    - id: NFAmmunitionBoxShellShotgunBuckshot
+      amount: 2
+    - id: NFAmmunitionBoxShellShotgunBeanbag
+      amount: 2
+    - id: ASWeaponRifleMarksmanHZ-3-3-C
+    - id: ASMagazineMarksmanRifle30
+      amount: 2
+    - id: ClothingOuterHardsuitSleCombatCommissioner
+    - id: ClothingOuterSoftsuitSlePatrolCommissioner
+    - id: ASJetpackSLEFilled
+    - id: ASClothingShoesBootsMagSLEFilled
+    - id: AccessConfigurator

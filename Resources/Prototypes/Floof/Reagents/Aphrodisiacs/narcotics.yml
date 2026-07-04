@@ -1,13 +1,13 @@
 - type: reagent
   id: Libidozenithizine
   name: reagent-name-libidozenithizine
-  group: Narcotics
+  group: Aphrodisiacs # DEN
   desc: reagent-desc-libidozenithizine
   physicalDesc: reagent-physical-desc-milky
   flavor: spooky
   color: "#c90084"
   metabolisms:
-    Narcotic:
+    Bloodstream: # Aurora's Song - Narcotic>Bloodstream
       metabolismRate : 0.03 #Aurora, one 5u dose is 2.7 minutes
       effects:
       - !type:PopupMessage
@@ -19,11 +19,16 @@
         - reagent-effect-aphrodisiac-strong2
         - reagent-effect-aphrodisiac-strong3
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Libidozenithizine
           max: 10.0
+        - !type:Consent # Aurora Song
+          effectTypes:
+          - Aphrodisiacs
       - !type:HealthChange
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Libidozenithizine
           min: 10.0
         damage:
           types:
@@ -38,8 +43,12 @@
         - reagent-effect-aphrodisiac-strongoverdose3
         - reagent-effect-aphrodisiac-strongoverdose4
         conditions:
-        - !type:ReagentThreshold
+        - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+          reagent: Libidozenithizine
           min: 10.0
+        - !type:Consent # Aurora Song
+          effectTypes:
+          - Aphrodisiacs
       - !type:PopupMessage
         type: Local
         visualType: Small
@@ -47,5 +56,9 @@
         messages:
           - "reagent-effect-aphrodisiac-fade"
         conditions:
-          - !type:ReagentThreshold
+          - !type:ReagentCondition # Aurora's Song - ReagentThreshold>ReagentCondition
+            reagent: Libidozenithizine
             max: 0.1
+          - !type:Consent # Aurora Song
+            effectTypes:
+            - Aphrodisiacs

@@ -106,9 +106,6 @@
     stampState: "paper_stamp-clown"
   - type: Sprite
     state: stamp-clown
-  - type: Tag
-    tags:
-      - ClownRubberStamp
 
 - type: entity
   name: chief engineer's rubber stamp
@@ -226,6 +223,8 @@
     stampState: "paper_stamp-syndicate"
   - type: Sprite
     state: stamp-syndicate
+  - type: StaticPrice
+    price: 1000
 
 - type: entity
   name: warden's rubber stamp

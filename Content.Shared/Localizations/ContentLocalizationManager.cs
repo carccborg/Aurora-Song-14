@@ -92,6 +92,17 @@ namespace Content.Shared.Localizations
             var text = ((LocValueString) args.Args[0]).Value;
             var split = text.Split(" ", 1);
             var firstWord = split[0];
+
+            // TheDen - The plural of mantis is mantes
+            if (string.Equals(firstWord, "mantis", StringComparison.OrdinalIgnoreCase))
+            {
+                var plural = "Mantes";
+                if (split.Length == 1)
+                    return new LocValueString(plural);
+                else
+                    return new LocValueString($"{plural} {split[1]}");
+            }
+
             if (PluralEsRule.IsMatch(firstWord))
             {
                 if (split.Length == 1)
@@ -133,7 +144,7 @@ namespace Content.Shared.Localizations
                 <= 0 => string.Empty,
                 1 => list[0],
                 2 => $"{list[0]} or {list[1]}",
-                _ => $"{string.Join(" or ", list)}"
+                _ => $"{string.Join(", ", list.GetRange(0, list.Count - 1))}, or {list[^1]}"
             };
         }
 

@@ -1,4 +1,5 @@
 - type: entity
+  parent: SimpleMobBase # Aurora's Song
   id: NFMobPet
   abstract: true
   components:
@@ -132,10 +133,10 @@
   - type: FlashImmunity
   - type: IntrinsicRadioTransmitter
     channels:
-    - Nfsd
+    - Sle # Aurora Song - Changed from Nfsd to Sle (Sector Law Enforcement)
   - type: ActiveRadio
     channels:
-    - Nfsd
+    - Sle # Aurora Song - Changed from Nfsd to Sle (Sector Law Enforcement)
   - type: MeleeWeapon
     damage:
       types:
@@ -324,13 +325,10 @@
 
 - type: entity
   id: MobCatBloodCult
-  parent: [NFMobPet, MobCatMistake]
+  parent: [NFMobPet, MobCatMistake, BaseMobBloodsucker] # Aurora's Song - Replace BodyComponent with BaseMobBloodsucker
   name: blood cult cat
   description: Founded the Blood Cult out of boredom.
   components:
-  - type: Body
-    prototype: Bloodsucker
-    requiredLegs: 1
   - type: MeleeWeapon
     damage:
       types:
@@ -368,7 +366,7 @@
     implants:
     - RedLightImplant
     - DissonantWhispersImplant
-    - MedicalTrackingImplant
+ #   - MedicalTrackingImplant # Aurora: Remove medical tracker
   - type: IntrinsicRadioTransmitter
     channels:
     - Science

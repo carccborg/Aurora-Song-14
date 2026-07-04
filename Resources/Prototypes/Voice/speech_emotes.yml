@@ -8,8 +8,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-scream"]
   chatTriggers:
     - scream
@@ -38,8 +38,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-laugh"]
   chatTriggers:
     - laugh
@@ -68,7 +68,8 @@
     requireAll: true
     components:
     - Vocal
-    - BorgChassis
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-honk"]
   chatTriggers:
     - honk
@@ -85,8 +86,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-sigh"]
   chatTriggers:
     - sigh
@@ -103,8 +104,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-whistle"]
   chatTriggers:
     - whistle
@@ -121,8 +122,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-crying"]
   chatTriggers:
     - cry
@@ -144,8 +145,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-squish"]
   chatTriggers:
     - squish
@@ -163,8 +164,8 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-chitter"]
   chatTriggers:
    - chitter
@@ -182,8 +183,8 @@
     components:
       - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-squeak"]
   chatTriggers:
    - squeak
@@ -201,14 +202,110 @@
     components:
     - Vocal
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-click"]
   chatTriggers:
    - click
    - clicks
    - clicked # Frontier
    - clicking # Frontier
+
+# Vulpkanin
+# Aurora's Song - Disable upstream vulpkanin
+# - type: emote
+#   id: Bark
+#   name: chat-emote-name-bark
+#   category: Vocal
+#   available: false
+#   whitelist:
+#     components:
+#     - Vocal
+#   blacklist:
+#     tags:
+#     - SiliconEmotes
+#   chatMessages: ["chat-emote-msg-bark"]
+#   chatTriggers:
+#   - bark
+#   - barks
+#   - barked
+#   - barking
+
+# Aurora's Song - Disable upstream vulpkanin
+# - type: emote
+#   id: Snarl
+#   name: chat-emote-name-snarl
+#   category: Vocal
+#   available: false
+#   whitelist:
+#     components:
+#     - Vocal
+#   blacklist:
+#     tags:
+#     - SiliconEmotes
+#   chatMessages: ["chat-emote-msg-snarl"]
+#   chatTriggers:
+#   - snarl
+#   - snarls
+#   - snarled
+#   - snarling
+
+# Aurora's Song - Disable upstream vulpkanin
+# - type: emote
+#   id: Whine
+#   name: chat-emote-name-whine
+#   category: Vocal
+#   available: false
+#   whitelist:
+#     components:
+#     - Vocal
+#   blacklist:
+#     tags:
+#     - SiliconEmotes
+#   chatMessages: ["chat-emote-msg-whine"]
+#   chatTriggers:
+#   - whine
+#   - whines
+#   - whined
+#   - whining
+
+# Aurora's Song - Disable upstream vulpkanin
+# - type: emote
+#   id: Howl
+#   name: chat-emote-name-howl
+#   category: Vocal
+#   available: false
+#   whitelist:
+#     components:
+#     - Vocal
+#   blacklist:
+#     tags:
+#     - SiliconEmotes
+#   chatMessages: ["chat-emote-msg-howl"]
+#   chatTriggers:
+#   - howl
+#   - howls
+#   - howling
+#   - howled
+
+# Aurora's Song - Disable upstream vulpkanin
+# - type: emote
+#   id: Growl
+#   name: chat-emote-name-growl
+#   category: Vocal
+#   available: false
+#   whitelist:
+#     components:
+#     - Vocal
+#   blacklist:
+#     tags:
+#     - SiliconEmotes
+#   chatMessages: ["chat-emote-msg-growl"]
+#   chatTriggers:
+#   - growl
+#   - growls
+#   - growled
+#   - growling
 
 # hand emotes
 - type: emote
@@ -220,8 +317,8 @@
     components:
     - Hands
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-clap"]
   chatTriggers:
     - claps
@@ -237,8 +334,8 @@
     components:
     - Hands
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: [ "chat-emote-msg-clap-single" ]
   chatTriggers:
     - clap
@@ -256,8 +353,8 @@
     components:
     - Hands
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-snap"] # snaps <{THEIR($ent)}> fingers?
   chatTriggers:
     - snap
@@ -283,8 +380,8 @@
     components:
     - Hands
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-thump"]
   chatTriggers:
     - thump
@@ -307,8 +404,8 @@
     components:
     - Hands
   blacklist:
-    components:
-    - BorgChassis
+    tags:
+    - SiliconEmotes
   chatMessages: ["chat-emote-msg-salute"]
   chatTriggers:
     - salute
@@ -347,14 +444,22 @@
   chatMessages: ["chat-emote-msg-deathgasp-monkey"]
 
 - type: emote
+  id: ScurretDeathgasp
+  name: chat-emote-name-deathgasp
+  icon: Interface/Emotes/deathgasp.png
+  chatMessages: ["chat-emote-msg-deathgasp-scurret"]
+
+- type: emote
   id: Buzz
   name: chat-emote-name-buzz
   category: Vocal
   icon: Interface/Emotes/buzz.png
   whitelist:
+    requireAll: true
     components:
-    - BorgChassis
-    - Silicon # DeltaV - Removes 'requireAll' component and adds IPCs to whitelist
+    - Vocal
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-buzz"]
   chatTriggers:
     - buzzing
@@ -396,6 +501,43 @@
     - chirped
     - chirping
 
+- type: emote
+  id: Flap
+  name: chat-emote-name-flap
+  category: Hands # Not really "hands", but how far it to vocal? (moth mimes want to flap too!)
+  available: false
+  icon: Interface/Emotes/flap.png
+  whitelist:
+    components:
+    - Hands
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-flap"]
+  chatTriggers:
+   - flap
+   - flaps
+   - flapped
+   - flapping
+   - flutter
+#   - flutters # Aurora's Song - Separate flutter emote
+   - fluttering
+   - fluttered
+   - flap wings
+   - flaps wings
+   - flutter wings
+   - flutters wings
+   - flaps his wings
+   - flaps her wings
+   - flaps their wings
+   - flaps its wings
+# Aurora's Song Start - Separate flutter emote
+#   - flutters his wings
+#   - flutters her wings
+#   - flutters their wings
+#   - flutters its wings
+# Aurora's Song End
+
 # Machine Emotes
 - type: emote
   id: Beep
@@ -403,9 +545,11 @@
   category: Vocal
   icon: Interface/Emotes/beep.png
   whitelist:
+    requireAll: true
     components:
-    - BorgChassis
-    - Silicon # DeltaV - Removes 'requireAll' component and adds IPCs to whitelist
+    - Vocal
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-beep"]
   chatTriggers:
     - beep
@@ -419,9 +563,11 @@
   category: Vocal
   icon: Interface/Emotes/chime.png
   whitelist:
+    requireAll: true
     components:
-    - BorgChassis
-    - Silicon # DeltaV - Removes 'requireAll' component and adds IPCs to whitelist
+    - Vocal
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-chime"]
   chatTriggers:
     - chime
@@ -435,9 +581,11 @@
   category: Vocal
   icon: Interface/Emotes/buzztwo.png
   whitelist:
+    requireAll: true
     components:
-    - BorgChassis
-    - Silicon # DeltaV - Removes 'requireAll' component and adds IPCs to whitelist
+    - Vocal
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-buzzestwo"]
   chatTriggers:
     - buzztwice
@@ -458,9 +606,11 @@
   category: Vocal
   icon: Interface/Emotes/ping.png
   whitelist:
+    requireAll: true
     components:
-    - BorgChassis
-    - Silicon # DeltaV - Removes 'requireAll' component and adds IPCs to whitelist
+    - Vocal
+    tags:
+    - SiliconOrIPCEmotes # DeltaV - let borgs, bots, and IPCs use it
   chatMessages: ["chat-emote-msg-ping"]
   chatTriggers:
     - ping

@@ -1,0 +1,102 @@
+- type: entity
+  parent: ClothingNeckBase
+  id: ASClothingNeckSLEBadge
+  name: SLE badge
+  description: Respect my authority!
+  abstract: true
+  components:
+  - type: Item
+    size: Tiny
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_bronze_badge.rsi
+    layers: []
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_bronze_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeRookie
+  name: Rookie badge
+  suffix: Bronze - Rookie
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeOfficer
+  suffix: Silver - Officer
+  name: Officer badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silver_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silver_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeCorpsman
+  suffix: Silver - Corpsman
+  name: Corpsman badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silvercross_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silvercross_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeDetective
+  suffix: Silver - Detective
+  name: Detective badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silver_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_silver_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeSergeant
+  suffix: Gold - Sergeant
+  name: Sergeant badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_gold_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_gold_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeLieutenant
+  suffix: Gold - Lieutenant
+  name: Lieutenant badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_gold_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_gold_badge.rsi
+
+- type: entity
+  parent: ASClothingNeckSLEBadge
+  id: ASClothingNeckSLEBadgeCommissioner
+  suffix: Star - Commissioner
+  name: Commissioner badge
+  components:
+  - type: Sprite
+    sprite: _AS/Clothing/Neck/Scarfs/sle_star_badge.rsi
+  - type: Clothing
+    sprite: _AS/Clothing/Neck/Scarfs/sle_star_badge.rsi
+  - type: EmbeddableProjectile # pointy
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ASClothingNeckPublicAffairsLiaisonBadge
+  name: Public Affairs Liaison badge
+  description: A badge for grade 4 paperwork wizards affiliated with the SLE.
+  components:
+  - type: Sprite
+    sprite: _NF/Clothing/Neck/Misc/palbadge.rsi
+    scale: 0.5, 0.5
+  - type: Clothing
+    sprite: _NF/Clothing/Neck/Misc/palbadge.rsi
+  - type: TypingIndicatorClothing
+    proto: pal
+

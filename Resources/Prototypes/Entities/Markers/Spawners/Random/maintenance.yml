@@ -6,6 +6,9 @@
     - !type:GroupSelector
       weight: 75
       children:
+      - !type:NestedSelector
+        weight: 5 # Roughly 7% chance
+        tableId: AllToysTable
       # Smoker's specialty
       - !type:AllSelector
         children:
@@ -56,7 +59,7 @@
       - id: ClothingHeadHatPaper
       - id: ClothingHeadHatPirate
       - id: ClothingMaskSterile
-      - id: ClothingNeckHeadphones
+      - id: ClothingMultipleHeadphones
       - id: ClothingNeckTieRed
       - id: ClothingOuterCoatGentle
       - !type:AllSelector
@@ -111,13 +114,8 @@
         - id: ClothingNeckCloakGay
         - id: ClothingNeckCloakEnby
         - id: ClothingNeckCloakPan
-      - id: ToySkeleton
-      - id: Basketball
-      - id: Football
-      - id: BalloonNT
-      - id: BalloonCorgi
+      - id: ToyFigurineSkeleton
       - id: MysteryFigureBox
-      - id: RubberChicken
       # Cult
       - !type:AllSelector
         children:
@@ -163,16 +161,13 @@
     - !type:GroupSelector
       weight: 2
       children:
-      - id: Skub
-      - id: PonderingOrb
-      - id: CluwneHorn
-      - id: ClothingShoesSkates
       - id: DrinkMugDog
       - id: CigarGold
       - id: ClothingUniformJumpsuitFamilyGuy
       - id: WristwatchGold
       - id: RubberStampGreytide
-      - id: GoldenPersonalAI
+      - id: MysteryLighterBox
+      - id: LanternSomber # TheDen - Add somber lantern
 
 - type: entity
   name: Maint Loot Spawner
@@ -230,7 +225,8 @@
       - id: Plunger
       - id: PowerCellMedium
       - id: PowerCellSmall
-      - id: Soap
+      - !type:NestedSelector
+        tableId: AllSoapsTable
       - id: Wirecutter
       - id: Screwdriver
       - id: Wrench
@@ -246,7 +242,7 @@
       - id: ClothingMaskBreath
       - id: DoorElectronics
       - id: APCElectronics
-      - id: InflatableWallStack5
+      - id: NFInflatableWallStack5 # Frontier: InflatableWallStack5<NFInflatableWallStack5
       - id: CableHVStack10
       - id: CableMVStack10
       - id: CableApcStack10
@@ -276,7 +272,7 @@
       - id: trayScanner
       # - id: HandheldGPSBasic # Frontier: useless
       - id: HandLabeler
-      - id: GlowstickBase
+      - id: GlowstickGreen
       - id: Bucket
       - id: RadioHandheldNF # Frontier: RadioHandheld<RadioHandheldNF
       - id: AppraisalTool
@@ -331,6 +327,7 @@
       weight: 95
       children:
       - id: Machete
+      - id: Claymore
       - id: BaseBallBat
       - id: CombatKnife
       - id: Spear
@@ -363,6 +360,8 @@
       - id: SawImprov
       - id: HydroponicsToolMiniHoe
       - id: ClothingHandsKnuckleDusters
+      - !type:NestedSelector
+        tableId: AllToyWeaponsTable
 
 - type: entity
   name: Maint Loot Spawner
@@ -394,6 +393,7 @@
     - type: RandomSpawner
       prototypes:
         - Spaceshroom
+        - NFGlowshroom # Frontier
       chance: 0.6
       offset: 0.0
 

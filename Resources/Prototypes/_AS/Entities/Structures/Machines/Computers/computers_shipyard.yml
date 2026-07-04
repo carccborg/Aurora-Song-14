@@ -1,0 +1,97 @@
+#region SLE
+
+- type: entity
+  id: ComputerShipyardSLE
+  parent: [BaseStructureDisableToolUse, BaseStructureIndestructible, ComputerShipyardBase]
+  name: SLE shipyard console
+  description: Used to buy SLE patrol vessels.
+  components:
+  - type: Sprite
+    sprite: _NF/Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: shipyard_sle
+    - map: ["computerLayerKeys"]
+      state: telesci_key
+  - type: ActivatableUI
+    key: enum.ShipyardConsoleUiKey.Security
+  - type: UserInterface
+    interfaces:
+      enum.ShipyardConsoleUiKey.Security:
+        type: ShipyardConsoleBoundUserInterface
+  - type: ShipyardConsole
+    shipyardChannel: Sle
+    newAccessLevels: [Captain, Security, Brig]
+
+#region Command
+
+- type: entity
+  id: ASComputerShipyardCR
+  parent: [BaseStructureDisableToolUse, BaseStructureIndestructible, ComputerShipyardBase]
+  name: aurora staff shipyard console
+  description: Used to buy vessels exclusive to Auroran personnel.
+  components:
+  - type: ActivatableUI
+    key: enum.ShipyardConsoleUiKey.Sr
+  - type: UserInterface
+    interfaces:
+      enum.ShipyardConsoleUiKey.Sr:
+        type: ShipyardConsoleBoundUserInterface
+  - type: Sprite
+    sprite: _NF/Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer_sr
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: shipyard_cr
+    - map: ["computerLayerKeys"]
+      state: telesci_key
+
+#region Engineering
+
+- type: entity
+  id: ASComputerShipyardDamascus
+  parent: [ComputerShipyardExpedition]
+  name: damascus shipyard console
+  description: Used to buy vessels exclusive to Damascus employees.
+  components:
+  - type: ActivatableUI
+    key: enum.ShipyardConsoleUiKey.Damascus
+  - type: UserInterface
+    interfaces:
+      enum.ShipyardConsoleUiKey.Damascus:
+       type: ShipyardConsoleBoundUserInterface
+  - type: ShipyardConsole
+    shipyardChannel: Engineering
+
+#region Colonial Command
+
+- type: entity
+  id: ComputerShipyardColonialCommand
+  parent: [BaseStructureDisableToolUse, BaseStructureIndestructible, ComputerShipyardBase]
+  name: colonial command shipyard console
+  description: Used to buy vessels exclusive to Colonial Command teams personnel.
+  components:
+  - type: ActivatableUI
+    key: enum.ShipyardConsoleUiKey.ColonialCommand
+  - type: UserInterface
+    interfaces:
+      enum.ShipyardConsoleUiKey.ColonialCommand:
+        type: ShipyardConsoleBoundUserInterface
+  - type: Sprite
+    sprite: _NF/Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer_sr
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: shipyard_cr
+    - map: ["computerLayerKeys"]
+      state: telesci_key

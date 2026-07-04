@@ -1,10 +1,11 @@
 ﻿- type: entity
-  parent: ClothingEyesBase
-  id: ClothingEyesChameleon # no flash immunity, sorry
+  parent: [ClothingEyesBase, BaseChameleon]
+  id: ClothingEyesChameleon
   name: sun glasses
   description: Useful for security. # Frontier - description change
   suffix: Chameleon
   components:
+    - type: FlashImmunity
     - type: Tag
       tags: [] # ignore "WhitelistChameleon" tag
     - type: Sprite
@@ -14,7 +15,3 @@
     - type: ChameleonClothing
       slot: [eyes]
       default: ClothingEyesGlassesSunglasses
-    - type: UserInterface
-      interfaces:
-        enum.ChameleonUiKey.Key:
-          type: ChameleonBoundUserInterface
