@@ -1,0 +1,55 @@
+﻿- type: entity
+  id: LangmuirGasTank
+  name: Langmuir Gas Tank
+  parent: BaseItem
+  description: A specialised and resilient gas tank for storing reagents gas for plasma weapons... Awfully small, no?
+  components:
+  - type: UseDelay
+    delays:
+      gasTank:
+        length: 1.0
+  - type: ActivatableUI
+    key: enum.SharedGasTankUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.SharedGasTankUiKey.Key:
+        type: GasTankBoundUserInterface
+  - type: Sprite
+    sprite: _AS/Objects/Tanks/langmuirTank.rsi
+    state: icon
+  - type: Item
+    size: Small
+    sprite: _AS/Objects/Tanks/langmuirTank.rsi
+    state: icon
+  - type: GasTank
+    outputPressure: 21.3
+    air:
+      volume: 1
+      temperature: 293.15
+    tankLowPressure: 30
+  - type: MeleeWeapon
+    attackRate: 0.9
+    damage:
+      types:
+        Blunt: 5
+  - type: Tag
+    tags:
+    - PlasmaWeaponGasTank
+  - type: PhysicalComposition
+    materialComposition:
+      Steel: 100
+  - type: StaticPrice
+    price: 20
+
+- type: entity
+  id: LangmuirGasTankFilledPlasma
+  parent: LangmuirGasTank
+  suffix: Filled, Plasma
+  components:
+  - type: GasTank
+    air:
+      volume: 1
+      temperature: 145.1
+      moles:
+        Plasma: 0.88 # 11 shots exactly for the pistol
+

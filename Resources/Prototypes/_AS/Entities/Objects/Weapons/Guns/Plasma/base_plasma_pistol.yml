@@ -1,0 +1,44 @@
+﻿# region base prototypes
+- type: entity
+  id: ASBaseWeaponPlasmaPistol
+  parent: [NFBaseWeaponEncumbrancePistol, BaseWeaponBattery]
+  suffix: Aurora Song
+  abstract: true
+  components:
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+  - type: Appearance
+  - type: Gun
+    projectileSpeed: 30
+    minAngle: 1.5
+    maxAngle: 3
+    angleIncrease: 0.5
+    angleDecay: 1
+    fireRate: 3
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+  - type: Battery # Default: 30 shots with 80 fireCost
+    maxCharge: 2400
+    startingCharge: 2400
+  - type: BatterySelfRecharger
+    autoRechargeRate: 4 # Default recharge rate: 1 shot per 20 seconds with 80 fireCost
+  - type: StaticPrice
+    price: 400
+  - type: NFWeaponDetails
+    class: weapon-details-class-pistol
+
+# region manufacturers
+- type: entity
+  id: ASBaseWeaponFramePlasmaPistolArcadia
+  parent: [ASBaseWeaponPlasmaPistol]
+  abstract: true
+  components:
+  - type: Gun
+    minAngle: 1.2
+    maxAngle: 2.8
+    fireRate: 2.5
+  - type: NFWeaponDetails
+    manufacturer: weapon-details-manufacturer-arcadia-sec-solutions

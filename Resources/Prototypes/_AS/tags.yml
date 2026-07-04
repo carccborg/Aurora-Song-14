@@ -136,3 +136,7 @@
 - type: Tag
   id: PowerCellAntique
 #endregion
+
+#region Gas tanks
+- type: Tag
+  id: PlasmaWeaponGasTank

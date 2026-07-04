@@ -72,12 +72,12 @@
     AllowedGases:
     - Plasma
   - type: BatterySelfRecharger
-    autoRecharge: true
     autoRechargeRate: 10
   - type: ItemSlots
     slots:
       gas_tank:
         name: pneumatic-cannon-component-itemslot-name
+        startingItem: PlasmaTankFilled
         whitelist:
           components:
           - GasTank
@@ -94,3 +94,46 @@
     sprite: _AS/Objects/Weapons/Guns/Rifles/icarusmkii.rsi
   - type: Clothing
     sprite: _AS/Objects/Weapons/Guns/Rifles/icarusmkii.rsi
+
+- type: entity
+  name: Langmuir
+  parent: [ASBaseWeaponFramePlasmaPistolArcadia, ASBaseWeaponPlasmaBoltsArcadian]
+  id: ASPlasmaPistolLangmuir
+  components:
+  - type: Gun
+    fireRate: 2.5
+  - type: PlasmaGun
+    GasUsage: 0.08
+    AllowedGases:
+    - Plasma
+  - type: BatterySelfRecharger
+    autoRechargeRate: 10
+  - type: ItemSlots
+    slots:
+      gas_tank:
+        name: pneumatic-cannon-component-itemslot-name
+        startingItem: LangmuirGasTankFilledPlasma
+        whitelist:
+          components: # Want to make sure it's both a functional gas tank, and the right kind.
+          - GasTank
+          tags:
+          - PlasmaWeaponGasTank
+        insertSound:
+          path: /Audio/Weapons/click.ogg
+          params:
+            volume: -3
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: [ ]
+      gas_tank: !type:ContainerSlot
+  - type: ItemMapper
+    mapLayers:
+      mag-0:
+        whitelist:
+          tags:
+            - PlasmaWeaponGasTank
+  - type: Sprite
+    sprite: _AS/Objects/Weapons/Guns/Pistols/langmuir.rsi
+  - type: Clothing
+    sprite: _AS/Objects/Weapons/Guns/Pistols/langmuir.rsi
