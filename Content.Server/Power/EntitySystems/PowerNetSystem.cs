@@ -14,6 +14,26 @@ using Robust.Shared.Threading;
 
 namespace Content.Server.Power.EntitySystems
 {
+    // Aurora Song
+    /*
+     * unfortunately IoC isn't available when we need it to be, so...
+     */
+    public static class PowerNetRef
+    {
+        public static PowerState? Inst
+        {
+            get;
+            set
+            {
+                if (field != null)
+                    throw new InvalidOperationException("Tried to double-set PowerNetRef singleton.");
+
+                field = value;
+            }
+        } = null;
+    }
+    // END
+
     /// <summary>
     ///     Manages power networks, power state, and all power components.
     /// </summary>
@@ -41,6 +61,8 @@ namespace Content.Server.Power.EntitySystems
         public override void Initialize()
         {
             base.Initialize();
+
+            PowerNetRef.Inst = _powerState; // Aurora Song
 
             UpdatesAfter.Add(typeof(NodeGroupSystem));
             _solver = new(_cfg.GetCVar(CCVars.DebugPow3rDisableParallel));

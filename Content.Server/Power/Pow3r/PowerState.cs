@@ -93,7 +93,7 @@ namespace Content.Server.Power.Pow3r
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
+                    if ((id.Generation & 1) == 0 || (uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
                         ThrowKeyNotFound();
 
                     return ref _values[id.Index];
@@ -102,7 +102,7 @@ namespace Content.Server.Power.Pow3r
 
             public ref T GetOrElse(SlotHandle id, ref T other)
             {
-                if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
+                if ((id.Generation & 1) == 0 || (uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
                     return ref other;
 
                 return ref _values[id.Index];

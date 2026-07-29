@@ -17,9 +17,9 @@ namespace Content.Server.Power.Pow3r
      */
     public sealed partial class PowerState
     {
-        private static PowerState Bucket()
+        private static PowerState? Bucket()
         {
-            return IoCManager.Resolve<PowerNetSystem>().PowerStateInst;
+            return PowerNetRef.Inst;
         }
 
         public sealed class Supply
@@ -33,7 +33,11 @@ namespace Content.Server.Power.Pow3r
 
             private ref SupplyStruct Inst()
             {
-                return ref Bucket().Supplies.GetOrElse(Id, ref _preAlloc);
+                var bucket = Bucket();
+                if (bucket != null)
+                    return ref bucket.Supplies.GetOrElse(Id, ref _preAlloc);
+
+                return ref _preAlloc;
             }
 
             // == Static parameters ==
@@ -128,12 +132,16 @@ namespace Content.Server.Power.Pow3r
 
             [ViewVariables] public SlotHandle Id;
 
-            private LoadStruct _preAssoc = new ();
-            public ref LoadStruct PreallocBackingStruct => ref _preAssoc;
+            private LoadStruct _preAlloc = new ();
+            public ref LoadStruct PreallocBackingStruct => ref _preAlloc;
 
             private ref LoadStruct Inst()
             {
-                return ref Bucket().Loads.GetOrElse(Id, ref _preAssoc);
+                var bucket = Bucket();
+                if (bucket != null)
+                    return ref bucket.Loads.GetOrElse(Id, ref _preAlloc);
+
+                return ref _preAlloc;
             }
 
             // == Static parameters ==
@@ -184,7 +192,11 @@ namespace Content.Server.Power.Pow3r
 
             private ref BatteryStruct Inst()
             {
-                return ref Bucket().Batteries.GetOrElse(Id, ref _preAlloc);
+                var bucket = Bucket();
+                if (bucket != null)
+                    return ref bucket.Batteries.GetOrElse(Id, ref _preAlloc);
+
+                return ref _preAlloc;
             }
 
             // == Static parameters ==
