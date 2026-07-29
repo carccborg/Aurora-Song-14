@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Robust.Shared.Utility;
-using static Content.Server.Power.Pow3r.PowerState;
 
 namespace Content.Server.Power.Pow3r
 {
@@ -17,10 +16,10 @@ namespace Content.Server.Power.Pow3r
             Converters = {new NodeIdJsonConverter()}
         };
 
-        public GenIdStorage<Supply> Supplies = new();
-        public GenIdStorage<Network> Networks = new();
-        public GenIdStorage<Load> Loads = new();
-        public GenIdStorage<Battery> Batteries = new();
+        public SlotTable<Supply> Supplies = new(512);
+        public SlotTable<Load> Loads = new(4096);
+        public SlotTable<Battery> Batteries = new(1024);
+        public SlotTable<Network> Networks = new(1024);
         public List<List<Network>>? GroupedNets;
 
         public readonly struct NodeId : IEquatable<NodeId>
@@ -75,37 +74,25 @@ namespace Content.Server.Power.Pow3r
 
         public static class GenIdStorage
         {
-            public static GenIdStorage<T> FromEnumerable<T>(IEnumerable<(NodeId, T)> enumerable)
+            public static SlotTable<T> FromEnumerable<T>(IEnumerable<(NodeId, T)> enumerable)
             {
-                return GenIdStorage<T>.FromEnumerable(enumerable);
+                return SlotTable<T>.FromEnumerable(enumerable);
             }
         }
 
-        public sealed class GenIdStorage<T>
+        public sealed class SlotTable<T>(int initialCapacity)
         {
-            // This is an implementation of "generational index" storage.
-            //
-            // The advantage of this storage method is extremely fast, O(1) lookup (way faster than Dictionary).
-            // Resolving a value in the storage is a single array load and generation compare. Extremely fast.
-            // Indices can also be cached into temporary
-            // Disadvantages are that storage cannot be shrunk, and sparse storage is inefficient space wise.
-            // Also this implementation does not have optimizations necessary to make sparse iteration efficient.
-            //
-            // The idea here is that the index type (NodeId in this case) has both an index and a generation.
-            // The index is an integer index into the storage array, the generation is used to avoid use-after-free.
-            //
-            // Empty slots in the array form a linked list of free slots.
-            // When we allocate a new slot, we pop one link off this linked list and hand out its index + generation.
-            //
-            // When we free a node, we bump the generation of the slot and make it the head of the linked list.
-            // The generation being bumped means that any IDs to this slot will fail to resolve (generation mismatch).
-            //
+            // contiguous values
+            private T[] _values = new T[initialCapacity];
 
-            // Index of the next free slot to use when allocating a new one.
-            // If this is int.MaxValue,
-            // it basically means "no slot available" and the next allocation call should resize the array storage.
-            private int _nextFree = int.MaxValue;
-            private Slot[] _storage;
+            // LSB tracks freed state, so odd numbers = alive, even = freed
+            private int[] _generations = new int[initialCapacity];
+
+            private int[] _freeList = new int[initialCapacity];
+            private int _freeCount;
+            private int _nextId;
+
+            private readonly Lock _resizeLock = new();
 
             public int Count { get; private set; }
 
@@ -114,142 +101,113 @@ namespace Content.Server.Power.Pow3r
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
                 {
-                    ref var slot = ref _storage[id.Index];
-                    if (slot.Generation != id.Generation)
+                    if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
                         ThrowKeyNotFound();
 
-                    return ref slot.Value;
+                    return ref _values[id.Index];
                 }
             }
 
-            public GenIdStorage()
+            public static SlotTable<T> FromEnumerable(IEnumerable<(NodeId, T)> enumerable)
             {
-                _storage = Array.Empty<Slot>();
-            }
-
-            public static GenIdStorage<T> FromEnumerable(IEnumerable<(NodeId, T)> enumerable)
-            {
-                var storage = new GenIdStorage<T>();
-
-                // Cache enumerable to array to do double enumeration.
                 var cache = enumerable.ToArray();
 
                 if (cache.Length == 0)
-                    return storage;
+                    return new SlotTable<T>(0);
 
-                // Figure out max size necessary and set storage size to that.
                 var maxSize = cache.Max(tup => tup.Item1.Index) + 1;
-                storage._storage = new Slot[maxSize];
 
-                // Fill in slots.
+                var storage = new SlotTable<T>(maxSize);
+
                 foreach (var (id, value) in cache)
                 {
                     DebugTools.Assert(id.Generation != 0, "Generation cannot be 0");
+                    DebugTools.Assert(storage._generations[id.Index] == 0, "Duplicate key index!");
+                    DebugTools.Assert((id.Generation & 1) == 1, "Loaded active generation must be odd!");
 
-                    ref var slot = ref storage._storage[id.Index];
-                    DebugTools.Assert(slot.Generation == 0, "Duplicate key index!");
-
-                    slot.Generation = id.Generation;
-                    slot.Value = value;
-                    slot.NextSlot = -1;
+                    storage._generations[id.Index] = id.Generation;
+                    storage._values[id.Index] = value;
                 }
 
-                // Go through empty slots and build the free chain.
-                var nextFree = int.MaxValue;
-                for (var i = 0; i < storage._storage.Length; i++)
+                for (var i = 0; i < maxSize; i++)
                 {
-                    ref var slot = ref storage._storage[i];
-
-                    if (slot.NextSlot == -1)
-                        // Slot in use.
-                        continue;
-
-                    slot.NextSlot = nextFree;
-                    nextFree = i;
+                    if (storage._generations[i] == 0)
+                    {
+                        storage._freeList[storage._freeCount++] = i;
+                    }
                 }
 
                 storage.Count = cache.Length;
-                storage._nextFree = nextFree;
 
-                // Sanity check for a former bug with save/load.
-                DebugTools.Assert(storage.Values.Count() == storage.Count);
+                storage._nextId = maxSize;
+
+                DebugTools.Assert(storage.Values.Count == storage.Count);
 
                 return storage;
             }
 
             public ref T Allocate(out NodeId id)
             {
-                if (_nextFree == int.MaxValue)
-                    ReAllocate();
+                lock (_resizeLock)
+                {
+                    int index;
+                    if (_freeCount > 0)
+                    {
+                        index = _freeList[--_freeCount];
 
-                var idx = _nextFree;
-                ref var slot = ref _storage[idx];
+                        // a recycled slot would be cleared on free if it was a reference
+                        // type. otherwise we have to clear it now
+                        if (!RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+                            _values[index] = default!;
+                    }
+                    else
+                    {
+                        index = _nextId++;
+                        if (index >= _values.Length)
+                            Resize();
+                    }
 
-                Count += 1;
-                _nextFree = slot.NextSlot;
-                // NextSlot = -1 indicates filled.
-                slot.NextSlot = -1;
+                    Count++;
 
-                id = new NodeId(idx, slot.Generation);
-                return ref slot.Value;
+                    int gen = _generations[index] + 1;
+                    // if generation counter overflows we should be on 1, not 0
+                    if (gen == 0)
+                        gen = 1;
+
+                    // increment even -> odd (claimed)
+                    _generations[index] = gen;
+                    id = new NodeId(index, gen);
+
+                    return ref _values[index];
+                }
             }
 
             public void Free(NodeId id)
             {
-                var idx = id.Index;
-                ref var slot = ref _storage[idx];
-                if (slot.Generation != id.Generation)
-                    ThrowKeyNotFound();
+                lock (_resizeLock)
+                {
+                    if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
+                        ThrowKeyNotFound();
 
-                if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-                    slot.Value = default!;
+                    Count--;
 
-                Count -= 1;
-                slot.Generation += 1;
-                slot.NextSlot = _nextFree;
-                _nextFree = idx;
+                    // increment odd -> even (free)
+                    _generations[id.Index]++;
+
+                    if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+                        _values[id.Index] = default!;
+
+                    _freeList[_freeCount++] = id.Index;
+                }
             }
 
             [MethodImpl(MethodImplOptions.NoInlining)]
-            private void ReAllocate()
+            private void Resize()
             {
-                var oldLength = _storage.Length;
-                var newLength = Math.Max(oldLength, 2) * 2;
-
-                ReAllocateTo(newLength);
-            }
-
-            private void ReAllocateTo(int newSize)
-            {
-                var oldLength = _storage.Length;
-                DebugTools.Assert(newSize >= oldLength, "Cannot shrink GenIdStorage");
-
-                Array.Resize(ref _storage, newSize);
-
-                for (var i = oldLength; i < newSize - 1; i++)
-                {
-                    // Build linked list chain for newly allocated segment.
-                    ref var slot = ref _storage[i];
-                    slot.NextSlot = i + 1;
-                    // Every slot starts at generation 1.
-                    slot.Generation = 1;
-                }
-
-                _storage[^1].NextSlot = _nextFree;
-
-                _nextFree = oldLength;
-            }
-
-            public ValuesCollection Values => new(this);
-
-            private struct Slot
-            {
-                // Next link on the free list. if int.MaxValue then this is the tail.
-                // If negative, this slot is occupied.
-                public int NextSlot;
-                // Generation of this slot.
-                public int Generation;
-                public T Value;
+                var newSize = _values.Length * 2;
+                Array.Resize(ref _values, newSize);
+                Array.Resize(ref _generations, newSize);
+                Array.Resize(ref _freeList, newSize);
             }
 
             [MethodImpl(MethodImplOptions.NoInlining)]
@@ -258,74 +216,54 @@ namespace Content.Server.Power.Pow3r
                 throw new KeyNotFoundException();
             }
 
-            public readonly struct ValuesCollection : IReadOnlyCollection<T>
+            public ValuesCollection Values => new(this);
+
+            public readonly struct ValuesCollection(SlotTable<T> owner)
             {
-                private readonly GenIdStorage<T> _owner;
-
-                public ValuesCollection(GenIdStorage<T> owner)
-                {
-                    _owner = owner;
-                }
-
+                public int Count => owner.Count;
                 public Enumerator GetEnumerator()
                 {
-                    return new Enumerator(_owner);
+                    return new Enumerator(owner);
                 }
 
-                public int Count => _owner.Count;
-
-                IEnumerator IEnumerable.GetEnumerator()
+                public List<T> CopyToList()
                 {
-                    return GetEnumerator();
-                }
+                    var list = new List<T>(owner.Count);
 
-                IEnumerator<T> IEnumerable<T>.GetEnumerator()
-                {
-                    return GetEnumerator();
-                }
-
-                public struct Enumerator : IEnumerator<T>
-                {
-                    // Save the array in the enumerator here to avoid a few pointer dereferences.
-                    private readonly Slot[] _owner;
-                    private int _index;
-
-                    public Enumerator(GenIdStorage<T> owner)
+                    var enumerator = GetEnumerator();
+                    while (enumerator.MoveNext())
                     {
-                        _owner = owner._storage;
-                        Current = default!;
-                        _index = -1;
+                        // keep in mind List.Add(...) expects a copy, so we're not using ref here
+                        // but that means we're copying the list! don't call this in production
+                        list.Add(enumerator.Current);
                     }
 
+                    return list;
+                }
+
+                public ref struct Enumerator(SlotTable<T> owner)
+                {
+                    private readonly T[] _values = owner._values;
+                    private readonly int[] _generations = owner._generations;
+                    private readonly int _maxIndex = owner._nextId;
+                    private int _index = -1;
+
+                    [MethodImpl(MethodImplOptions.AggressiveInlining)]
                     public bool MoveNext()
                     {
-                        while (true)
+                        while (++_index < _maxIndex)
                         {
-                            _index += 1;
-                            if (_index >= _owner.Length)
-                                return false;
-
-                            ref var slot = ref _owner[_index];
-
-                            if (slot.NextSlot < 0)
-                            {
-                                Current = slot.Value;
+                            // skip dead slots
+                            if ((_generations[_index] & 1) == 1)
                                 return true;
-                            }
                         }
+                        return false;
                     }
 
-                    public void Reset()
+                    public ref T Current
                     {
-                        _index = -1;
-                    }
-
-                    object IEnumerator.Current => Current!;
-
-                    public T Current { get; private set; }
-
-                    public void Dispose()
-                    {
+                        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                        get => ref _values[_index];
                     }
                 }
             }
@@ -344,8 +282,10 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        public sealed class Supply
+        public struct Supply
         {
+            public Supply() {}
+
             [ViewVariables] public NodeId Id;
 
             // == Static parameters ==
@@ -383,8 +323,10 @@ namespace Content.Server.Power.Pow3r
             [JsonIgnore] public float AvailableSupply;
         }
 
-        public sealed class Load
+        public struct Load
         {
+            public Load() {}
+
             [ViewVariables] public NodeId Id;
 
             // == Static parameters ==
@@ -398,8 +340,10 @@ namespace Content.Server.Power.Pow3r
             [ViewVariables] [JsonIgnore] public NodeId LinkedNetwork;
         }
 
-        public sealed class Battery
+        public struct Battery
         {
+            public Battery() {}
+
             [ViewVariables] public NodeId Id;
 
             // == Static parameters ==

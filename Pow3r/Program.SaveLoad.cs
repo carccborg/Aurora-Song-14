@@ -45,10 +45,10 @@ namespace Pow3r
                 Paused = _paused,
                 Solver = _currentSolver,
 
-                Loads = _state.Loads.Values.ToList(),
-                Batteries = _state.Batteries.Values.ToList(),
-                Networks = _state.Networks.Values.ToList(),
-                Supplies = _state.Supplies.Values.ToList()
+                Loads = _state.Loads.Values.CopyToList(),
+                Batteries = _state.Batteries.Values.CopyToList(),
+                Networks = _state.Networks.Values.CopyToList(),
+                Supplies = _state.Supplies.Values.CopyToList()
             };
 
             File.WriteAllBytes("data.json", JsonSerializer.SerializeToUtf8Bytes(data, SerializerOptions));
