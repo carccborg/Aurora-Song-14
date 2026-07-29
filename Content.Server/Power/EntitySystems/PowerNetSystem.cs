@@ -34,6 +34,8 @@ namespace Content.Server.Power.EntitySystems
         private readonly HashSet<PowerNet> _powerNetReconnectQueue = new();
         private readonly HashSet<ApcNet> _apcNetReconnectQueue = new();
 
+        public PowerState PowerStateInst => _powerState; // Aurora Song: public access to PowerState
+
         private BatteryRampPegSolver _solver = new();
 
         public override void Initialize()
@@ -440,17 +442,17 @@ namespace Content.Server.Power.EntitySystems
 
         private void AllocLoad(PowerState.Load load)
         {
-            _powerState.Loads.Allocate(out load.Id) = load;
+            _powerState.Loads.Allocate(out load.Id) = load.PreallocBackingStruct;
         }
 
         private void AllocSupply(PowerState.Supply supply)
         {
-            _powerState.Supplies.Allocate(out supply.Id) = supply;
+            _powerState.Supplies.Allocate(out supply.Id) = supply.PreallocBackingStruct;
         }
 
         private void AllocBattery(PowerState.Battery battery)
         {
-            _powerState.Batteries.Allocate(out battery.Id) = battery;
+            _powerState.Batteries.Allocate(out battery.Id) = battery.PreallocBackingStruct;
         }
 
         private void AllocNetwork(PowerState.Network network)

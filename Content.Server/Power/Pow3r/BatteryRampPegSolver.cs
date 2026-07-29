@@ -352,7 +352,7 @@ namespace Content.Server.Power.Pow3r
         private void ValidateNetworkGroups(PowerState state, List<List<Network>> groupedNetworks)
         {
             HashSet<Network> nets = new();
-            HashSet<NodeId> netIds = new();
+            HashSet<SlotHandle> netIds = new();
             foreach (var layer in groupedNetworks)
             {
                 nets.Clear();

@@ -14,10 +14,10 @@ namespace Pow3r
     {
         private bool _showDemo;
 
-        private Dictionary<NodeId, DisplayLoad> _displayLoads = new();
-        private Dictionary<NodeId, DisplayBattery> _displayBatteries = new();
-        private Dictionary<NodeId, DisplayNetwork> _displayNetworks = new();
-        private Dictionary<NodeId, DisplaySupply> _displaySupplies = new();
+        private Dictionary<SlotHandle, DisplayLoad> _displayLoads = new();
+        private Dictionary<SlotHandle, DisplayBattery> _displayBatteries = new();
+        private Dictionary<SlotHandle, DisplayNetwork> _displayNetworks = new();
+        private Dictionary<SlotHandle, DisplaySupply> _displaySupplies = new();
 
         private void DoUI(float frameTime)
         {

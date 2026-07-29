@@ -8,7 +8,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Server.Power.Pow3r
 {
-    public sealed class PowerState
+    public sealed partial class PowerState
     {
         public static readonly JsonSerializerOptions SerializerOptions = new()
         {
@@ -16,39 +16,31 @@ namespace Content.Server.Power.Pow3r
             Converters = {new NodeIdJsonConverter()}
         };
 
-        public SlotTable<Supply> Supplies = new(512);
-        public SlotTable<Load> Loads = new(4096);
-        public SlotTable<Battery> Batteries = new(1024);
+        public SlotTable<SupplyStruct> Supplies = new(512);
+        public SlotTable<LoadStruct> Loads = new(4096);
+        public SlotTable<BatteryStruct> Batteries = new(1024);
         public SlotTable<Network> Networks = new(1024);
         public List<List<Network>>? GroupedNets;
 
-        public readonly struct NodeId : IEquatable<NodeId>
+        public readonly struct SlotHandle(int index, int generation) : IEquatable<SlotHandle>
         {
-            public readonly int Index;
-            public readonly int Generation;
+            public readonly int Index = index;
+            public readonly int Generation = generation;
 
             public long Combined => (uint) Index | ((long) Generation << 32);
 
-            public NodeId(int index, int generation)
+            public SlotHandle(long combined) : this((int) combined, (int) (combined >> 32))
             {
-                Index = index;
-                Generation = generation;
             }
 
-            public NodeId(long combined)
-            {
-                Index = (int) combined;
-                Generation = (int) (combined >> 32);
-            }
-
-            public bool Equals(NodeId other)
+            public bool Equals(SlotHandle other)
             {
                 return Index == other.Index && Generation == other.Generation;
             }
 
             public override bool Equals(object? obj)
             {
-                return obj is NodeId other && Equals(other);
+                return obj is SlotHandle other && Equals(other);
             }
 
             public override int GetHashCode()
@@ -56,12 +48,12 @@ namespace Content.Server.Power.Pow3r
                 return HashCode.Combine(Index, Generation);
             }
 
-            public static bool operator ==(NodeId left, NodeId right)
+            public static bool operator ==(SlotHandle left, SlotHandle right)
             {
                 return left.Equals(right);
             }
 
-            public static bool operator !=(NodeId left, NodeId right)
+            public static bool operator !=(SlotHandle left, SlotHandle right)
             {
                 return !left.Equals(right);
             }
@@ -74,7 +66,7 @@ namespace Content.Server.Power.Pow3r
 
         public static class GenIdStorage
         {
-            public static SlotTable<T> FromEnumerable<T>(IEnumerable<(NodeId, T)> enumerable)
+            public static SlotTable<T> FromEnumerable<T>(IEnumerable<(SlotHandle, T)> enumerable)
             {
                 return SlotTable<T>.FromEnumerable(enumerable);
             }
@@ -96,7 +88,7 @@ namespace Content.Server.Power.Pow3r
 
             public int Count { get; private set; }
 
-            public ref T this[NodeId id]
+            public ref T this[SlotHandle id]
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 get
@@ -108,7 +100,15 @@ namespace Content.Server.Power.Pow3r
                 }
             }
 
-            public static SlotTable<T> FromEnumerable(IEnumerable<(NodeId, T)> enumerable)
+            public ref T GetOrElse(SlotHandle id, ref T other)
+            {
+                if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
+                    return ref other;
+
+                return ref _values[id.Index];
+            }
+
+            public static SlotTable<T> FromEnumerable(IEnumerable<(SlotHandle, T)> enumerable)
             {
                 var cache = enumerable.ToArray();
 
@@ -146,7 +146,7 @@ namespace Content.Server.Power.Pow3r
                 return storage;
             }
 
-            public ref T Allocate(out NodeId id)
+            public ref T Allocate(out SlotHandle id)
             {
                 lock (_resizeLock)
                 {
@@ -176,13 +176,13 @@ namespace Content.Server.Power.Pow3r
 
                     // increment even -> odd (claimed)
                     _generations[index] = gen;
-                    id = new NodeId(index, gen);
+                    id = new SlotHandle(index, gen);
 
                     return ref _values[index];
                 }
             }
 
-            public void Free(NodeId id)
+            public void Free(SlotHandle id)
             {
                 lock (_resizeLock)
                 {
@@ -269,52 +269,52 @@ namespace Content.Server.Power.Pow3r
             }
         }
 
-        public sealed class NodeIdJsonConverter : JsonConverter<NodeId>
+        public sealed class NodeIdJsonConverter : JsonConverter<SlotHandle>
         {
-            public override NodeId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            public override SlotHandle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
-                return new NodeId(reader.GetInt64());
+                return new SlotHandle(reader.GetInt64());
             }
 
-            public override void Write(Utf8JsonWriter writer, NodeId value, JsonSerializerOptions options)
+            public override void Write(Utf8JsonWriter writer, SlotHandle value, JsonSerializerOptions options)
             {
                 writer.WriteNumberValue(value.Combined);
             }
         }
 
-        public struct Supply
+        public struct SupplyStruct
         {
-            public Supply() {}
+            public SupplyStruct() {}
 
-            [ViewVariables] public NodeId Id;
+            public SlotHandle Id;
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxSupply;
+            public bool Enabled = true;
+            public bool Paused;
+            public float MaxSupply;
 
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampRate = 5000;
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampTolerance = 5000;
+            public float SupplyRampRate = 5000;
+            public float SupplyRampTolerance = 5000;
 
             // == Runtime parameters ==
 
             /// <summary>
             ///     Actual power supplied last network update.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentSupply;
+            public float CurrentSupply;
 
             /// <summary>
             ///     The amount of power we WANT to be supplying to match grid load.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public float SupplyRampTarget;
 
             /// <summary>
             ///     Position of the supply ramp.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampPosition;
+            public float SupplyRampPosition;
 
-            [ViewVariables] [JsonIgnore] public NodeId LinkedNetwork;
+            [JsonIgnore] public SlotHandle LinkedNetwork;
 
             /// <summary>
             ///     Supply available during a tick. The actual current supply will be less than or equal to this. Used
@@ -323,38 +323,38 @@ namespace Content.Server.Power.Pow3r
             [JsonIgnore] public float AvailableSupply;
         }
 
-        public struct Load
+        public struct LoadStruct
         {
-            public Load() {}
+            public LoadStruct() {}
 
-            [ViewVariables] public NodeId Id;
+            public SlotHandle Id;
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public float DesiredPower;
+            public bool Enabled = true;
+            public bool Paused;
+            public float DesiredPower;
 
             // == Runtime parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public float ReceivingPower;
+            public float ReceivingPower;
 
-            [ViewVariables] [JsonIgnore] public NodeId LinkedNetwork;
+            [JsonIgnore] public SlotHandle LinkedNetwork;
         }
 
-        public struct Battery
+        public struct BatteryStruct
         {
-            public Battery() {}
+            public BatteryStruct() {}
 
-            [ViewVariables] public NodeId Id;
+            public SlotHandle Id;
 
             // == Static parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public bool Enabled = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool Paused;
-            [ViewVariables(VVAccess.ReadWrite)] public bool CanDischarge = true;
-            [ViewVariables(VVAccess.ReadWrite)] public bool CanCharge = true;
-            [ViewVariables(VVAccess.ReadWrite)] public float Capacity;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxChargeRate;
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxThroughput; // 0 = infinite cuz imgui
-            [ViewVariables(VVAccess.ReadWrite)] public float MaxSupply;
+            public bool Enabled = true;
+            public bool Paused;
+            public bool CanDischarge = true;
+            public bool CanCharge = true;
+            public float Capacity;
+            public float MaxChargeRate;
+            public float MaxThroughput; // 0 = infinite cuz imgui
+            public float MaxSupply;
 
             /// <summary>
             ///     The batteries supply ramp tolerance. This is an always available supply added to the ramped supply.
@@ -362,47 +362,46 @@ namespace Content.Server.Power.Pow3r
             /// <remarks>
             ///     Note that this MUST BE GREATER THAN ZERO, otherwise the current battery ramping calculation will not work.
             /// </remarks>
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampTolerance = 5000;
+            public float SupplyRampTolerance = 5000;
 
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampRate = 5000;
-            [ViewVariables(VVAccess.ReadWrite)] public float Efficiency = 1;
+            public float SupplyRampRate = 5000;
+            public float Efficiency = 1;
 
             // == Runtime parameters ==
-            [ViewVariables(VVAccess.ReadWrite)] public float SupplyRampPosition;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentSupply;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentStorage;
-            [ViewVariables(VVAccess.ReadWrite)] public float CurrentReceiving;
-            [ViewVariables(VVAccess.ReadWrite)] public float LoadingNetworkDemand;
+            public float SupplyRampPosition;
+            public float CurrentSupply;
+            public float CurrentStorage;
+            public float CurrentReceiving;
+            public float LoadingNetworkDemand;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public bool SupplyingMarked;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public bool LoadingMarked;
 
             /// <summary>
             ///     Amount of supply that the battery can provide this tick.
             /// </summary>
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public float AvailableSupply;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public float DesiredPower;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
+            [JsonIgnore]
             public float SupplyRampTarget;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
-            public NodeId LinkedNetworkCharging;
+            [JsonIgnore]
+            public SlotHandle LinkedNetworkCharging;
 
-            [ViewVariables(VVAccess.ReadWrite)] [JsonIgnore]
-            public NodeId LinkedNetworkDischarging;
+            [JsonIgnore]
+            public SlotHandle LinkedNetworkDischarging;
 
             /// <summary>
             ///  Theoretical maximum effective supply, assuming the network providing power to this battery continues to supply it
             ///  at the same rate.
             /// </summary>
-            [ViewVariables]
             public float MaxEffectiveSupply;
         }
 
@@ -410,27 +409,27 @@ namespace Content.Server.Power.Pow3r
         [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
         public sealed class Network
         {
-            [ViewVariables] public NodeId Id;
+            [ViewVariables] public SlotHandle Id;
 
             /// <summary>
             ///     Power generators
             /// </summary>
-            [ViewVariables] public List<NodeId> Supplies = new();
+            [ViewVariables] public List<SlotHandle> Supplies = new();
 
             /// <summary>
             ///     Power consumers.
             /// </summary>
-            [ViewVariables] public List<NodeId> Loads = new();
+            [ViewVariables] public List<SlotHandle> Loads = new();
 
             /// <summary>
             ///     Batteries that are draining power from this network (connected to the INPUT port of the battery).
             /// </summary>
-            [ViewVariables] public List<NodeId> BatteryLoads = new();
+            [ViewVariables] public List<SlotHandle> BatteryLoads = new();
 
             /// <summary>
             ///     Batteries that are supplying power to this network (connected to the OUTPUT port of the battery).
             /// </summary>
-            [ViewVariables] public List<NodeId> BatterySupplies = new();
+            [ViewVariables] public List<SlotHandle> BatterySupplies = new();
 
             /// <summary>
             ///     The total load on the power network as of last tick.
