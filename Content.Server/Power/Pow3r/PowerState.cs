@@ -249,21 +249,6 @@ namespace Content.Server.Power.Pow3r
                     return new Enumerator(owner);
                 }
 
-                public List<T> CopyToList()
-                {
-                    var list = new List<T>(owner.Count);
-
-                    var enumerator = GetEnumerator();
-                    while (enumerator.MoveNext())
-                    {
-                        // keep in mind List.Add(...) expects a copy, so we're not using ref here
-                        // but that means we're copying the list! don't call this in production
-                        list.Add(enumerator.Current);
-                    }
-
-                    return list;
-                }
-
                 public ref struct Enumerator(SlotTable<T> owner)
                 {
                     private readonly T[] _values = owner._values;

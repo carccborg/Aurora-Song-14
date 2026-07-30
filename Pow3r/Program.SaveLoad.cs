@@ -25,9 +25,9 @@ namespace Pow3r
             _state = new PowerState
             {
                 Networks = GenIdStorage.FromEnumerable(dat.Networks.Select(n => (n.Id, n))),
-                Supplies = GenIdStorage.FromEnumerable(dat.Supplies.Select(s => (s.Id, s))),
-                Loads = GenIdStorage.FromEnumerable(dat.Loads.Select(l => (l.Id, l))),
-                Batteries = GenIdStorage.FromEnumerable(dat.Batteries.Select(b => (b.Id, b)))
+                Supplies = GenIdStorage.FromEnumerable(dat.Supplies.Select(s => (s.Id, s.PreallocBackingStruct))),
+                Loads = GenIdStorage.FromEnumerable(dat.Loads.Select(l => (l.Id, l.PreallocBackingStruct))),
+                Batteries = GenIdStorage.FromEnumerable(dat.Batteries.Select(b => (b.Id, b.PreallocBackingStruct)))
             };
 
             _displayLoads = dat.Loads.ToDictionary(n => n.Id, _ => new DisplayLoad());
@@ -38,6 +38,21 @@ namespace Pow3r
             RefreshLinks();
         }
 
+        private delegate TReturn RefFunc<TSlot, out TReturn>(ref TSlot item);
+
+        private List<TReturn> MapSlots<TSlot, TReturn>(SlotTable<TSlot> slots, RefFunc<TSlot, TReturn> mapper)
+        {
+            var list = new List<TReturn>(slots.Values.Count);
+            var enumerator = slots.Values.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                list.Add(mapper(ref enumerator.Current));
+            }
+
+            return list;
+        }
+
         private void SaveToDisk()
         {
             var data = new DiskDat
@@ -45,10 +60,38 @@ namespace Pow3r
                 Paused = _paused,
                 Solver = _currentSolver,
 
-                Loads = _state.Loads.Values.CopyToList(),
-                Batteries = _state.Batteries.Values.CopyToList(),
-                Networks = _state.Networks.Values.CopyToList(),
-                Supplies = _state.Supplies.Values.CopyToList()
+                Loads = MapSlots(_state.Loads,
+                    (ref item) =>
+                {
+                    var ret = new Load
+                    {
+                        Id = item.Id,
+                        PreallocBackingStruct = item,
+                    };
+                    return ret;
+                }),
+                Batteries = MapSlots(_state.Batteries,
+                    (ref item) =>
+                {
+                    var ret = new Battery
+                    {
+                        Id = item.Id,
+                        PreallocBackingStruct = item,
+                    };
+                    return ret;
+                }),
+                Networks = MapSlots(_state.Networks,
+                (ref item) => item),
+                Supplies = MapSlots(_state.Supplies,
+                    (ref item) =>
+                {
+                    var ret = new Supply
+                    {
+                        Id = item.Id,
+                        PreallocBackingStruct = item,
+                    };
+                    return ret;
+                }),
             };
 
             File.WriteAllBytes("data.json", JsonSerializer.SerializeToUtf8Bytes(data, SerializerOptions));
