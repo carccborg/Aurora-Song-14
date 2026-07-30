@@ -21,11 +21,6 @@ namespace Content.Server.Power.Pow3r
      */
     public sealed partial class PowerState
     {
-        private static PowerState? Bucket()
-        {
-            return PowerNetRef.Inst;
-        }
-
         public sealed class Supply
         {
             public Supply() {}
@@ -34,12 +29,12 @@ namespace Content.Server.Power.Pow3r
 
             private SupplyStruct _initializationStruct = new ();
             public ref SupplyStruct InitializationStruct => ref _initializationStruct;
+            public PowerState? PowerStateInst = null;
 
             private ref SupplyStruct Inst()
             {
-                var bucket = Bucket();
-                if (bucket != null)
-                    return ref bucket.Supplies.GetOrElse(Id, ref _initializationStruct);
+                if (PowerStateInst != null)
+                    return ref PowerStateInst.Supplies.GetOrElse(Id, ref _initializationStruct);
 
                 return ref _initializationStruct;
             }
@@ -138,12 +133,12 @@ namespace Content.Server.Power.Pow3r
 
             private LoadStruct _initializationStruct = new ();
             public ref LoadStruct InitializationStruct => ref _initializationStruct;
+            public PowerState? PowerStateInst = null;
 
             private ref LoadStruct Inst()
             {
-                var bucket = Bucket();
-                if (bucket != null)
-                    return ref bucket.Loads.GetOrElse(Id, ref _initializationStruct);
+                if (PowerStateInst != null)
+                    return ref PowerStateInst.Loads.GetOrElse(Id, ref _initializationStruct);
 
                 return ref _initializationStruct;
             }
@@ -193,12 +188,12 @@ namespace Content.Server.Power.Pow3r
 
             private BatteryStruct _initializationStruct = new ();
             public ref BatteryStruct InitializationStruct => ref _initializationStruct;
+            public PowerState? PowerStateInst = null;
 
             private ref BatteryStruct Inst()
             {
-                var bucket = Bucket();
-                if (bucket != null)
-                    return ref bucket.Batteries.GetOrElse(Id, ref _initializationStruct);
+                if (PowerStateInst != null)
+                    return ref PowerStateInst.Batteries.GetOrElse(Id, ref _initializationStruct);
 
                 return ref _initializationStruct;
             }

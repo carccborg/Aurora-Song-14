@@ -37,6 +37,7 @@ namespace Pow3r
             if (Button("Generator"))
             {
                 var supply = new Supply();
+                supply.PowerStateInst = _state;
                 _state.Supplies.Allocate(out supply.Id) = supply.InitializationStruct;
                 _displaySupplies.Add(supply.Id, new DisplaySupply());
             }
@@ -44,6 +45,7 @@ namespace Pow3r
             if (Button("Load"))
             {
                 var load = new Load();
+                load.PowerStateInst = _state;
                 _state.Loads.Allocate(out load.Id) = load.InitializationStruct;
                 _displayLoads.Add(load.Id, new DisplayLoad());
             }
@@ -59,6 +61,7 @@ namespace Pow3r
             if (Button("Battery"))
             {
                 var battery = new Battery();
+                battery.PowerStateInst = _state;
                 _state.Batteries.Allocate(out battery.Id) = battery.InitializationStruct;
                 _displayBatteries.Add(battery.Id, new DisplayBattery());
                 _state.GroupedNets = null;

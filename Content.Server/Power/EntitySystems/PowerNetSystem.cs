@@ -14,27 +14,6 @@ using Robust.Shared.Threading;
 
 namespace Content.Server.Power.EntitySystems
 {
-    // Aurora Song
-    /*
-     * unfortunately IoC isn't available when we need it to be, so...
-     */
-    public static class PowerNetRef
-    {
-        public static PowerState? Inst
-        {
-            get;
-            set
-            {
-                // haha tests
-                // if (field != null)
-                //     throw new InvalidOperationException("Tried to double-set PowerNetRef singleton.");
-
-                field = value;
-            }
-        } = null;
-    }
-    // END
-
     /// <summary>
     ///     Manages power networks, power state, and all power components.
     /// </summary>
@@ -55,15 +34,11 @@ namespace Content.Server.Power.EntitySystems
         private readonly HashSet<PowerNet> _powerNetReconnectQueue = new();
         private readonly HashSet<ApcNet> _apcNetReconnectQueue = new();
 
-        public PowerState PowerStateInst => _powerState; // Aurora Song: public access to PowerState
-
         private BatteryRampPegSolver _solver = new();
 
         public override void Initialize()
         {
             base.Initialize();
-
-            PowerNetRef.Inst = _powerState; // Aurora Song
 
             UpdatesAfter.Add(typeof(NodeGroupSystem));
             _solver = new(_cfg.GetCVar(CCVars.DebugPow3rDisableParallel));
@@ -466,16 +441,19 @@ namespace Content.Server.Power.EntitySystems
 
         private void AllocLoad(PowerState.Load load)
         {
+            load.PowerStateInst = _powerState;
             _powerState.Loads.Allocate(out load.Id) = load.InitializationStruct;
         }
 
         private void AllocSupply(PowerState.Supply supply)
         {
+            supply.PowerStateInst = _powerState;
             _powerState.Supplies.Allocate(out supply.Id) = supply.InitializationStruct;
         }
 
         private void AllocBattery(PowerState.Battery battery)
         {
+            battery.PowerStateInst = _powerState;
             _powerState.Batteries.Allocate(out battery.Id) = battery.InitializationStruct;
         }
 
