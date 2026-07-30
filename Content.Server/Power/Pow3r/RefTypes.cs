@@ -3,6 +3,10 @@ using Content.Server.Power.EntitySystems;
 
 namespace Content.Server.Power.Pow3r
 {
+    // TODO: one allocated to a pow3r instance the backing initialization struct isn't necessary
+    //   we should have a reasonably sized object pool for each type and claim/release them
+    //   otherwise we're duplicating RAM unnecessarily
+
     /*
      * Because we've moved PowerState.SlotHandle and its related internal structures to contiguous
      * value types, there is an architectural incompatibility with components like PowerConsumerComponent
@@ -28,16 +32,16 @@ namespace Content.Server.Power.Pow3r
 
             [ViewVariables] public SlotHandle Id;
 
-            private SupplyStruct _preAlloc = new ();
-            public ref SupplyStruct PreallocBackingStruct => ref _preAlloc;
+            private SupplyStruct _initializationStruct = new ();
+            public ref SupplyStruct InitializationStruct => ref _initializationStruct;
 
             private ref SupplyStruct Inst()
             {
                 var bucket = Bucket();
                 if (bucket != null)
-                    return ref bucket.Supplies.GetOrElse(Id, ref _preAlloc);
+                    return ref bucket.Supplies.GetOrElse(Id, ref _initializationStruct);
 
-                return ref _preAlloc;
+                return ref _initializationStruct;
             }
 
             // == Static parameters ==
@@ -132,16 +136,16 @@ namespace Content.Server.Power.Pow3r
 
             [ViewVariables] public SlotHandle Id;
 
-            private LoadStruct _preAlloc = new ();
-            public ref LoadStruct PreallocBackingStruct => ref _preAlloc;
+            private LoadStruct _initializationStruct = new ();
+            public ref LoadStruct InitializationStruct => ref _initializationStruct;
 
             private ref LoadStruct Inst()
             {
                 var bucket = Bucket();
                 if (bucket != null)
-                    return ref bucket.Loads.GetOrElse(Id, ref _preAlloc);
+                    return ref bucket.Loads.GetOrElse(Id, ref _initializationStruct);
 
-                return ref _preAlloc;
+                return ref _initializationStruct;
             }
 
             // == Static parameters ==
@@ -187,16 +191,16 @@ namespace Content.Server.Power.Pow3r
 
             [ViewVariables] public SlotHandle Id;
 
-            private BatteryStruct _preAlloc = new ();
-            public ref BatteryStruct PreallocBackingStruct => ref _preAlloc;
+            private BatteryStruct _initializationStruct = new ();
+            public ref BatteryStruct InitializationStruct => ref _initializationStruct;
 
             private ref BatteryStruct Inst()
             {
                 var bucket = Bucket();
                 if (bucket != null)
-                    return ref bucket.Batteries.GetOrElse(Id, ref _preAlloc);
+                    return ref bucket.Batteries.GetOrElse(Id, ref _initializationStruct);
 
-                return ref _preAlloc;
+                return ref _initializationStruct;
             }
 
             // == Static parameters ==

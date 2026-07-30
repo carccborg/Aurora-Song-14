@@ -16,6 +16,8 @@ namespace Content.Server.Power.Pow3r
             Converters = {new NodeIdJsonConverter()}
         };
 
+        // TODO Aurora Song: probably increase these a bit. benchmark a live server to see what reasonable numbers are
+        // TODO Aurora Song: also the values should probably be cvars. are cvars loaded that early?
         public SlotTable<SupplyStruct> Supplies = new(512);
         public SlotTable<LoadStruct> Loads = new(4096);
         public SlotTable<BatteryStruct> Batteries = new(1024);

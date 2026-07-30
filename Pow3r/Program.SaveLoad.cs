@@ -25,9 +25,9 @@ namespace Pow3r
             _state = new PowerState
             {
                 Networks = GenIdStorage.FromEnumerable(dat.Networks.Select(n => (n.Id, n))),
-                Supplies = GenIdStorage.FromEnumerable(dat.Supplies.Select(s => (s.Id, s.PreallocBackingStruct))),
-                Loads = GenIdStorage.FromEnumerable(dat.Loads.Select(l => (l.Id, l.PreallocBackingStruct))),
-                Batteries = GenIdStorage.FromEnumerable(dat.Batteries.Select(b => (b.Id, b.PreallocBackingStruct)))
+                Supplies = GenIdStorage.FromEnumerable(dat.Supplies.Select(s => (s.Id, PreallocBackingStruct: s.InitializationStruct))),
+                Loads = GenIdStorage.FromEnumerable(dat.Loads.Select(l => (l.Id, PreallocBackingStruct: l.InitializationStruct))),
+                Batteries = GenIdStorage.FromEnumerable(dat.Batteries.Select(b => (b.Id, PreallocBackingStruct: b.InitializationStruct)))
             };
 
             _displayLoads = dat.Loads.ToDictionary(n => n.Id, _ => new DisplayLoad());
@@ -66,7 +66,7 @@ namespace Pow3r
                     var ret = new Load
                     {
                         Id = item.Id,
-                        PreallocBackingStruct = item,
+                        InitializationStruct = item,
                     };
                     return ret;
                 }),
@@ -76,7 +76,7 @@ namespace Pow3r
                     var ret = new Battery
                     {
                         Id = item.Id,
-                        PreallocBackingStruct = item,
+                        InitializationStruct = item,
                     };
                     return ret;
                 }),
@@ -88,7 +88,7 @@ namespace Pow3r
                     var ret = new Supply
                     {
                         Id = item.Id,
-                        PreallocBackingStruct = item,
+                        InitializationStruct = item,
                     };
                     return ret;
                 }),
