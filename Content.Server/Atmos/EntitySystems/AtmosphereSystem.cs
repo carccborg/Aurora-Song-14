@@ -97,7 +97,7 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
 
     // Start Aurora Song
     private TickLimiter Limiter =>
-        field ??= new TickLimiter(Subs, AuroraCVars.TickLimiterAtmosSystem);
+        field ??= new TickLimiter(Subs, AuroraCVars.TickLimiterAtmosSystem, discrete: true);
     // End Aurora Song
 
     public override void Update(float frameTime)
