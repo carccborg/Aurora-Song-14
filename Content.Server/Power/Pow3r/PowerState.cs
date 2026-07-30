@@ -84,7 +84,7 @@ namespace Content.Server.Power.Pow3r
             private int _freeCount;
             private int _nextId;
 
-            private readonly Lock _resizeLock = new();
+            private readonly Lock _structureLock = new();
 
             public int Count { get; private set; }
 
@@ -148,7 +148,7 @@ namespace Content.Server.Power.Pow3r
 
             public ref T Allocate(out SlotHandle id)
             {
-                lock (_resizeLock)
+                lock (_structureLock)
                 {
                     int index;
                     if (_freeCount > 0)
@@ -182,24 +182,42 @@ namespace Content.Server.Power.Pow3r
                 }
             }
 
+            private void FreeImpl(SlotHandle id)
+            {
+                if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
+                    ThrowKeyNotFound();
+
+                Count--;
+
+                // increment odd -> even (free)
+                _generations[id.Index]++;
+
+                if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+                    _values[id.Index] = default!;
+
+                if (_freeCount + 1 >= _freeList.Length)
+                    ResizeFreeList();
+
+                _freeList[_freeCount++] = id.Index;
+            }
+
             public void Free(SlotHandle id)
             {
-                lock (_resizeLock)
+                lock (_structureLock)
                 {
-                    if ((uint)id.Index >= (uint)_generations.Length || _generations[id.Index] != id.Generation)
-                        ThrowKeyNotFound();
-
-                    Count--;
-
-                    // increment odd -> even (free)
-                    _generations[id.Index]++;
-
-                    if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-                        _values[id.Index] = default!;
-
-                    _freeList[_freeCount++] = id.Index;
+                    FreeImpl(id);
                 }
             }
+
+            public void FreeWithCopyTo(SlotHandle id, ref T other)
+            {
+                lock (_structureLock)
+                {
+                    other = _values[id.Index];
+                    FreeImpl(id);
+                }
+            }
+
 
             [MethodImpl(MethodImplOptions.NoInlining)]
             private void Resize()
@@ -207,7 +225,12 @@ namespace Content.Server.Power.Pow3r
                 var newSize = _values.Length * 2;
                 Array.Resize(ref _values, newSize);
                 Array.Resize(ref _generations, newSize);
-                Array.Resize(ref _freeList, newSize);
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private void ResizeFreeList()
+            {
+                Array.Resize(ref _freeList, _freeList.Length * 2);
             }
 
             [MethodImpl(MethodImplOptions.NoInlining)]

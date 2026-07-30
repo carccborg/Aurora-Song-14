@@ -128,12 +128,12 @@ namespace Content.Server.Power.Pow3r
 
             [ViewVariables] public SlotHandle Id;
 
-            private LoadStruct _preAlloc = new ();
-            public ref LoadStruct PreallocBackingStruct => ref _preAlloc;
+            private LoadStruct _preAssoc = new ();
+            public ref LoadStruct PreallocBackingStruct => ref _preAssoc;
 
             private ref LoadStruct Inst()
             {
-                return ref Bucket().Loads.GetOrElse(Id, ref _preAlloc);
+                return ref Bucket().Loads.GetOrElse(Id, ref _preAssoc);
             }
 
             // == Static parameters ==

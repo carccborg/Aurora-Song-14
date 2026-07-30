@@ -75,7 +75,7 @@ namespace Content.Server.Power.Pow3r
 
         private void ClearLoadsAndSupplies(PowerState state)
         {
-            foreach (var load in state.Loads.Values)
+            foreach (ref var load in state.Loads.Values)
             {
                 if (load.Paused)
                     continue;
@@ -83,7 +83,7 @@ namespace Content.Server.Power.Pow3r
                 load.ReceivingPower = 0;
             }
 
-            foreach (var supply in state.Supplies.Values)
+            foreach (ref var supply in state.Supplies.Values)
             {
                 if (supply.Paused)
                     continue;
@@ -297,7 +297,7 @@ namespace Content.Server.Power.Pow3r
         {
             // Clear supplying/loading on any batteries that haven't been marked by usage.
             // Because we need this data while processing ramp-pegging, we can't clear it at the start.
-            foreach (var battery in state.Batteries.Values)
+            foreach (ref var battery in state.Batteries.Values)
             {
                 if (battery.Paused)
                     continue;
