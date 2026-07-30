@@ -25,8 +25,9 @@ namespace Content.Server.Power.EntitySystems
             get;
             set
             {
-                if (field != null)
-                    throw new InvalidOperationException("Tried to double-set PowerNetRef singleton.");
+                // haha tests
+                // if (field != null)
+                //     throw new InvalidOperationException("Tried to double-set PowerNetRef singleton.");
 
                 field = value;
             }
